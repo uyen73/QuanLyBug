@@ -114,9 +114,5 @@ public class LoginActivity extends AppCompatActivity {
     private void reload() {
 
     }
-    private void getUserName(FirebaseUser user){
-
-    }
-
 
 }
