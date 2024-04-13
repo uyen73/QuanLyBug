@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "556837343034",
+    "project_id": "quanlybug",
+    "storage_bucket": "quanlybug.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:556837343034:android:79c9527357aeef3b664a03",
+        "android_client_info": {
+          "package_name": "com.camuyen.quanlybug"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJxqzCOYnaKfBliSTp1v1jWain42njRQU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
