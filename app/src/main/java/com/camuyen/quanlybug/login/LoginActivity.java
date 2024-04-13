@@ -15,7 +15,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.camuyen.quanlybug.MainActivity;
 import com.camuyen.quanlybug.R;
+import com.camuyen.quanlybug.firebase.DBQuanLyBug;
+import com.camuyen.quanlybug.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -29,7 +32,7 @@ public class LoginActivity extends AppCompatActivity {
     Button btnLogin;
     CheckBox cbShowPassword;
     private FirebaseAuth mAuth;
-
+    DBQuanLyBug database = new DBQuanLyBug();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,6 +87,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+
     }
     private void signIn(String email, String password){
         mAuth.signInWithEmailAndPassword(email, password)
@@ -94,7 +98,10 @@ public class LoginActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            Toast.makeText(LoginActivity.this, "Login successfully", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                            startActivities(new Intent[]{intent});
+
+
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
@@ -104,7 +111,12 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
     }
-    private void reload() { }
+    private void reload() {
+
+    }
+    private void getUserName(FirebaseUser user){
+
+    }
 
 
 }

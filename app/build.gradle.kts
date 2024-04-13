@@ -46,10 +46,19 @@ dependencies {
     implementation("com.google.firebase:firebase-auth:22.3.1")
     implementation("com.google.firebase:firebase-firestore:24.11.0")
     implementation("com.google.firebase:firebase-storage:20.3.0")
+    implementation ("com.etebarian:meow-bottom-navigation-java:1.2.0")
+
+    implementation ("com.google.api-client:google-api-client:1.23.0")
+    implementation ("com.google.api:api-common:2.2.1")
 
 
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+
+    // Exclude Guava from conflicting dependencies
+
+    // Use the desired version of Guava
+    implementation ("com.google.guava:guava:32.0.1-android")
 }
