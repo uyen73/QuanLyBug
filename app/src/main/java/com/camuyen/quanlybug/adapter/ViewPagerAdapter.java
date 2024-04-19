@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
+import com.camuyen.quanlybug.MainActivity;
 import com.camuyen.quanlybug.fragment.JobFragment;
 import com.camuyen.quanlybug.fragment.NewsFragment;
 import com.camuyen.quanlybug.fragment.PeopleFragment;
@@ -31,6 +32,6 @@ public class ViewPagerAdapter extends FragmentStateAdapter {
 
     @Override
     public int getItemCount() {
-        return 3; // Số lượng trang trong ViewPager2 của bạn
+        return 3;
     }
 }

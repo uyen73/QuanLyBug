@@ -52,12 +52,16 @@ dependencies {
     implementation("com.google.firebase:firebase-firestore:24.11.1")
     implementation("com.google.firebase:firebase-storage:20.3.0")
     implementation ("com.etebarian:meow-bottom-navigation-java:1.2.0")
+    implementation ("com.squareup.picasso:picasso:2.71828")
+    implementation ("de.hdodenhof:circleimageview:3.1.0")
+
 
     implementation ("com.google.api-client:google-api-client:1.23.0")
     implementation ("com.google.api:api-common:2.2.1")
 
     implementation("com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava")
     implementation("com.google.guava:guava:32.0.1-android")
+    implementation("androidx.activity:activity:1.9.0")
 
 
     testImplementation("junit:junit:4.13.2")

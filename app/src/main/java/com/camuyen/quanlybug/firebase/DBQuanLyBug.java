@@ -1,6 +1,8 @@
 package com.camuyen.quanlybug.firebase;
 
+import android.net.Uri;
 import android.util.Log;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 
@@ -16,14 +18,17 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class DBQuanLyBug {
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
-    public void getUserInfor(FirebaseAuth auth, UserCallback callback) {
+    FirebaseAuth auth = FirebaseAuth.getInstance();
+    public void getUserInfor(UserCallback callback) {
         FirebaseUser user = auth.getCurrentUser();
         assert user != null;
         String uid = user.getUid();
@@ -55,6 +60,22 @@ public class DBQuanLyBug {
 
     public interface UserCallback {
         void onUserLoaded(User user);
+    }
+    public void setImageProfile(ImageView imgProfile){
+        String userId = auth.getCurrentUser().getUid();
+        String path = "Images/" + userId + ".jpg";
+        StorageReference storageRef = FirebaseStorage.getInstance().getReference().child(path);
+        storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Picasso.get().load(uri).into(imgProfile);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+            }
+        });
     }
 
 }
