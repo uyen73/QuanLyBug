@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        app:cardCornerRadius="10dp"
+        android:layout_margin="32dp"
+        android:background="@color/black"
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/txtNamePM"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Name project manager"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:padding="10dp"
+                />
+            <TextView
+                android:id="@+id/txtNameProject"
+                android:layout_below="@+id/txtNamePM"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Name project"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                android:padding="10dp"
+                android:textStyle="bold"
+                />
+            <TextView
+                android:id="@+id/txtTimeStart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Time start"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:layout_alignParentBottom="true"
+                android:padding="10dp"
+                android:drawablePadding="10dp"
+                app:drawableStartCompat="@drawable/ic_time" />
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+</LinearLayout>

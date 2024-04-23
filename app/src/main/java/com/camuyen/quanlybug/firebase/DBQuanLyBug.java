@@ -6,10 +6,13 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 
+import com.camuyen.quanlybug.model.Project;
 import com.camuyen.quanlybug.model.User;
 import com.google.android.gms.common.moduleinstall.internal.ApiFeatureRequest;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.api.core.ApiFuture;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -23,11 +26,13 @@ import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class DBQuanLyBug {
     FirebaseAuth auth = FirebaseAuth.getInstance();
+
     public void getUserInfor(UserCallback callback) {
         FirebaseUser user = auth.getCurrentUser();
         assert user != null;
@@ -76,6 +81,36 @@ public class DBQuanLyBug {
 
             }
         });
+    }
+    public void getProjectsInfo(ProjectsCallBack callback) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference projectsRef = db.collection("projects");
+        projectsRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    List<Project> projects = new ArrayList<>();
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        String maDuAn = document.getString("maDuAn");
+                        String tenDuAn = document.getString("tenDuAn");
+                        String maNhanVien = document.getString("maNhanVien");
+                        String moTa = document.getString("moTa");
+                        String ngayBatDau = document.getString("ngayBatDau");
+                        Project project = new Project(maDuAn, maNhanVien, tenDuAn, moTa, ngayBatDau);
+                        projects.add(project);
+                    }
+                    callback.onProjectsLoaded(projects);
+                } else {
+                    callback.onError(task.getException());
+                }
+            }
+        });
+    }
+
+
+    public interface ProjectsCallBack {
+        void onProjectsLoaded(List<Project> projects);
+        void onError(Exception e);
     }
 
 }
