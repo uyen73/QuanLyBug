@@ -1,14 +1,19 @@
 package com.camuyen.quanlybug;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
+import androidx.core.view.GravityCompat;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -19,15 +24,16 @@ import com.camuyen.quanlybug.firebase.DBQuanLyBug;
 import com.camuyen.quanlybug.model.User;
 import com.camuyen.quanlybug.profile.ProfileActivity;
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
+import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity {
-
+    DrawerLayout drawerLayout;
     MeowBottomNavigation bottomNavigation;
     ViewPager2 viewPager;
     public TextView txtName, txtTitle;
-    ImageView imgToProfile;
+    ImageView imgToProfile, imgDrawer;
     DBQuanLyBug database;
-
+    NavigationView navigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,13 +44,19 @@ public class MainActivity extends AppCompatActivity {
         setupBottomNavigation();
         addAction();
 
+
     }
+
     private void getWidget(){
+        drawerLayout = findViewById(R.id.drawerLayout);
+        imgDrawer = findViewById(R.id.imgDrawer);
         bottomNavigation = findViewById(R.id.bottomNav);
         viewPager = findViewById(R.id.viewPager2);
         txtName = findViewById(R.id.txtName);
         imgToProfile = findViewById(R.id.imgToProfile);
         txtTitle = findViewById(R.id.txtTitle);
+
+        navigationView = findViewById(R.id.drawerMenu);
 
         database = new DBQuanLyBug();
 
@@ -66,6 +78,30 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        imgDrawer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawerLayout.openDrawer(GravityCompat.START);
+            }
+        });
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                int id1 = R.id.nav_me;
+                int id2 = R.id.nav_logout;
+                if (menuItem.getItemId() == id1){
+                    Toast.makeText(MainActivity.this, "Về chúng tôi", Toast.LENGTH_SHORT).show();
+                }else{
+                    Intent intent = getBaseContext().getPackageManager().getLaunchIntentForPackage(getBaseContext().getPackageName());
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    finish();
+                }
+                return true;
+            }
+        });
+
     }
 
     private void setupViewPager() {
