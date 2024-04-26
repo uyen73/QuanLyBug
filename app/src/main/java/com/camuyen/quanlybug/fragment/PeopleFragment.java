@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,10 +13,18 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.camuyen.quanlybug.R;
+import com.camuyen.quanlybug.adapter.PeopleAdapter;
+import com.camuyen.quanlybug.firebase.DBQuanLyBug;
+import com.camuyen.quanlybug.model.User;
 import com.camuyen.quanlybug.profile.ProfileActivity;
+
+import java.util.List;
 
 public class PeopleFragment extends Fragment {
     ImageView imgToProfile;
+    RecyclerView listPeople;
+    DBQuanLyBug database;
+    PeopleAdapter adapter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -24,16 +34,25 @@ public class PeopleFragment extends Fragment {
         return view;
     }
     private void getWidget(View view) {
-//        imgToProfile = view.findViewById(R.id.imgToProfile);
+        listPeople = view.findViewById(R.id.listPeople);
+        listPeople.setLayoutManager(new LinearLayoutManager(getContext()));
+        database = new DBQuanLyBug();
+
+        database.getUsers(new DBQuanLyBug.UCallBack() {
+            @Override
+            public void onULoaded(List<User> users) {
+                adapter = new PeopleAdapter(users);
+                listPeople.setAdapter(adapter);
+            }
+
+            @Override
+            public void onError(Exception e) {
+
+            }
+        });
 
     }
     private void addAction(View view){
-//        imgToProfile.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(getActivity(), ProfileActivity.class);
-//                startActivity(intent);
-//            }
-//        });
+
     }
 }

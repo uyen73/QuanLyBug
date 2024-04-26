@@ -4,56 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragment.JobFragment">
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/listJobs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-<!--    <LinearLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_margin="32dp">-->
-<!--        <ImageView-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:src="@drawable/ic_list"-->
-<!--            android:layout_gravity="center"-->
-
-<!--            />-->
-<!--        <TextView-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="Your works"-->
-<!--            android:layout_gravity="center"-->
-<!--            android:textSize="18sp"-->
-<!--            android:textColor="@color/black"-->
-<!--            android:layout_marginStart="20dp"-->
-<!--            />-->
-<!--        <LinearLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:gravity="end">-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/txtName"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_gravity="center"-->
-<!--                android:layout_marginEnd="12sp"-->
-<!--                android:text="Name"-->
-<!--                android:textColor="@color/black"-->
-<!--                android:textSize="18sp" />-->
-
-<!--            <ImageView-->
-<!--                android:id="@+id/imgToProfile"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:src="@drawable/ic_person"-->
-<!--                android:layout_gravity="center"-->
-<!--                />-->
-<!--        </LinearLayout>-->
-<!--    </LinearLayout>-->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Đây là view jobs"
-
-
-        />
+    </androidx.recyclerview.widget.RecyclerView>
 </RelativeLayout>

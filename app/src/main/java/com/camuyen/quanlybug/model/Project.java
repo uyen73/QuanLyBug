@@ -3,19 +3,29 @@ package com.camuyen.quanlybug.model;
 public class Project {
     String maDuAn;
     String maNhanVien;
+    String tenQuanLy;
     String tenDuAn;
     String moTa;
     String ngayBatDau;
 
-    public Project(String maDuAn, String maNhanVien, String tenDuAn, String moTa, String ngayBatDau) {
+    public Project(String maDuAn, String maNhanVien, String tenQuanLy, String tenDuAn, String moTa, String ngayBatDau) {
         this.maDuAn = maDuAn;
         this.maNhanVien = maNhanVien;
+        this.tenQuanLy = tenQuanLy;
         this.tenDuAn = tenDuAn;
         this.moTa = moTa;
         this.ngayBatDau = ngayBatDau;
     }
 
     public Project() {
+    }
+
+    public String getTenQuanLy() {
+        return tenQuanLy;
+    }
+
+    public void setTenQuanLy(String tenQuanLy) {
+        this.tenQuanLy = tenQuanLy;
     }
 
     public String getMaDuAn() {

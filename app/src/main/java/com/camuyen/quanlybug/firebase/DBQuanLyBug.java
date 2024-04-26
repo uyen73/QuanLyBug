@@ -6,6 +6,7 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 
+import com.camuyen.quanlybug.model.Issue;
 import com.camuyen.quanlybug.model.Project;
 import com.camuyen.quanlybug.model.User;
 import com.google.android.gms.common.moduleinstall.internal.ApiFeatureRequest;
@@ -96,7 +97,8 @@ public class DBQuanLyBug {
                         String maNhanVien = document.getString("maNhanVien");
                         String moTa = document.getString("moTa");
                         String ngayBatDau = document.getString("ngayBatDau");
-                        Project project = new Project(maDuAn, maNhanVien, tenDuAn, moTa, ngayBatDau);
+                        String tenQuanLy = document.getString("tenQuanLy");
+                        Project project = new Project(maDuAn, maNhanVien, tenQuanLy, tenDuAn, moTa, ngayBatDau);
                         projects.add(project);
                     }
                     callback.onProjectsLoaded(projects);
@@ -106,11 +108,87 @@ public class DBQuanLyBug {
             }
         });
     }
-
-
     public interface ProjectsCallBack {
         void onProjectsLoaded(List<Project> projects);
         void onError(Exception e);
     }
+
+    public void getIssuesInfo(IssueCallBack callback) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference issuesRef = db.collection("issues");
+        issuesRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    List<Issue> issues = new ArrayList<>();
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        String maVanDe = document.getString("maVanDe");
+                        String tenVanDe = document.getString("tenVanDe");
+                        String ngayBatDau = document.getString("ngayBatDau");
+                        String moTa = document.getString("moTa");
+                        String dev = document.getString("dev");
+                        String dueDateDev = document.getString("dueDateDev");
+                        String test = document.getString("test");
+                        String dueDateTest = document.getString("dueDateTest");
+                        String tienDoDev = document.getString("tienDoDev");
+                        String tienDoTest = document.getString("tienDoTest");
+                        String maNhanVien = document.getString("maNhanVien");
+                        String maDuAn = document.getString("maDuAn");
+
+                        Issue issue = new Issue(maVanDe, tenVanDe, ngayBatDau, moTa, dev, dueDateDev, test, dueDateTest, tienDoDev, tienDoTest, maNhanVien, maDuAn);
+                        issues.add(issue);
+
+                    }
+                    callback.onIssuesLoaded(issues);
+                } else {
+                    callback.onError(task.getException());
+                }
+            }
+
+        });
+    }
+    public interface IssueCallBack {
+        void onIssuesLoaded(List<Issue> issues);
+        void onError(Exception e);
+    }
+
+    public void getUsers(UCallBack callback) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference issuesRef = db.collection("users");
+        issuesRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    List<User> users = new ArrayList<>();
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        String hoTen = document.getString("hoTen");
+                        String maNhanVien = document.getString("maNhanVien");
+                        String chucVu = document.getString("chucVu");
+                        String soDienThoai = document.getString("soDienThoai");
+                        String gmail = document.getString("gmail");
+                        String matKhau = document.getString("matKhau");
+                        User user = new User(maNhanVien, hoTen, chucVu, soDienThoai, gmail, matKhau);
+                        users.add(user);
+
+                    }
+                    callback.onULoaded(users);
+                } else {
+                    callback.onError(task.getException());
+                }
+            }
+
+        });
+    }
+    public interface UCallBack {
+        void onULoaded(List<User> users);
+        void onError(Exception e);
+    }
+
+
+
+
+
+
 
 }

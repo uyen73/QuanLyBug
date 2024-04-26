@@ -23,12 +23,12 @@ import com.camuyen.quanlybug.model.User;
 import com.camuyen.quanlybug.profile.ProfileActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class NewsFragment extends Fragment {
-
     RecyclerView recyclerView;
     ProjectAdapter projectAdapter;
     List<Project> list;
@@ -38,7 +38,7 @@ public class NewsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_news, container, false);
         DBQuanLyBug database = new DBQuanLyBug();
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+
         database.getUserInfor(new DBQuanLyBug.UserCallback() {
             @Override
             public void onUserLoaded(User user) {
@@ -47,6 +47,7 @@ public class NewsFragment extends Fragment {
         });
         getWidget(view);
         addAction(view);
+        getData();
         return view;
     }
 
@@ -54,13 +55,6 @@ public class NewsFragment extends Fragment {
         recyclerView = view.findViewById(R.id.listProjects);
         database = new DBQuanLyBug();
         list = new ArrayList<>();
-        getData();
-    }
-
-    private void addAction(View view) {
-
-    }
-    private void getData() {
         database.getProjectsInfo(new DBQuanLyBug.ProjectsCallBack() {
             @Override
             public void onProjectsLoaded(List<Project> projects) {
@@ -73,6 +67,15 @@ public class NewsFragment extends Fragment {
             public void onError(Exception e) {
 
             }
+
         });
+
+    }
+
+    private void addAction(View view) {
+
+    }
+    private void getData() {
+
     }
 }

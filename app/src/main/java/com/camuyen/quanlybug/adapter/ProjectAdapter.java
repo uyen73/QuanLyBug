@@ -31,7 +31,7 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHold
     public void onBindViewHolder(@NonNull ProjectAdapter.ViewHolder holder, int position) {
         Project a = list.get(position);
         holder.txtTimeStart.setText(a.getNgayBatDau());
-        holder.txtNamePM.setText(a.getMaNhanVien());
+        holder.txtNamePM.setText(a.getTenQuanLy());
         holder.txtNameProject.setText(a.getTenDuAn());
     }
 
