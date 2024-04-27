@@ -23,6 +23,7 @@ import com.camuyen.quanlybug.adapter.ViewPagerAdapter;
 import com.camuyen.quanlybug.firebase.DBQuanLyBug;
 import com.camuyen.quanlybug.model.User;
 import com.camuyen.quanlybug.profile.ProfileActivity;
+import com.camuyen.quanlybug.projects.AddProjectsActivity;
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
 import com.google.android.material.navigation.NavigationView;
 
@@ -87,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                menuItem.setChecked(false);
                 int id = menuItem.getItemId();
                 if (id == R.id.nav_me){
                     Toast.makeText(MainActivity.this, "Về chúng tôi", Toast.LENGTH_SHORT).show();
@@ -95,6 +97,11 @@ public class MainActivity extends AppCompatActivity {
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
+                    finish();
+                } else if (id == R.id.nav_add_project) {
+                    Intent intent = new Intent(MainActivity.this, AddProjectsActivity.class);
+                    startActivity(intent);
+                    drawerLayout.closeDrawers();
                     finish();
                 }
                 return true;

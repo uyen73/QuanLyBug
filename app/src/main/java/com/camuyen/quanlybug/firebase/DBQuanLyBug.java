@@ -3,6 +3,7 @@ package com.camuyen.quanlybug.firebase;
 import android.net.Uri;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -18,6 +19,7 @@ import com.google.api.core.ApiFuture;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -28,7 +30,9 @@ import com.squareup.picasso.Picasso;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 public class DBQuanLyBug {
@@ -184,7 +188,34 @@ public class DBQuanLyBug {
         void onULoaded(List<User> users);
         void onError(Exception e);
     }
+    public void addNewProject(Project project){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference projectsCollectionRef = db.collection("projects");
+        Map<String, Object> projectData = new HashMap<>();
 
+        projectData.put("maDuAn", project.getMaDuAn());
+        projectData.put("maNhanVien", project.getMaNhanVien());
+        projectData.put("tenQuanLy", project.getTenQuanLy());
+        projectData.put("tenDuAn", project.getTenDuAn());
+        projectData.put("moTa", project.getMoTa());
+        projectData.put("ngayBatDau", project.getNgayBatDau());
+
+        projectsCollectionRef.add(projectData)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        // Thành công
+                        Log.d("DB", "DocumentSnapshot added with ID: " + documentReference.getId());
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Thất bại
+                        Log.w("DB", "Error adding document", e);
+                    }
+                });
+    }
 
 
 

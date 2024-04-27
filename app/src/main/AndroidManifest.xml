@@ -16,6 +16,10 @@
         android:theme="@style/Theme.QuanLyBug"
         tools:targetApi="31">
         <activity
+            android:name=".projects.AddProjectsActivity"
+            android:windowSoftInputMode="adjustResize"
+            android:exported="false" />
+        <activity
             android:name=".profile.ProfileActivity"
             android:exported="false" />
         <activity
