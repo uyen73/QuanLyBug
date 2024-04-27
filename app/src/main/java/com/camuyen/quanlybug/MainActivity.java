@@ -87,11 +87,10 @@ public class MainActivity extends AppCompatActivity {
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                int id1 = R.id.nav_me;
-                int id2 = R.id.nav_logout;
-                if (menuItem.getItemId() == id1){
+                int id = menuItem.getItemId();
+                if (id == R.id.nav_me){
                     Toast.makeText(MainActivity.this, "Về chúng tôi", Toast.LENGTH_SHORT).show();
-                }else{
+                }else if (id == R.id.nav_logout){
                     Intent intent = getBaseContext().getPackageManager().getLaunchIntentForPackage(getBaseContext().getPackageName());
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -110,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigation.setOnShowListener(new MeowBottomNavigation.ShowListener() {
             @Override
             public void onShowItem(MeowBottomNavigation.Model item) {
-                Toast.makeText(MainActivity.this, item.getId(), Toast.LENGTH_SHORT).show();
+
             }
 
         });
@@ -123,6 +122,25 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigation.setOnShowListener(new MeowBottomNavigation.ShowListener() {
             @Override
             public void onShowItem(MeowBottomNavigation.Model item) {
+                switch (item.getId()) {
+                    case 0:
+                        viewPager.setCurrentItem(0);
+                        txtTitle.setText("Home page");
+                        break;
+                    case 1:
+                        viewPager.setCurrentItem(1);
+                        txtTitle.setText("Your works");
+                        break;
+                    case 2:
+                        viewPager.setCurrentItem(2);
+                        txtTitle.setText("People");
+                        break;
+                }
+            }
+        });
+        bottomNavigation.setOnClickMenuListener(new MeowBottomNavigation.ClickListener() {
+            @Override
+            public void onClickItem(MeowBottomNavigation.Model item) {
                 switch (item.getId()) {
                     case 0:
                         viewPager.setCurrentItem(0);
