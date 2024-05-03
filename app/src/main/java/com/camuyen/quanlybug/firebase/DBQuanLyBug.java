@@ -7,6 +7,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.camuyen.quanlybug.model.Bugs;
 import com.camuyen.quanlybug.model.Issue;
 import com.camuyen.quanlybug.model.Jobs;
 import com.camuyen.quanlybug.model.Project;
@@ -246,7 +247,46 @@ public class DBQuanLyBug {
         void onIssuesLoaded(List<Jobs> jobs);
         void onError(Exception e);
     }
+    public void getBugsInfo(BugsCallBack callback) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference ref = db.collection("bugs");
+        ref.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    List<Bugs> bugs = new ArrayList<>();
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        String maBug = document.getString("maBug");
+                        String tenBug = document.getString("tenBug");
+                        String moTaLoi = document.getString("moTaLoi");
+                        String anh = document.getString("anh");
+                        String cacBuoc = document.getString("cacBuoc");
+                        String ketQuaMongMuon = document.getString("ketQuaMongMuon");
+                        String ngayXuatHien = document.getString("ngayXuatHien");
+                        String trangThai = document.getString("trangThai");
+                        String devFix = document.getString("devFix");
+                        String mucDoNghiemTrong = document.getString("mucDoNghiemTrong");
+                        String maVanDe = document.getString("maVanDe");
+                        String maDuAn = document.getString("maDuAn");
+                        String maNhanVien = document.getString("maNhanVien");
 
+
+                        Bugs bug = new Bugs(maBug, tenBug, moTaLoi, anh, cacBuoc, ketQuaMongMuon, ngayXuatHien, trangThai, devFix, mucDoNghiemTrong, maVanDe, maDuAn, maNhanVien);
+                        bugs.add(bug);
+
+                    }
+                    callback.onBugsLoaded(bugs);
+                } else {
+                    callback.onError(task.getException());
+                }
+            }
+
+        });
+    }
+    public interface BugsCallBack {
+        void onBugsLoaded(List<Bugs> bugs);
+        void onError(Exception e);
+    }
 
 
 

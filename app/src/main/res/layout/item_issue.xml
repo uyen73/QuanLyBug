@@ -13,6 +13,7 @@
         android:layout_marginTop="32dp"
         app:cardBackgroundColor="#B9DACB"
         app:cardCornerRadius="10dp"
+        android:id="@+id/cardviewIssue"
         >
         <LinearLayout
             android:layout_width="match_parent"

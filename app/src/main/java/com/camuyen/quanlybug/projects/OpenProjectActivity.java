@@ -76,7 +76,7 @@ public class OpenProjectActivity extends AppCompatActivity {
 
                     }
                 }
-                adapter = new IssueAdapter(list);
+                adapter = new IssueAdapter(list, OpenProjectActivity.this);
                 recycleview.setLayoutManager(new LinearLayoutManager(OpenProjectActivity.this));
                 recycleview.setAdapter(adapter);
 

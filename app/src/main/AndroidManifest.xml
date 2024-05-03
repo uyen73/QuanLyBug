@@ -16,6 +16,12 @@
         android:theme="@style/Theme.QuanLyBug"
         tools:targetApi="31">
         <activity
+            android:name=".projects.OpenBugActivity"
+            android:exported="false" />
+        <activity
+            android:name=".projects.OpenIssueActivity"
+            android:exported="false" />
+        <activity
             android:name=".projects.OpenProjectActivity"
             android:exported="false" />
         <activity

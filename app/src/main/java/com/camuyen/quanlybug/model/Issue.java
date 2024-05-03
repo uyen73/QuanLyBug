@@ -1,6 +1,8 @@
 package com.camuyen.quanlybug.model;
 
-public class Issue {
+import java.io.Serializable;
+
+public class Issue implements Serializable {
     String maVanDe;
     String tenVanDe;
     String ngayBatDau;
