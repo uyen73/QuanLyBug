@@ -102,7 +102,6 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent = new Intent(MainActivity.this, AddProjectsActivity.class);
                     startActivity(intent);
                     drawerLayout.closeDrawers();
-                    finish();
                 }
                 return true;
             }
