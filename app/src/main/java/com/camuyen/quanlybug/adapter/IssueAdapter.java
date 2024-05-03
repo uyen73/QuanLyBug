@@ -48,9 +48,8 @@ public class IssueAdapter extends RecyclerView.Adapter<IssueAdapter.ViewHolder> 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            txtNameIssue = itemView.findViewById(R.id.txtNameIssue);
-            txtStatus = itemView.findViewById(R.id.txtStatus);
-            txtDescribe = itemView.findViewById(R.id.txtDescribe);
+
+
         }
     }
 }

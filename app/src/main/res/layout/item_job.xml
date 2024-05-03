@@ -11,38 +11,29 @@
         android:backgroundTint="#F3E7E7"
         >
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical">
             <TextView
-                android:id="@+id/txtNameIssue"
+                android:id="@+id/txtMaVanDe"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Tên vấn đề"
+                android:text="Mã vấn đề"
                 android:textColor="@color/black"
                 android:textSize="24sp"
                 android:padding="10dp"
                 android:textStyle="bold"
                 android:background="#F3E7E7"
-            />
-            <TextView
-                android:id="@+id/txtDescribe"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Mô tả"
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                android:padding="10dp"
-                android:background="#F3E7E7"
                 />
             <TextView
-                android:id="@+id/txtStatus"
-                android:layout_width="wrap_content"
+                android:id="@+id/txtTenThanhVien"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Trạng thái"
+                android:text="Người thực hiện: "
                 android:textColor="@color/black"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 android:padding="10dp"
+
                 android:background="#F3E7E7"
                 />
         </LinearLayout>

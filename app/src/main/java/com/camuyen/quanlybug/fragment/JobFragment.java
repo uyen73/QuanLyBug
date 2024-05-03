@@ -14,8 +14,10 @@ import android.widget.ImageView;
 
 import com.camuyen.quanlybug.R;
 import com.camuyen.quanlybug.adapter.IssueAdapter;
+import com.camuyen.quanlybug.adapter.JobAdapter;
 import com.camuyen.quanlybug.firebase.DBQuanLyBug;
 import com.camuyen.quanlybug.model.Issue;
+import com.camuyen.quanlybug.model.Jobs;
 import com.camuyen.quanlybug.profile.ProfileActivity;
 
 import java.util.ArrayList;
@@ -25,8 +27,7 @@ import java.util.List;
 public class JobFragment extends Fragment {
     RecyclerView listJobs;
     DBQuanLyBug database;
-    IssueAdapter adapter;
-    List<Issue> listIssues;
+    JobAdapter adapter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -40,11 +41,10 @@ public class JobFragment extends Fragment {
     private void getWidget(View view) {
         listJobs = view.findViewById(R.id.listJobs);
         database = new DBQuanLyBug();
-
-        database.getIssuesInfo(new DBQuanLyBug.IssueCallBack() {
+        database.getJobsInfo(new DBQuanLyBug.JobsCallBack() {
             @Override
-            public void onIssuesLoaded(List<Issue> issues) {
-                adapter = new IssueAdapter(issues);
+            public void onIssuesLoaded(List<Jobs> jobs) {
+                adapter = new JobAdapter(jobs);
                 listJobs.setLayoutManager(new LinearLayoutManager(getContext()));
                 listJobs.setAdapter(adapter);
             }
@@ -54,6 +54,7 @@ public class JobFragment extends Fragment {
 
             }
         });
+
     }
     private void addAction(View view){
 

@@ -8,6 +8,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 
 import com.camuyen.quanlybug.model.Issue;
+import com.camuyen.quanlybug.model.Jobs;
 import com.camuyen.quanlybug.model.Project;
 import com.camuyen.quanlybug.model.User;
 import com.google.android.gms.common.moduleinstall.internal.ApiFeatureRequest;
@@ -215,6 +216,35 @@ public class DBQuanLyBug {
                         Log.w("DB", "Error adding document", e);
                     }
                 });
+    }
+    public void getJobsInfo(JobsCallBack callback) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference ref = db.collection("jobs");
+        ref.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    List<Jobs> jobs = new ArrayList<>();
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        String maVanDe = document.getString("maVanDe");
+                        String maNhanVien = document.getString("maNhanVien");
+                        String maCongViec = document.getString("maCongViec");
+                        Jobs job = new Jobs(maCongViec, maNhanVien, maVanDe);
+                        jobs.add(job);
+
+                    }
+                    callback.onIssuesLoaded(jobs);
+                } else {
+                    callback.onError(task.getException());
+                }
+            }
+
+        });
+    }
+    public interface JobsCallBack {
+        void onIssuesLoaded(List<Jobs> jobs);
+        void onError(Exception e);
     }
 
 
