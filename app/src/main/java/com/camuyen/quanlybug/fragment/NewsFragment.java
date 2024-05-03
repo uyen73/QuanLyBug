@@ -58,7 +58,7 @@ public class NewsFragment extends Fragment {
         database.getProjectsInfo(new DBQuanLyBug.ProjectsCallBack() {
             @Override
             public void onProjectsLoaded(List<Project> projects) {
-                projectAdapter = new ProjectAdapter(projects);
+                projectAdapter = new ProjectAdapter(projects, requireContext());
                 recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
                 recyclerView.setAdapter(projectAdapter);
             }
