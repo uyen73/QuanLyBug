@@ -1,14 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".fragment.DetailProjectFragment">
+    android:layout_height="match_parent">
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardviewMoTa"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="32dp"
+        app:cardCornerRadius="20dp"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+            <TextView
+                android:id="@id/txtMoTa"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Mô tả dự án"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:padding="15dp"
+                />
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/txtChiTietMoTa"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Đây là mô tả của dự án, dự án này nói về: ....................."
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:padding="15dp"
+                />
+        </LinearLayout>
 
-    <!-- TODO: Update blank fragment layout -->
+    </androidx.cardview.widget.CardView>
+
     <TextView
+        android:id="@+id/texxt"
+        android:layout_below="@id/cardviewMoTa"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Các vấn đề: "
+        android:textSize="16sp"
+        android:textColor="@color/black"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        />
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_below="@id/texxt"
+        android:id="@+id/recycleviewBugs"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        >
 
-</FrameLayout>
+    </androidx.recyclerview.widget.RecyclerView>
+</RelativeLayout>

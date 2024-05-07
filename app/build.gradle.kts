@@ -66,6 +66,7 @@ dependencies {
     implementation("com.google.guava:guava:32.0.1-android")
     implementation("androidx.activity:activity:1.9.0")
     implementation("com.google.firebase:firebase-database:21.0.0")
+    implementation ("org.greenrobot:eventbus:3.2.0")
 
 
     testImplementation("junit:junit:4.13.2")

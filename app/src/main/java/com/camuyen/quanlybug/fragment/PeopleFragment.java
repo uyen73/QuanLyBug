@@ -18,6 +18,10 @@ import com.camuyen.quanlybug.firebase.DBQuanLyBug;
 import com.camuyen.quanlybug.model.User;
 import com.camuyen.quanlybug.profile.ProfileActivity;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.List;
 
 public class PeopleFragment extends Fragment {
@@ -25,6 +29,25 @@ public class PeopleFragment extends Fragment {
     RecyclerView listPeople;
     DBQuanLyBug database;
     PeopleAdapter adapter;
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop();
+    }
+
+    // Xử lý sự kiện khi fragment được hiển thị
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onFragmentVisible(FragmentVisibleEvent event) {
+        // Kết thúc chính fragment hiện tại
+        getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

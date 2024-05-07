@@ -11,6 +11,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -21,6 +22,7 @@ import android.widget.Toast;
 
 import com.camuyen.quanlybug.adapter.ViewPagerAdapter;
 import com.camuyen.quanlybug.firebase.DBQuanLyBug;
+import com.camuyen.quanlybug.fragment.DetailProjectFragment;
 import com.camuyen.quanlybug.login.LoginActivity;
 import com.camuyen.quanlybug.model.User;
 import com.camuyen.quanlybug.profile.ProfileActivity;
@@ -116,34 +118,27 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupViewPager() {
         viewPager.setAdapter(new ViewPagerAdapter(this));
-        bottomNavigation.show(0, true);
-        bottomNavigation.setOnShowListener(new MeowBottomNavigation.ShowListener() {
-            @Override
-            public void onShowItem(MeowBottomNavigation.Model item) {
-
-            }
-
-        });
+        bottomNavigation.show(1, true);
     }
 
     private void setupBottomNavigation() {
-        bottomNavigation.add(new MeowBottomNavigation.Model(0, R.drawable.ic_nav_1));
-        bottomNavigation.add(new MeowBottomNavigation.Model(1, R.drawable.ic_nav_2));
-        bottomNavigation.add(new MeowBottomNavigation.Model(2, R.drawable.ic_nav_3));
+        bottomNavigation.add(new MeowBottomNavigation.Model(1, R.drawable.ic_nav_1));
+        bottomNavigation.add(new MeowBottomNavigation.Model(2, R.drawable.ic_nav_2));
+        bottomNavigation.add(new MeowBottomNavigation.Model(3, R.drawable.ic_nav_3));
         bottomNavigation.setOnShowListener(new MeowBottomNavigation.ShowListener() {
             @Override
             public void onShowItem(MeowBottomNavigation.Model item) {
                 switch (item.getId()) {
-                    case 0:
-                        viewPager.setCurrentItem(0);
-                        txtTitle.setText("Home page");
-                        break;
                     case 1:
                         viewPager.setCurrentItem(1);
-                        txtTitle.setText("Your works");
+                        txtTitle.setText("Home page");
                         break;
                     case 2:
                         viewPager.setCurrentItem(2);
+                        txtTitle.setText("Your works");
+                        break;
+                    case 3:
+                        viewPager.setCurrentItem(3);
                         txtTitle.setText("People");
                         break;
                 }
@@ -153,16 +148,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClickItem(MeowBottomNavigation.Model item) {
                 switch (item.getId()) {
-                    case 0:
-                        viewPager.setCurrentItem(0);
-                        txtTitle.setText("Home page");
-                        break;
                     case 1:
                         viewPager.setCurrentItem(1);
-                        txtTitle.setText("Your works");
+                        txtTitle.setText("Home page");
                         break;
                     case 2:
                         viewPager.setCurrentItem(2);
+                        txtTitle.setText("Your works");
+                        break;
+                    case 3:
+                        viewPager.setCurrentItem(3);
                         txtTitle.setText("People");
                         break;
                 }
@@ -177,5 +172,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+    }
+    public void switchToDetailProjectFragment() {
+        viewPager.setCurrentItem(0, false);
     }
 }

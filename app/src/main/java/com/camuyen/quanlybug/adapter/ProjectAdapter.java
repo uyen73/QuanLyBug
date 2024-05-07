@@ -2,7 +2,9 @@ package com.camuyen.quanlybug.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,10 +12,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.camuyen.quanlybug.MainActivity;
 import com.camuyen.quanlybug.R;
+import com.camuyen.quanlybug.fragment.DetailProjectFragment;
 import com.camuyen.quanlybug.model.Project;
 import com.camuyen.quanlybug.projects.OpenProjectActivity;
 
@@ -45,20 +52,26 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHold
         }
     }
     @Override
-    public void onBindViewHolder(@NonNull ProjectAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Project a = list.get(position);
         Date ngayBatDau = a.getNgayBatDau();
         holder.txtTimeStart.setText(convertToString(ngayBatDau));
         holder.txtNameProject.setText(a.getTenDuAn());
         holder.txtTienDo.setText(a.getTrangThai());
-        String maDuAn = a.getMaDuAn();
+
+
         holder.cardviewProject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, OpenProjectActivity.class);
-                intent.putExtra("maDuAn", maDuAn);
-                Toast.makeText(context, maDuAn, Toast.LENGTH_SHORT).show();
-                context.startActivity(intent);
+                String ma = a.getMaDuAn();
+                SharedPreferences preferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putString("maDuAn", ma);
+                editor.apply();
+
+                ((MainActivity) context).switchToDetailProjectFragment();
+
+
             }
         });
         String tienDo = a.getTrangThai();
@@ -89,6 +102,7 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHold
             txtTienDo = itemView.findViewById(R.id.txtTienDo);
 
         }
+
 
     }
 }

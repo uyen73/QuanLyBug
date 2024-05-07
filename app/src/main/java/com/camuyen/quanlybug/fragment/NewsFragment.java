@@ -23,6 +23,10 @@ import com.camuyen.quanlybug.model.User;
 import com.camuyen.quanlybug.profile.ProfileActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,17 +38,28 @@ public class NewsFragment extends Fragment {
     List<Project> list;
     DBQuanLyBug database;
     @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop();
+    }
+
+    // Xử lý sự kiện khi fragment được hiển thị
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onFragmentVisible(FragmentVisibleEvent event) {
+        // Kết thúc chính fragment hiện tại
+        getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+    }
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_news, container, false);
         DBQuanLyBug database = new DBQuanLyBug();
-
-        database.getUserInfor(new DBQuanLyBug.UserCallback() {
-            @Override
-            public void onUserLoaded(User user) {
-                Toast.makeText(getActivity(), "Xin chào, " + user.getHoTen(), Toast.LENGTH_SHORT).show();
-            }
-        });
         getWidget(view);
         addAction(view);
         getData();
