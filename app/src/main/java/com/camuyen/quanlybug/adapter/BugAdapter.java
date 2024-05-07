@@ -1,5 +1,6 @@
 package com.camuyen.quanlybug.adapter;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,6 +44,15 @@ public class BugAdapter extends RecyclerView.Adapter<BugAdapter.ViewHolder> {
 
         Date thoiGianTao = bug.getNgayXuatHien();
         holder.txtThoiGianTao.setText(convertToString(thoiGianTao));
+
+        String tienDo = bug.getTrangThai();
+        if (tienDo.equals("Fix")){
+            holder.txtTienDo.setTextColor(Color.parseColor("#333333"));
+            holder.cardviewTienDo.setCardBackgroundColor(Color.parseColor("#F2F2F2"));
+        }else if (tienDo.equals("Close")) {
+            holder.txtTienDo.setTextColor(Color.parseColor("#008000"));
+            holder.cardviewTienDo.setCardBackgroundColor(Color.parseColor("#DFF0D8"));
+        }
 
     }
     public static String convertToString(Date date) {
