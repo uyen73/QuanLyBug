@@ -1,6 +1,5 @@
 package com.camuyen.quanlybug.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -10,17 +9,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.camuyen.quanlybug.R;
-import com.camuyen.quanlybug.adapter.IssueAdapter;
 import com.camuyen.quanlybug.adapter.JobAdapter;
 import com.camuyen.quanlybug.firebase.DBQuanLyBug;
-import com.camuyen.quanlybug.model.Issue;
 import com.camuyen.quanlybug.model.Jobs;
-import com.camuyen.quanlybug.profile.ProfileActivity;
+import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.ArrayList;
 import java.util.List;
 
 

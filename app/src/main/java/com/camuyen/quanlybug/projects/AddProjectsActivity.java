@@ -19,6 +19,8 @@ import com.camuyen.quanlybug.R;
 import com.camuyen.quanlybug.firebase.DBQuanLyBug;
 import com.camuyen.quanlybug.model.Project;
 
+import java.util.List;
+
 public class AddProjectsActivity extends AppCompatActivity {
     ImageView imgBackProfile;
     CardView btnAddProject;
@@ -57,7 +59,19 @@ public class AddProjectsActivity extends AppCompatActivity {
                 Project project;
                 if(checkBlank()){
                     project = getProject();
-                    database.addNewProject(project);
+                    database.getProjectsInfo(new DBQuanLyBug.ProjectsCallBack() {
+                        @Override
+                        public void onProjectsLoaded(List<Project> projects) {
+                            int size = projects.size() + 1;
+                            String id = "DA" + size;
+                            database.addNewProject(id, project);
+                        }
+
+                        @Override
+                        public void onError(Exception e) {
+
+                        }
+                    });
                     Toast.makeText(AddProjectsActivity.this, "Thành công", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(AddProjectsActivity.this, MainActivity.class);
                     startActivity(intent);
@@ -107,6 +121,7 @@ public class AddProjectsActivity extends AppCompatActivity {
         String ngayBatDau = edtNgayBatDau.getText().toString();
         String moTa = edtMoTa.getText().toString();
         String maNV = edtMaNV.getText().toString();
-        return new Project(maDA, maNV, tenQuanLy, tenDA, moTa, ngayBatDau);
+
+        return new Project(maDA, maNV, tenQuanLy, tenDA, moTa, database.convertToDate(ngayBatDau), "Processing");
     }
 }

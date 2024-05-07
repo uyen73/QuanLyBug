@@ -6,4 +6,9 @@
     <color name="colorPrimaryDark">#fff</color>
     <color name="colorAccent">#00552E</color>
     <color name="colorGreen">#004827</color>
+
+    <color name="mauCam">#e74c3c</color>
+    <color name="mauVang">#f39c12</color>
+    <color name="mauXanh">#27ae60</color>
+    <color name="mauXam">#bdc3c7</color>
 </resources>

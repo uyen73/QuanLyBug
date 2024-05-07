@@ -2,6 +2,7 @@ package com.camuyen.quanlybug.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,8 @@ import com.camuyen.quanlybug.R;
 import com.camuyen.quanlybug.model.Project;
 import com.camuyen.quanlybug.projects.OpenProjectActivity;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHolder> {
@@ -33,13 +36,21 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHold
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_projects, parent, false);
         return new ViewHolder(view);
     }
-
+    public static String convertToString(Date date) {
+        if (date != null) {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            return dateFormat.format(date);
+        } else {
+            return null;
+        }
+    }
     @Override
     public void onBindViewHolder(@NonNull ProjectAdapter.ViewHolder holder, int position) {
         Project a = list.get(position);
-        holder.txtTimeStart.setText(a.getNgayBatDau());
-        holder.txtNamePM.setText(a.getTenQuanLy());
+        Date ngayBatDau = a.getNgayBatDau();
+        holder.txtTimeStart.setText(convertToString(ngayBatDau));
         holder.txtNameProject.setText(a.getTenDuAn());
+        holder.txtTienDo.setText(a.getTrangThai());
         String maDuAn = a.getMaDuAn();
         holder.cardviewProject.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,6 +61,15 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHold
                 context.startActivity(intent);
             }
         });
+        String tienDo = a.getTrangThai();
+        if (tienDo.equals("Processing")){
+            holder.txtTienDo.setTextColor(Color.WHITE);
+            holder.cardviewTienDoProject.setCardBackgroundColor(Color.parseColor("#e74c3c"));
+        }else if (tienDo.equals("Done")) {
+            holder.txtTienDo.setTextColor(Color.BLACK);
+            holder.cardviewTienDoProject.setCardBackgroundColor(Color.parseColor("#27ae60"));
+        }
+
     }
 
     @Override
@@ -58,15 +78,15 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHold
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView txtNamePM, txtNameProject, txtTimeStart;
-        CardView cardviewProject;
+        TextView txtNameProject, txtTimeStart, txtTienDo;
+        CardView cardviewProject, cardviewTienDoProject;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            txtNamePM = itemView.findViewById(R.id.txtNamePM);
+            cardviewTienDoProject = itemView.findViewById(R.id.cardviewTienDoProject);
             txtNameProject = itemView.findViewById(R.id.txtNameProject);
             txtTimeStart = itemView.findViewById(R.id.txtTimeStart);
             cardviewProject = itemView.findViewById(R.id.cardviewProject);
-
+            txtTienDo = itemView.findViewById(R.id.txtTienDo);
 
         }
 

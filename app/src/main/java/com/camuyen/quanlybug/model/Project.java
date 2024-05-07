@@ -1,23 +1,35 @@
 package com.camuyen.quanlybug.model;
 
+import java.util.Date;
+
 public class Project {
     String maDuAn;
     String maNhanVien;
     String tenQuanLy;
     String tenDuAn;
     String moTa;
-    String ngayBatDau;
+    Date ngayBatDau;
+    String trangThai;
 
-    public Project(String maDuAn, String maNhanVien, String tenQuanLy, String tenDuAn, String moTa, String ngayBatDau) {
+    public Project(String maDuAn, String maNhanVien, String tenQuanLy, String tenDuAn, String moTa, Date ngayBatDau, String trangThai) {
         this.maDuAn = maDuAn;
         this.maNhanVien = maNhanVien;
         this.tenQuanLy = tenQuanLy;
         this.tenDuAn = tenDuAn;
         this.moTa = moTa;
         this.ngayBatDau = ngayBatDau;
+        this.trangThai = trangThai;
     }
 
     public Project() {
+    }
+
+    public String getTrangThai() {
+        return trangThai;
+    }
+
+    public void setTrangThai(String trangThai) {
+        this.trangThai = trangThai;
     }
 
     public String getTenQuanLy() {
@@ -60,11 +72,11 @@ public class Project {
         this.moTa = moTa;
     }
 
-    public String getNgayBatDau() {
+    public Date getNgayBatDau() {
         return ngayBatDau;
     }
 
-    public void setNgayBatDau(String ngayBatDau) {
+    public void setNgayBatDau(Date ngayBatDau) {
         this.ngayBatDau = ngayBatDau;
     }
 }

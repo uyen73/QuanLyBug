@@ -6,18 +6,12 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.camuyen.quanlybug.R;
-import com.camuyen.quanlybug.adapter.IssueAdapter;
 import com.camuyen.quanlybug.firebase.DBQuanLyBug;
-import com.camuyen.quanlybug.model.Issue;
 import com.camuyen.quanlybug.model.Project;
 
 import java.util.ArrayList;
@@ -28,7 +22,6 @@ public class OpenProjectActivity extends AppCompatActivity {
     RecyclerView recycleview;
     String maDuAn = "";
     DBQuanLyBug database;
-    IssueAdapter adapter;
     ImageView imgBackProfile;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,28 +58,7 @@ public class OpenProjectActivity extends AppCompatActivity {
 
             }
         });
-        database.getIssuesInfo(new DBQuanLyBug.IssueCallBack() {
-            @Override
-            public void onIssuesLoaded(List<Issue> issues) {
-                List<Issue> list = new ArrayList<>();
 
-                for (Issue a : issues){
-                    if (a.getMaDuAn().equals(maDuAn)){
-                        list.add(a);
-
-                    }
-                }
-                adapter = new IssueAdapter(list, OpenProjectActivity.this);
-                recycleview.setLayoutManager(new LinearLayoutManager(OpenProjectActivity.this));
-                recycleview.setAdapter(adapter);
-
-            }
-
-            @Override
-            public void onError(Exception e) {
-
-            }
-        });
     }
 
     private void addAction() {

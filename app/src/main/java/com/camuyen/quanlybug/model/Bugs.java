@@ -1,5 +1,8 @@
 package com.camuyen.quanlybug.model;
 
+import java.time.LocalDate;
+import java.util.Date;
+
 public class Bugs {
     private String maBug;
     private String tenBug;
@@ -7,15 +10,16 @@ public class Bugs {
     private String anh;
     private String cacBuoc;
     private String ketQuaMongMuon;
-    private String ngayXuatHien;
+    private Date ngayXuatHien;
     private String trangThai;
     private String devFix;
     private String mucDoNghiemTrong;
     private String maVanDe;
     private String maDuAn;
     private String maNhanVien;
+    private Date deadline;
 
-    public Bugs(String maBug, String tenBug, String moTaLoi, String anh, String cacBuoc, String ketQuaMongMuon, String ngayXuatHien, String trangThai, String devFix, String mucDoNghiemTrong, String maVanDe, String maDuAn, String maNhanVien) {
+    public Bugs(String maBug, String tenBug, String moTaLoi, String anh, String cacBuoc, String ketQuaMongMuon, Date ngayXuatHien, String trangThai, String devFix, String mucDoNghiemTrong, String maVanDe, String maDuAn, String maNhanVien, Date deadline) {
         this.maBug = maBug;
         this.tenBug = tenBug;
         this.moTaLoi = moTaLoi;
@@ -29,6 +33,7 @@ public class Bugs {
         this.maVanDe = maVanDe;
         this.maDuAn = maDuAn;
         this.maNhanVien = maNhanVien;
+        this.deadline = deadline;
     }
 
     public Bugs() {
@@ -82,11 +87,11 @@ public class Bugs {
         this.ketQuaMongMuon = ketQuaMongMuon;
     }
 
-    public String getNgayXuatHien() {
+    public Date getNgayXuatHien() {
         return ngayXuatHien;
     }
 
-    public void setNgayXuatHien(String ngayXuatHien) {
+    public void setNgayXuatHien(Date ngayXuatHien) {
         this.ngayXuatHien = ngayXuatHien;
     }
 
@@ -136,5 +141,13 @@ public class Bugs {
 
     public void setMaNhanVien(String maNhanVien) {
         this.maNhanVien = maNhanVien;
+    }
+
+    public Date getDeadline() {
+        return deadline;
+    }
+
+    public void setDeadline(Date deadline) {
+        this.deadline = deadline;
     }
 }

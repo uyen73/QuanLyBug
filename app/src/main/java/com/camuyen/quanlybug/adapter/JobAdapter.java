@@ -10,11 +10,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.camuyen.quanlybug.R;
 import com.camuyen.quanlybug.firebase.DBQuanLyBug;
-import com.camuyen.quanlybug.model.Issue;
 import com.camuyen.quanlybug.model.Jobs;
 import com.camuyen.quanlybug.model.User;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class JobAdapter extends RecyclerView.Adapter<JobAdapter.ViewHolder> {
@@ -44,23 +42,6 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.ViewHolder> {
                     String ma = a.getMaNhanVien();
                     if(maNhanVien.equals(ma)){
                         holder.txtTenThanhVien.setText("Người thực hiện: " + a.getHoTen());
-                    }
-                }
-            }
-
-            @Override
-            public void onError(Exception e) {
-
-            }
-        });
-        database.getIssuesInfo(new DBQuanLyBug.IssueCallBack() {
-            @Override
-            public void onIssuesLoaded(List<Issue> issues) {
-                for (Issue a : issues) {
-                    String vd = a.getMaVanDe();
-                    if(maVanDe.equals(vd)){
-                        holder.txtMaVanDe.setText(a.getTenVanDe());
-                        break;
                     }
                 }
             }

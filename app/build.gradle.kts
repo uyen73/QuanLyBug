@@ -55,6 +55,9 @@ dependencies {
     implementation ("com.squareup.picasso:picasso:2.71828")
     implementation ("de.hdodenhof:circleimageview:3.1.0")
 
+    implementation ("com.android.support:multidex:1.0.3")
+    implementation ("com.google.guava:guava:30.1-jre")
+
 
     implementation ("com.google.api-client:google-api-client:1.23.0")
     implementation ("com.google.api:api-common:2.2.1")
