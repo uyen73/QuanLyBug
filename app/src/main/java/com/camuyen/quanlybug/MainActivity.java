@@ -21,11 +21,13 @@ import android.widget.Toast;
 
 import com.camuyen.quanlybug.adapter.ViewPagerAdapter;
 import com.camuyen.quanlybug.firebase.DBQuanLyBug;
+import com.camuyen.quanlybug.login.LoginActivity;
 import com.camuyen.quanlybug.model.User;
 import com.camuyen.quanlybug.profile.ProfileActivity;
 import com.camuyen.quanlybug.projects.AddProjectsActivity;
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
     DrawerLayout drawerLayout;
@@ -93,11 +95,14 @@ public class MainActivity extends AppCompatActivity {
                 if (id == R.id.nav_me){
                     Toast.makeText(MainActivity.this, "Về chúng tôi", Toast.LENGTH_SHORT).show();
                 }else if (id == R.id.nav_logout){
-                    Intent intent = getBaseContext().getPackageManager().getLaunchIntentForPackage(getBaseContext().getPackageName());
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    FirebaseAuth mAuth = FirebaseAuth.getInstance();
+                    // Đăng xuất người dùng
+                    mAuth.signOut();
+
+                    // Chuyển người dùng đến màn hình đăng nhập
+                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                     startActivity(intent);
-                    finish();
+                    finish(); // Kết thúc hoạt động hiện tại
                 } else if (id == R.id.nav_add_project) {
                     Intent intent = new Intent(MainActivity.this, AddProjectsActivity.class);
                     startActivity(intent);

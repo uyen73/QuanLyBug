@@ -29,7 +29,7 @@ import com.google.android.play.core.integrity.IntegrityTokenRequest;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
+import com.google.firebase.database.FirebaseDatabase;
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "EmailPassword";
     EditText edtEmail, edtPassword;
@@ -64,6 +64,7 @@ public class LoginActivity extends AppCompatActivity {
         cbShowPassword = findViewById(R.id.cbShowPassword);
 
         mAuth = FirebaseAuth.getInstance();
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
     }
 
     public void addAction(){
@@ -118,7 +119,9 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
     private void reload() {
-
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 
 }

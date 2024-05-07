@@ -46,11 +46,11 @@ dependencies {
     implementation("androidx.cardview:cardview:1.0.0")
     implementation("androidx.recyclerview:recyclerview:1.3.2")
 
-    implementation(platform("com.google.firebase:firebase-bom:32.8.1"))
+    implementation(platform("com.google.firebase:firebase-bom:33.0.0"))
     implementation("com.google.firebase:firebase-analytics")
-    implementation("com.google.firebase:firebase-auth:22.3.1")
-    implementation("com.google.firebase:firebase-firestore:24.11.1")
-    implementation("com.google.firebase:firebase-storage:20.3.0")
+    implementation("com.google.firebase:firebase-auth:23.0.0")
+    implementation("com.google.firebase:firebase-firestore:25.0.0")
+    implementation("com.google.firebase:firebase-storage:21.0.0")
     implementation ("com.etebarian:meow-bottom-navigation-java:1.2.0")
     implementation ("com.squareup.picasso:picasso:2.71828")
     implementation ("de.hdodenhof:circleimageview:3.1.0")
@@ -65,6 +65,7 @@ dependencies {
     implementation("com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava")
     implementation("com.google.guava:guava:32.0.1-android")
     implementation("androidx.activity:activity:1.9.0")
+    implementation("com.google.firebase:firebase-database:21.0.0")
 
 
     testImplementation("junit:junit:4.13.2")

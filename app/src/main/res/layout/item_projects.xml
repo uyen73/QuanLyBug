@@ -43,7 +43,7 @@
                         android:layout_height="wrap_content"
                         android:text="Tiến độ"
                         android:textColor="@color/black"
-                        android:textSize="18sp"
+
                         android:padding="10dp"
                         android:layout_gravity="center"
                         />
