@@ -1,8 +1,10 @@
 package com.camuyen.quanlybug.projects;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -19,6 +21,7 @@ import com.camuyen.quanlybug.R;
 import com.camuyen.quanlybug.firebase.DBQuanLyBug;
 import com.camuyen.quanlybug.model.Project;
 
+import java.util.Calendar;
 import java.util.List;
 
 public class AddProjectsActivity extends AppCompatActivity {
@@ -26,6 +29,8 @@ public class AddProjectsActivity extends AppCompatActivity {
     CardView btnAddProject;
     EditText edtMaDA, edtTenDA, edtNgayBatDau, edtMoTa, edtMaNV, edtTenQuanLy;
     DBQuanLyBug database;
+    Calendar calendar;
+    ImageView imgShowCalender;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +49,23 @@ public class AddProjectsActivity extends AppCompatActivity {
         edtMaNV = findViewById(R.id.edtMaNV);
         edtTenQuanLy = findViewById(R.id.edtTenQuanLy);
         database = new DBQuanLyBug();
+        imgShowCalender = findViewById(R.id.imgShowCalender);
+
+        database.getProjectsInfo(new DBQuanLyBug.ProjectsCallBack() {
+            @Override
+            public void onProjectsLoaded(List<Project> projects) {
+                int size = projects.size() + 1;
+                String id = "DA" + convertSoDuAn(size);
+                edtMaDA.setText(id);
+                edtMaDA.setEnabled(false);
+            }
+
+            @Override
+            public void onError(Exception e) {
+
+            }
+        });
+
     }
 
     private void addAction() {
@@ -63,10 +85,9 @@ public class AddProjectsActivity extends AppCompatActivity {
                         @Override
                         public void onProjectsLoaded(List<Project> projects) {
                             int size = projects.size() + 1;
-                            String id = "DA" + size;
+                            String id = "DA" + convertSoDuAn(size);
                             database.addNewProject(id, project);
                         }
-
                         @Override
                         public void onError(Exception e) {
 
@@ -79,6 +100,33 @@ public class AddProjectsActivity extends AppCompatActivity {
                 }
             }
         });
+        imgShowCalender.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDatePickerDialog(v);
+            }
+        });
+
+    }
+    public String convertSoDuAn(int number) {
+        return String.format("%03d", number);
+    }
+    public void showDatePickerDialog(View view) {
+        calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this,
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        String selectedDate = String.format("%02d/%02d/%d", dayOfMonth, (month + 1), year);
+                        edtNgayBatDau.setText(selectedDate);
+                    }
+                }, year, month, dayOfMonth);
+
+        datePickerDialog.show();
     }
     private boolean checkBlank(){
         String error = "Bạn đang điền thiếu: ";

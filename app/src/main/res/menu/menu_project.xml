@@ -1,0 +1,11 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/mnuSuaProject"
+        android:title="Sửa project" />
+    <item
+        android:id="@+id/mnuXoaProject"
+        android:title="Xoá project" />
+    <item
+        android:id="@+id/mnuCapNhat"
+        android:title="Cập nhật trạng thái" />
+</menu>

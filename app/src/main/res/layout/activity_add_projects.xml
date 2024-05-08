@@ -40,61 +40,88 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
-                android:orientation="vertical">
+                android:orientation="horizontal"
+                android:weightSum="6">
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_weight="2"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Mã dự án"
+                    android:text="Mã dự án: "
                     android:textColor="@color/black"/>
                 <EditText
+                    android:layout_weight="4"
                     android:id="@+id/edtMaDA"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
-                android:orientation="vertical">
+                android:weightSum="6">
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_weight="2"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Tên dự án"
+                    android:text="Tên dự án: "
                     android:textColor="@color/black"/>
                 <EditText
+                    android:layout_weight="4"
                     android:id="@+id/edtTenDA"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:orientation="vertical">
+                android:layout_marginBottom="20dp">
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_weight="2"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Tên quản lý"
+                    android:text="Tên quản lý: "
                     android:textColor="@color/black"/>
                 <EditText
+                    android:layout_weight="4"
                     android:id="@+id/edtTenQuanLy"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
-                android:orientation="vertical">
+                android:weightSum="6">
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_weight="2"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="Ngày bắt đầu"
+                    android:layout_gravity="center"
                     android:textColor="@color/black"/>
-                <EditText
-                    android:id="@+id/edtNgayBatDau"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                <LinearLayout
+                    android:layout_weight="3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="3">
+                    <EditText
+                        android:layout_weight="2"
+                        android:id="@+id/edtNgayBatDau"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:inputType="datetime"
+                        />
+                    <ImageView
+                        android:id="@+id/imgShowCalender"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_calendar"
+                        />
+                </LinearLayout>
+
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -113,15 +140,17 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:weightSum="6">
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_weight="2"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Mã nhân viên tham gia"
+                    android:text="Mã nhân viên: "
                     android:textColor="@color/black"/>
                 <EditText
+                    android:layout_weight="4"
                     android:id="@+id/edtMaNV"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"/>
             </LinearLayout>
             <androidx.cardview.widget.CardView

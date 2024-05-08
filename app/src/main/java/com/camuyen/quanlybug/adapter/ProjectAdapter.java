@@ -1,28 +1,26 @@
 package com.camuyen.quanlybug.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.camuyen.quanlybug.MainActivity;
 import com.camuyen.quanlybug.R;
-import com.camuyen.quanlybug.fragment.DetailProjectFragment;
+import com.camuyen.quanlybug.firebase.DBQuanLyBug;
 import com.camuyen.quanlybug.model.Project;
-import com.camuyen.quanlybug.projects.OpenProjectActivity;
+import com.camuyen.quanlybug.model.User;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -31,10 +29,11 @@ import java.util.List;
 public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHolder> {
     List<Project> list;
     Context context;
-
+    DBQuanLyBug database;
     public ProjectAdapter(List<Project> list, Context context) {
         this.list = list;
         this.context = context;
+        database = new DBQuanLyBug();
     }
 
     @NonNull
@@ -58,8 +57,23 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHold
         holder.txtTimeStart.setText(convertToString(ngayBatDau));
         holder.txtNameProject.setText(a.getTenDuAn());
         holder.txtTienDo.setText(a.getTrangThai());
+        database.getUserInfor(new DBQuanLyBug.UserCallback() {
+            @Override
+            public void onUserLoaded(User user) {
+                String chucVu = user.getMaNhanVien().substring(0, 2);
+                System.out.println(chucVu);
+                if (chucVu.equals("QL")){
+                    holder.imgMore.setVisibility(View.VISIBLE);
+                }
 
-
+            }
+        });
+        holder.imgMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPopupMenu(v);
+            }
+        });
         holder.cardviewProject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,7 +98,25 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHold
         }
 
     }
+    private void showPopupMenu(View v) {
+        PopupMenu popupMenu = new PopupMenu(context, v);
+        popupMenu.getMenuInflater().inflate(R.menu.menu_project, popupMenu.getMenu());
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                if (item.getItemId() == R.id.mnuSuaProject){
+                    Toast.makeText(context, "Đây là meny sửa project", Toast.LENGTH_SHORT).show();
+                }else if (item.getItemId() == R.id.mnuXoaProject){
+                    Toast.makeText(context, "Đây là menu xoá", Toast.LENGTH_SHORT).show();
+                }else if (item.getItemId() == R.id.mnuCapNhat){
+                    Toast.makeText(context, "Đây là menu cập nhật", Toast.LENGTH_SHORT).show();
+                }
+                return false;
+            }
+        });
 
+        popupMenu.show();
+    }
     @Override
     public int getItemCount() {
         return list.size();
@@ -93,6 +125,7 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHold
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView txtNameProject, txtTimeStart, txtTienDo;
         CardView cardviewProject, cardviewTienDoProject;
+        ImageView imgMore;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             cardviewTienDoProject = itemView.findViewById(R.id.cardviewTienDoProject);
@@ -100,7 +133,7 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHold
             txtTimeStart = itemView.findViewById(R.id.txtTimeStart);
             cardviewProject = itemView.findViewById(R.id.cardviewProject);
             txtTienDo = itemView.findViewById(R.id.txtTienDo);
-
+            imgMore = itemView.findViewById(R.id.imgMore);
         }
 
 
