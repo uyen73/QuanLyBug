@@ -49,6 +49,7 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:33.0.0"))
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-auth:23.0.0")
+    implementation("com.google.firebase:firebase-messaging:24.0.0")
     implementation("com.google.firebase:firebase-firestore:25.0.0")
     implementation("com.google.firebase:firebase-storage:21.0.0")
     implementation ("com.etebarian:meow-bottom-navigation-java:1.2.0")
@@ -57,6 +58,7 @@ dependencies {
 
     implementation ("com.android.support:multidex:1.0.3")
     implementation ("com.google.guava:guava:30.1-jre")
+
 
 
     implementation ("com.google.api-client:google-api-client:1.23.0")

@@ -3,6 +3,8 @@ package com.camuyen.quanlybug;
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.GravityCompat;
 import androidx.core.view.ViewCompat;
@@ -10,9 +12,17 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.app.AlertDialog;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,6 +31,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.camuyen.quanlybug.adapter.ViewPagerAdapter;
+import com.camuyen.quanlybug.fcm.MyApp;
 import com.camuyen.quanlybug.firebase.DBQuanLyBug;
 import com.camuyen.quanlybug.fragment.DetailProjectFragment;
 import com.camuyen.quanlybug.login.LoginActivity;
@@ -39,18 +50,41 @@ public class MainActivity extends AppCompatActivity {
     ImageView imgToProfile, imgDrawer;
     DBQuanLyBug database;
     NavigationView navigationView;
+    private static final int NOTIFICATION_PERMISSION_REQUEST_CODE = 100;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         getWidget();
         setupViewPager();
         setupBottomNavigation();
         addAction();
-
-
+        requestNotificationPermission();
     }
+    private void requestNotificationPermission() {
+        if (!NotificationManagerCompat.from(this).areNotificationsEnabled()) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Yêu cầu quyền thông báo");
+            builder.setMessage("Ứng dụng cần quyền truy cập thông báo để hoạt động đúng. Vui lòng cấp quyền cho ứng dụng.");
+            builder.setPositiveButton("Đồng ý", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    // Chuyển người dùng đến màn hình cài đặt để cấp quyền thông báo
+                    Intent intent = new Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS);
+                    intent.putExtra(Settings.EXTRA_APP_PACKAGE, getPackageName());
+                    startActivity(intent);
+                }
+            });
+            builder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+                }
+            });
+            builder.show();
+        }
+    }
+
 
     private void getWidget(){
         drawerLayout = findViewById(R.id.drawerLayout);
@@ -176,4 +210,7 @@ public class MainActivity extends AppCompatActivity {
     public void switchToDetailProjectFragment() {
         viewPager.setCurrentItem(0, false);
     }
+
+
+
 }
