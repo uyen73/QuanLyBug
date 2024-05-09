@@ -139,9 +139,21 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(intent);
                     finish(); // Kết thúc hoạt động hiện tại
                 } else if (id == R.id.nav_add_project) {
-                    Intent intent = new Intent(MainActivity.this, AddProjectsActivity.class);
-                    startActivity(intent);
-                    drawerLayout.closeDrawers();
+                    database.getUserInfor(new DBQuanLyBug.UserCallback() {
+                        @Override
+                        public void onUserLoaded(User user) {
+                            String chucVu = user.getMaNhanVien().substring(0, 2);
+                            if (chucVu.equals("QL")){
+                                Intent intent = new Intent(MainActivity.this, AddProjectsActivity.class);
+                                startActivity(intent);
+                                drawerLayout.closeDrawers();
+                            }else {
+                                Toast.makeText(MainActivity.this, "Bạn không có quyền để thêm project", Toast.LENGTH_SHORT).show();
+                            }
+                            
+                        }
+                    });
+                    
                 }
                 return true;
             }
