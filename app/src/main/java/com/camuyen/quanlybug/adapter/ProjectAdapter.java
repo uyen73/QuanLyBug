@@ -1,6 +1,9 @@
 package com.camuyen.quanlybug.adapter;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -19,12 +22,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.camuyen.quanlybug.MainActivity;
 import com.camuyen.quanlybug.R;
 import com.camuyen.quanlybug.firebase.DBQuanLyBug;
+import com.camuyen.quanlybug.fragment.JobFragment;
 import com.camuyen.quanlybug.model.Project;
 import com.camuyen.quanlybug.model.User;
+import com.camuyen.quanlybug.projects.RepairProjectActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+
+import kotlinx.coroutines.Job;
 
 public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHolder> {
     List<Project> list;
@@ -71,7 +78,7 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHold
         holder.imgMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showPopupMenu(v);
+                showPopupMenu(v, a.getMaDuAn());
             }
         });
         holder.cardviewProject.setOnClickListener(new View.OnClickListener() {
@@ -98,24 +105,43 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHold
         }
 
     }
-    private void showPopupMenu(View v) {
+    private void showPopupMenu(View v, String maDuAn) {
         PopupMenu popupMenu = new PopupMenu(context, v);
         popupMenu.getMenuInflater().inflate(R.menu.menu_project, popupMenu.getMenu());
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 if (item.getItemId() == R.id.mnuSuaProject){
-                    Toast.makeText(context, "Đây là meny sửa project", Toast.LENGTH_SHORT).show();
-                }else if (item.getItemId() == R.id.mnuXoaProject){
-                    Toast.makeText(context, "Đây là menu xoá", Toast.LENGTH_SHORT).show();
-                }else if (item.getItemId() == R.id.mnuCapNhat){
-                    Toast.makeText(context, "Đây là menu cập nhật", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(context, RepairProjectActivity.class);
+                    intent.putExtra("maDuAn", maDuAn);
+                    context.startActivity(intent);
                 }
-                return false;
+                if (item.getItemId() == R.id.mnuXoaProject){
+                    deleteDocument(maDuAn);
+                }
+                return true;
             }
         });
 
         popupMenu.show();
+    }
+
+    public void deleteDocument(String maDuAn) {
+        // Hiển thị AlertDialog để xác nhận việc xóa
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Xác nhận xóa");
+        builder.setMessage("Bạn có chắc chắn muốn xóa tài liệu này?");
+        builder.setPositiveButton("Xóa", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Thực hiện xóa tài liệu
+                database.deleteDocumentConfirmed(context, maDuAn);
+                Intent intent = new Intent(context, MainActivity.class);
+                context.startActivity(intent);
+            }
+        });
+        builder.setNegativeButton("Hủy", null);
+        builder.show();
     }
     @Override
     public int getItemCount() {

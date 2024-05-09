@@ -1,9 +1,11 @@
 package com.camuyen.quanlybug.firebase;
 
+import android.content.Context;
 import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -52,7 +54,7 @@ public class DBQuanLyBug {
             return null;
         }
     }
-    public static String convertToString(Date date) {
+    public String convertToString(Date date) {
         if (date != null) {
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
             return dateFormat.format(date);
@@ -120,12 +122,11 @@ public class DBQuanLyBug {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         String maDuAn = document.getString("maDuAn");
                         String tenDuAn = document.getString("tenDuAn");
-                        String maNhanVien = document.getString("maNhanVien");
                         String moTa = document.getString("moTa");
                         String ngayBatDau = document.getString("ngayBatDau");
                         String tenQuanLy = document.getString("tenQuanLy");
                         String trangThai = document.getString("trangThai");
-                        Project project = new Project(maDuAn, maNhanVien, tenQuanLy, tenDuAn, moTa, convertToDate(ngayBatDau), trangThai);
+                        Project project = new Project(maDuAn, tenQuanLy, tenDuAn, moTa, convertToDate(ngayBatDau), trangThai);
                         projects.add(project);
                     }
                     callback.onProjectsLoaded(projects);
@@ -178,7 +179,6 @@ public class DBQuanLyBug {
         // Tạo một tài liệu mới với ID được chỉ định
         Map<String, Object> projectData = new HashMap<>();
         projectData.put("maDuAn", project.getMaDuAn());
-        projectData.put("maNhanVien", project.getMaNhanVien());
         projectData.put("tenQuanLy", project.getTenQuanLy());
         projectData.put("tenDuAn", project.getTenDuAn());
         projectData.put("moTa", project.getMoTa());
@@ -202,6 +202,51 @@ public class DBQuanLyBug {
                         Log.w("DB", "Error adding document", e);
                     }
                 });
+    }
+    public void updateProject(String documentID, Project project){
+        // Khởi tạo đối tượng Firestore
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference docRef = db.collection("projects").document(documentID);
+
+        // Tạo một tài liệu mới với ID được chỉ định
+        Map<String, Object> projectData = new HashMap<>();
+        projectData.put("maDuAn", project.getMaDuAn());
+        projectData.put("tenQuanLy", project.getTenQuanLy());
+        projectData.put("tenDuAn", project.getTenDuAn());
+        projectData.put("moTa", project.getMoTa());
+        projectData.put("ngayBatDau", convertToString(project.getNgayBatDau()));
+        projectData.put("trangThai", project.getTrangThai());
+
+// Sử dụng phương thức update() để cập nhật tài liệu
+        docRef.update(projectData).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            // Cập nhật thành công
+                        } else {
+                            // Xảy ra lỗi khi cập nhật
+                        }
+                    }
+                });
+    }
+    public void deleteDocumentConfirmed(Context context, String id) {
+        // Tham chiếu đến tài liệu bạn muốn xóa
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference docRef = db.collection("projects").document(id);
+        // Xóa tài liệu
+        docRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                // Xóa thành công
+                Toast.makeText(context, "Tài liệu đã được xóa", Toast.LENGTH_SHORT).show();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                // Xảy ra lỗi khi xóa
+                Toast.makeText(context, "Không thể xóa tài liệu", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
     public void getJobsInfo(JobsCallBack callback) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();

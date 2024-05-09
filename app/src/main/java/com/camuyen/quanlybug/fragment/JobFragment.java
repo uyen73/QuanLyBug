@@ -45,6 +45,11 @@ public class JobFragment extends Fragment {
         // Kết thúc chính fragment hiện tại
         getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
     }
+    @Override
+    public void onResume() {
+        super.onResume();
+        EventBus.getDefault().post(new FragmentVisibleEvent());
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -59,6 +64,14 @@ public class JobFragment extends Fragment {
     private void getWidget(View view) {
         listJobs = view.findViewById(R.id.listJobs);
         database = new DBQuanLyBug();
+        capNhatList();
+
+    }
+    private void addAction(View view){
+
+    }
+    public void capNhatList(){
+        database = new DBQuanLyBug();
         database.getJobsInfo(new DBQuanLyBug.JobsCallBack() {
             @Override
             public void onIssuesLoaded(List<Jobs> jobs) {
@@ -72,9 +85,5 @@ public class JobFragment extends Fragment {
 
             }
         });
-
-    }
-    private void addAction(View view){
-
     }
 }

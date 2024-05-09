@@ -50,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
     ImageView imgToProfile, imgDrawer;
     DBQuanLyBug database;
     NavigationView navigationView;
-    private static final int NOTIFICATION_PERMISSION_REQUEST_CODE = 100;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -210,6 +209,7 @@ public class MainActivity extends AppCompatActivity {
     public void switchToDetailProjectFragment() {
         viewPager.setCurrentItem(0, false);
     }
+
 
 
 

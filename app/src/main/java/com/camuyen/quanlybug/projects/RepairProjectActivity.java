@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -24,21 +26,26 @@ import com.camuyen.quanlybug.model.Project;
 import java.util.Calendar;
 import java.util.List;
 
-public class AddProjectsActivity extends AppCompatActivity {
+public class RepairProjectActivity extends AppCompatActivity {
     ImageView imgBackProfile;
     CardView btnAddProject;
     EditText edtMaDA, edtTenDA, edtNgayBatDau, edtMoTa, edtTenQuanLy;
+    RadioButton radioProcessing, radioDone;
+    RadioGroup radioGroup;
     DBQuanLyBug database;
     Calendar calendar;
     ImageView imgShowCalender;
+    String maDuAn = "";
+    String trangThai = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_projects);
+        setContentView(R.layout.activity_repair_project);
+        Intent intent = getIntent();
+        maDuAn = intent.getStringExtra("maDuAn");
         getWidget();
         addAction();
     }
-
     private void getWidget() {
         imgBackProfile = findViewById(R.id.imgBackProfile);
         btnAddProject = findViewById(R.id.btnAddProject);
@@ -50,20 +57,38 @@ public class AddProjectsActivity extends AppCompatActivity {
         database = new DBQuanLyBug();
         imgShowCalender = findViewById(R.id.imgShowCalender);
 
+        radioGroup = findViewById(R.id.radioGroup);
+        radioProcessing = findViewById(R.id.radioProcessing);
+        radioDone = findViewById(R.id.radioDone);
         database.getProjectsInfo(new DBQuanLyBug.ProjectsCallBack() {
             @Override
             public void onProjectsLoaded(List<Project> projects) {
-                int size = projects.size() + 1;
-                String id = "DA" + convertSoDuAn(size);
-                edtMaDA.setText(id);
-                edtMaDA.setEnabled(false);
+                Project project = new Project();
+                for (Project i : projects) {
+                    if (i.getMaDuAn().equals(maDuAn)){
+                        project = i;
+                        break;
+                    }
+                }
+                edtMaDA.setText(project.getMaDuAn());
+                edtTenDA.setText(project.getTenDuAn());
+                edtTenQuanLy.setText(project.getTenQuanLy());
+                edtNgayBatDau.setText(database.convertToString(project.getNgayBatDau()));
+                edtMoTa.setText(project.getMoTa());
+                if (project.getTrangThai().equals("Done")){
+                    radioDone.setChecked(true);
+                    trangThai = "Done";
+                } else {
+                    radioProcessing.setChecked(true);
+                    trangThai = "Processing";
+                }
             }
-
             @Override
             public void onError(Exception e) {
 
             }
         });
+
 
     }
 
@@ -80,20 +105,10 @@ public class AddProjectsActivity extends AppCompatActivity {
                 Project project;
                 if(checkBlank()){
                     project = getProject();
-                    database.getProjectsInfo(new DBQuanLyBug.ProjectsCallBack() {
-                        @Override
-                        public void onProjectsLoaded(List<Project> projects) {
-                            int size = projects.size() + 1;
-                            String id = "DA" + convertSoDuAn(size);
-                            database.addNewProject(id, project);
-                        }
-                        @Override
-                        public void onError(Exception e) {
+                    database.addNewProject(maDuAn, project);
 
-                        }
-                    });
-                    Toast.makeText(AddProjectsActivity.this, "Thành công", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(AddProjectsActivity.this, MainActivity.class);
+                    Toast.makeText(RepairProjectActivity.this, "Thành công", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(RepairProjectActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
                 }
@@ -103,6 +118,16 @@ public class AddProjectsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 showDatePickerDialog(v);
+            }
+        });
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (checkedId == R.id.radioProcessing) {
+                    trangThai = "Processing";
+                } else if (checkedId == R.id.radioDone) {
+                    trangThai = "Done";
+                }
             }
         });
 
@@ -149,7 +174,6 @@ public class AddProjectsActivity extends AppCompatActivity {
         if (moTa.isEmpty()){
             error += "mô tả | ";
         }
-
         if(error.equals("Bạn đang điền thiếu: ")){
             return true;
         }else {
@@ -164,6 +188,6 @@ public class AddProjectsActivity extends AppCompatActivity {
         String ngayBatDau = edtNgayBatDau.getText().toString();
         String moTa = edtMoTa.getText().toString();
 
-        return new Project(maDA, tenQuanLy, tenDA, moTa, database.convertToDate(ngayBatDau), "Processing");
+        return new Project(maDA, tenQuanLy, tenDA, moTa, database.convertToDate(ngayBatDau), trangThai);
     }
 }
