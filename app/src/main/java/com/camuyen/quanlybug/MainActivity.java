@@ -45,7 +45,7 @@ import com.google.firebase.auth.FirebaseAuth;
 public class MainActivity extends AppCompatActivity {
     DrawerLayout drawerLayout;
     MeowBottomNavigation bottomNavigation;
-    ViewPager2 viewPager;
+    public ViewPager2 viewPager;
     public TextView txtName, txtTitle;
     ImageView imgToProfile, imgDrawer;
     DBQuanLyBug database;
@@ -154,6 +154,10 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
                     
+                } else if (id == R.id.nav_add_bug) {
+                    Intent intent = new Intent(MainActivity.this, AddProjectsActivity.class);
+                    startActivity(intent);
+                    drawerLayout.closeDrawers();
                 }
                 return true;
             }

@@ -119,7 +119,7 @@ public class DetailProjectFragment extends Fragment {
                         list.add(a);
                     }
                 }
-                adapter = new BugAdapter(list);
+                adapter = new BugAdapter(list, getContext());
                 recyclerViewBugs.setLayoutManager(new LinearLayoutManager(getContext()));
                 recyclerViewBugs.setAdapter(adapter);
             }

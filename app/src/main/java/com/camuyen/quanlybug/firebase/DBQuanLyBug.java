@@ -229,10 +229,10 @@ public class DBQuanLyBug {
                     }
                 });
     }
-    public void deleteDocumentConfirmed(Context context, String id) {
+    public void deleteDocument(Context context, String nameFolder ,String id) {
         // Tham chiếu đến tài liệu bạn muốn xóa
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference docRef = db.collection("projects").document(id);
+        DocumentReference docRef = db.collection(nameFolder).document(id);
         // Xóa tài liệu
         docRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override

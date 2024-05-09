@@ -135,7 +135,7 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHold
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // Thực hiện xóa tài liệu
-                database.deleteDocumentConfirmed(context, maDuAn);
+                database.deleteDocument(context,"projects", maDuAn);
                 Intent intent = new Intent(context, MainActivity.class);
                 context.startActivity(intent);
             }
