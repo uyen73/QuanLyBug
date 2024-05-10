@@ -11,6 +11,8 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -41,6 +43,9 @@ public class RepairBugActivity extends AppCompatActivity {
     Button btnOK;
     Spinner spinnerDev;
     String maBug = "";
+    String trangThai = "";
+    RadioButton radioFix, radioClose;
+    RadioGroup radioGroup;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +69,10 @@ public class RepairBugActivity extends AppCompatActivity {
         edtSoBuoc = findViewById(R.id.edtSoBuoc);
         linearCacBuoc = findViewById(R.id.linearCacBuoc);
         spinnerDev = findViewById(R.id.spinnerDev);
+        radioClose = findViewById(R.id.radioClose);
+        radioFix = findViewById(R.id.radioFix);
+        radioGroup = findViewById(R.id.radioGroup);
+
 
         database = new DBQuanLyBug();
 
@@ -149,6 +158,14 @@ public class RepairBugActivity extends AppCompatActivity {
                     editText.setText(cacBuoc[i]);
                 }
 
+                if (bug.getTrangThai().equals("Fix")){
+                    radioFix.setChecked(true);
+                    trangThai = "Fix";
+                } else {
+                    radioClose.setChecked(true);
+                    trangThai = "Close";
+                }
+
             }
 
             @Override
@@ -228,6 +245,16 @@ public class RepairBugActivity extends AppCompatActivity {
                     editText.setText("Bước " + (i + 1) + ": ");
                     linearCacBuoc.addView(editText);
 
+                }
+            }
+        });
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (checkedId == R.id.radioFix) {
+                    trangThai = "Fix";
+                } else if (checkedId == R.id.radioClose) {
+                    trangThai = "Close";
                 }
             }
         });
@@ -313,7 +340,7 @@ public class RepairBugActivity extends AppCompatActivity {
             maNhanVien = selectedUser.getMaNhanVien();
         }
         return new Bugs("maBug", tenLoi, moTaLoi, "anh", cacBuoc,
-                ketQuaMongMuon, database.convertToDate(deadline), "trangthai",
+                ketQuaMongMuon, database.convertToDate(deadline), trangThai,
                 nameDev, mucDoNghiemTrong, "maVande", "maDuAn", maNhanVien,
                 database.convertToDate(deadline));
     }

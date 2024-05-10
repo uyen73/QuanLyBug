@@ -16,6 +16,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.graphics.Insets;
@@ -23,8 +24,6 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
@@ -36,6 +35,7 @@ import com.camuyen.quanlybug.model.Devices;
 import com.camuyen.quanlybug.model.Project;
 import com.camuyen.quanlybug.model.User;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -51,6 +51,14 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.RemoteMessage;
 
 import org.json.JSONObject;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class AddBugActivity extends AppCompatActivity {
     ImageView imgBackProfile, imgShowCalender;
@@ -192,67 +200,71 @@ public class AddBugActivity extends AppCompatActivity {
     }
 
     private void sendNotification(String ngGui, String ngNhan) {
-        database.getDevices(new DBQuanLyBug.DeviceCallBack() {
+        database.getUserInfor(new DBQuanLyBug.UserCallback() {
             @Override
-            public void onBugsLoaded(List<Devices> devices) {
-                for (Devices a : devices) {
-                    if (a.getMaNhanVien().equals(ngNhan)){
-                        HashMap<String, String> data = new HashMap<>();
-                        data.put("title", "Thông báo có bug");
-                        data.put("body", "Bạn có 1 bug mới");
-                        sendPushToSingleInstance(AddBugActivity.this, data, a.getToken());
-                        break;
+            public void onUserLoaded(User user) {
+                try {
+                    database.getDevices(new DBQuanLyBug.DeviceCallBack() {
+                        @Override
+                        public void onBugsLoaded(List<Devices> devices) {
+                            try {
+                                JSONObject jsonObject = new JSONObject();
+                                JSONObject notificationObj = new JSONObject();
+                                notificationObj.put("title", "Bug mới cần bạn fix");
+                                notificationObj.put("body", user.getHoTen() + " vừa thêm 1 bug cho bạn");
 
-                    }
+                                jsonObject.put("notification", notificationObj);
+                                for (Devices a : devices){
+                                    if (a.getMaNhanVien().equals(ngNhan)){
+                                        jsonObject.put("to", a.getToken());
+                                        break;
+                                    }
+                                }
+                                callAPI(jsonObject);
+                            }catch (Exception e){
+
+                            }
+
+                        }
+
+                        @Override
+                        public void onError(Exception e) {
+
+                        }
+                    });
+
+                }catch (Exception e){
+
                 }
-            }
 
-            @Override
-            public void onError(Exception e) {
 
             }
         });
-        //sendPushToSingleInstance();
+
     }
-    public static void sendPushToSingleInstance(final Context activity, final HashMap dataValue /*your data from the activity*/, final String instanceIdToken /*firebase instance token you will find in documentation that how to get this*/ ) {
-        final String url = "https://fcm.googleapis.com/fcm/send";
-        StringRequest myReq = new StringRequest(Request.Method.POST,url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Toast.makeText(activity, "Bingo Success", Toast.LENGTH_SHORT).show();
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(activity, "Oops error", Toast.LENGTH_SHORT).show();
-                    }
-                }) {
+    public void callAPI(JSONObject jsonObject){
+        MediaType JSON = MediaType.get("application/json");
 
+        OkHttpClient client = new OkHttpClient();
+        String url = "https://fcm.googleapis.com/fcm/send";
+        RequestBody body = RequestBody.create(jsonObject.toString(), JSON);
+        Request request = new Request.Builder()
+                .url(url)
+                .post(body)
+                .header("Authorization", "Bearer AAAAgaYXjzo:APA91bEWIBDwGNGMMOCIuP9WpT_OxQ3czOIOvbcn-54BlXVDZ-SkcHgophq_k35fTxaIRm3tTouqDezTAozynV9qa2qB_S7FtpO6uyd3S6f0mDAm8UhRKuDkK2KDLu7Y-yLM4OYDvk10")
+                .build();
+        client.newCall(request).enqueue(new Callback() {
             @Override
-            public byte[] getBody() throws com.android.volley.AuthFailureError {
-                Map<String, Object> rawParameters = new Hashtable();
-                rawParameters.put("data", new JSONObject(dataValue));
-                rawParameters.put("to", instanceIdToken);
-                return new JSONObject(rawParameters).toString().getBytes();
-            };
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
 
-            public String getBodyContentType()
-            {
-                return "application/json; charset=utf-8";
-            }
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
-                headers.put("Authorization", "key="+"AAAAgaYXjzo:APA91bEWIBDwGNGMMOCIuP9WpT_OxQ3czOIOvbcn-54BlXVDZ-SkcHgophq_k35fTxaIRm3tTouqDezTAozynV9qa2qB_S7FtpO6uyd3S6f0mDAm8UhRKuDkK2KDLu7Y-yLM4OYDvk10");
-                headers.put("Content-Type","application/json");
-                return headers;
             }
 
-        };
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
 
-        Volley.newRequestQueue(activity).add(myReq);
+            }
+        });
+
     }
 
     public String convertSoBug(int number) {
