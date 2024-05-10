@@ -105,7 +105,7 @@ public class RepairProjectActivity extends AppCompatActivity {
                 Project project;
                 if(checkBlank()){
                     project = getProject();
-                    database.addNewProject(maDuAn, project);
+                    database.updateProject(maDuAn, project);
 
                     Toast.makeText(RepairProjectActivity.this, "Thành công", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(RepairProjectActivity.this, MainActivity.class);

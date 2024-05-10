@@ -30,17 +30,19 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+
 }
 configurations {
     all {
         exclude(module = "guava-jdk5")
         exclude(group = "com.google.guava", module = "listenablefuture")
     }
+
 }
 dependencies {
 
     implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("com.google.android.material:material:1.11.0")
+    implementation("com.google.android.material:material:1.12.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     
     implementation("androidx.cardview:cardview:1.0.0")
@@ -53,7 +55,7 @@ dependencies {
     implementation("com.google.firebase:firebase-firestore:25.0.0")
     implementation("com.google.firebase:firebase-storage:21.0.0")
     implementation ("com.etebarian:meow-bottom-navigation-java:1.2.0")
-    implementation ("com.squareup.picasso:picasso:2.71828")
+    implementation ("com.squareup.picasso:picasso:2.8")
     implementation ("de.hdodenhof:circleimageview:3.1.0")
 
     implementation ("com.android.support:multidex:1.0.3")
@@ -69,7 +71,7 @@ dependencies {
     implementation("androidx.activity:activity:1.9.0")
     implementation("com.google.firebase:firebase-database:21.0.0")
     implementation ("org.greenrobot:eventbus:3.2.0")
-
+    implementation ("com.android.volley:volley:1.2.1")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

@@ -24,6 +24,7 @@ import com.camuyen.quanlybug.firebase.DBQuanLyBug;
 import com.camuyen.quanlybug.fragment.DetailProjectFragment;
 import com.camuyen.quanlybug.model.Bugs;
 import com.camuyen.quanlybug.model.User;
+import com.camuyen.quanlybug.projects.RepairBugActivity;
 import com.camuyen.quanlybug.projects.RepairProjectActivity;
 
 import java.text.SimpleDateFormat;
@@ -69,15 +70,7 @@ public class BugAdapter extends RecyclerView.Adapter<BugAdapter.ViewHolder> {
             holder.txtTienDo.setTextColor(Color.parseColor("#008000"));
             holder.cardviewTienDo.setCardBackgroundColor(Color.parseColor("#DFF0D8"));
         }
-        database.getUserInfor(new DBQuanLyBug.UserCallback() {
-            @Override
-            public void onUserLoaded(User user) {
-                String maNhanVien = user.getMaNhanVien().substring(0,2);
-                if (maNhanVien.equals("QL")){
-                    holder.imgMore.setVisibility(View.VISIBLE);
-                }
-            }
-        });
+
         holder.imgMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -125,10 +118,10 @@ public class BugAdapter extends RecyclerView.Adapter<BugAdapter.ViewHolder> {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 if (item.getItemId() == R.id.mnuSuaBug){
-//                    Intent intent = new Intent(context, RepairProjectActivity.class);
-//                    intent.putExtra("maBug", maBug);
-//                    context.startActivity(intent);
-                    Toast.makeText(context, "Sửa bug", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(context, RepairBugActivity.class);
+                    intent.putExtra("maBug", maBug);
+                    context.startActivity(intent);
+                    System.out.println(maBug);
                 }
                 if (item.getItemId() == R.id.mnuXoaBug){
                     deleteDocument(maBug);

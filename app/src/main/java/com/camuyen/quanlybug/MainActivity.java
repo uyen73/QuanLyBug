@@ -37,10 +37,15 @@ import com.camuyen.quanlybug.fragment.DetailProjectFragment;
 import com.camuyen.quanlybug.login.LoginActivity;
 import com.camuyen.quanlybug.model.User;
 import com.camuyen.quanlybug.profile.ProfileActivity;
+import com.camuyen.quanlybug.projects.AddBugActivity;
 import com.camuyen.quanlybug.projects.AddProjectsActivity;
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.iid.internal.FirebaseInstanceIdInternal;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 public class MainActivity extends AppCompatActivity {
     DrawerLayout drawerLayout;
@@ -59,7 +64,31 @@ public class MainActivity extends AppCompatActivity {
         setupBottomNavigation();
         addAction();
         requestNotificationPermission();
+        updateTokenUser();
+
     }
+
+    private void updateTokenUser() {
+        FirebaseMessaging.getInstance().getToken().addOnSuccessListener(new OnSuccessListener<String>() {
+            @Override
+            public void onSuccess(String s) {
+                FirebaseAuth auth = FirebaseAuth.getInstance();
+                database.getUserInfor(new DBQuanLyBug.UserCallback() {
+                    @Override
+                    public void onUserLoaded(User user) {
+                        database.getDevicesID(s, user.getMaNhanVien());
+                    }
+                });
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+            }
+        });
+    }
+
     private void requestNotificationPermission() {
         if (!NotificationManagerCompat.from(this).areNotificationsEnabled()) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -155,7 +184,7 @@ public class MainActivity extends AppCompatActivity {
                     });
                     
                 } else if (id == R.id.nav_add_bug) {
-                    Intent intent = new Intent(MainActivity.this, AddProjectsActivity.class);
+                    Intent intent = new Intent(MainActivity.this, AddBugActivity.class);
                     startActivity(intent);
                     drawerLayout.closeDrawers();
                 }

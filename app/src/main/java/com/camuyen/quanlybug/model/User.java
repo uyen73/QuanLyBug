@@ -1,5 +1,7 @@
 package com.camuyen.quanlybug.model;
 
+import androidx.annotation.NonNull;
+
 public class User {
     String maNhanVien;
     String hoTen;
@@ -64,5 +66,11 @@ public class User {
 
     public void setMatKhau(String matKhau) {
         this.matKhau = matKhau;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return hoTen + " - " + chucVu;
     }
 }

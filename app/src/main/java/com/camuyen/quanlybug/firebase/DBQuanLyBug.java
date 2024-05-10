@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
 import com.camuyen.quanlybug.model.Bugs;
+import com.camuyen.quanlybug.model.Devices;
 import com.camuyen.quanlybug.model.Jobs;
 import com.camuyen.quanlybug.model.Project;
 import com.camuyen.quanlybug.model.User;
@@ -203,6 +204,46 @@ public class DBQuanLyBug {
                     }
                 });
     }
+    public void addNewBug(String documentId, Bugs bug) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference projectsCollectionRef = db.collection("bugs");
+
+        // Tạo một tài liệu mới với ID được chỉ định
+        Map<String, Object> bugData = new HashMap<>();
+        bugData.put("maBug", bug.getMaBug());
+        bugData.put("tenBug", bug.getTenBug());
+        bugData.put("moTaLoi", bug.getMoTaLoi());
+        bugData.put("anh", bug.getAnh());
+        bugData.put("cacBuoc", bug.getCacBuoc());
+        bugData.put("ketQuaMongMuon", bug.getKetQuaMongMuon());
+        bugData.put("deadline", convertToString(bug.getDeadline()));
+        bugData.put("trangThai", bug.getTrangThai());
+        bugData.put("devFix", bug.getDevFix());
+        bugData.put("mucDoNghiemTrong", bug.getMucDoNghiemTrong());
+        bugData.put("maVanDe", bug.getMaVanDe());
+        bugData.put("maDuAn", bug.getMaDuAn());
+        bugData.put("maNhanVien", bug.getMaNhanVien());
+        bugData.put("ngayXuatHien", convertToString(bug.getNgayXuatHien()));
+
+
+        // Thêm dữ liệu vào Firestore với ID được chỉ định
+        DocumentReference documentReference = projectsCollectionRef.document(documentId);
+        documentReference.set(bugData)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        // Thành công
+                        Log.d("DB", "Document added with ID: " + documentId);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Thất bại
+                        Log.w("DB", "Error adding document", e);
+                    }
+                });
+    }
     public void updateProject(String documentID, Project project){
         // Khởi tạo đối tượng Firestore
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -217,7 +258,7 @@ public class DBQuanLyBug {
         projectData.put("ngayBatDau", convertToString(project.getNgayBatDau()));
         projectData.put("trangThai", project.getTrangThai());
 
-// Sử dụng phương thức update() để cập nhật tài liệu
+        // Sử dụng phương thức update() để cập nhật tài liệu
         docRef.update(projectData).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
@@ -228,6 +269,39 @@ public class DBQuanLyBug {
                         }
                     }
                 });
+    }
+    public void updateBug(String documentId, Bugs bug) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference docRef = db.collection("bugs").document(documentId);
+
+        // Tạo một tài liệu mới với ID được chỉ định
+        Map<String, Object> bugData = new HashMap<>();
+        bugData.put("maBug", bug.getMaBug());
+        bugData.put("tenBug", bug.getTenBug());
+        bugData.put("moTaLoi", bug.getMoTaLoi());
+        bugData.put("anh", bug.getAnh());
+        bugData.put("cacBuoc", bug.getCacBuoc());
+        bugData.put("ketQuaMongMuon", bug.getKetQuaMongMuon());
+        bugData.put("deadline", convertToString(bug.getDeadline()));
+        bugData.put("trangThai", bug.getTrangThai());
+        bugData.put("devFix", bug.getDevFix());
+        bugData.put("mucDoNghiemTrong", bug.getMucDoNghiemTrong());
+        bugData.put("maVanDe", bug.getMaVanDe());
+        bugData.put("maDuAn", bug.getMaDuAn());
+        bugData.put("maNhanVien", bug.getMaNhanVien());
+        bugData.put("ngayXuatHien", convertToString(bug.getNgayXuatHien()));
+
+        docRef.update(bugData).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    // Cập nhật thành công
+                } else {
+                    // Xảy ra lỗi khi cập nhật
+                }
+            }
+        });
+
     }
     public void deleteDocument(Context context, String nameFolder ,String id) {
         // Tham chiếu đến tài liệu bạn muốn xóa
@@ -317,6 +391,67 @@ public class DBQuanLyBug {
     }
     public interface BugsCallBack {
         void onBugsLoaded(List<Bugs> bugs);
+        void onError(Exception e);
+    }
+    public void getDevicesID(String userToken, String maNhanVien){
+        // Get a reference to the Firestore database
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        // Create a new document in the "devices" collection with the user's ID as the document ID
+        String userId = auth.getCurrentUser().getUid(); // Get the user's ID
+        String gmail = auth.getCurrentUser().getEmail();
+        DocumentReference docRef = db.collection("devices").document(userId);
+
+        // Create a Map object to hold the data
+        Map<String, Object> data = new HashMap<>();
+        data.put("token", userToken); // Add the user's FCM token to the map
+        data.put("gmail", gmail); // Add the user's email to the map
+        data.put("maNhanVien", maNhanVien);
+        // Set the data to the document in Firestore
+        docRef.set(data)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        // Document successfully written
+                        Log.d("Lỗi DB", "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Handle errors
+                        Log.w("Lỗi DB", "Error writing document", e);
+                    }
+                });
+
+    }
+    public void getDevices(DeviceCallBack callback) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference ref = db.collection("devices");
+        ref.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    List<Devices> devices = new ArrayList<>();
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        String gmail = document.getString("gmail");
+                        String token = document.getString("token");
+                        String maNhanVien = document.getString("maNhanVien");
+
+                        Devices device = new Devices(gmail, token, maNhanVien);
+                        devices.add(device);
+
+                    }
+                    callback.onBugsLoaded(devices);
+                } else {
+                    callback.onError(task.getException());
+                }
+            }
+
+        });
+    }
+    public interface DeviceCallBack {
+        void onBugsLoaded(List<Devices> devices);
         void onError(Exception e);
     }
 
