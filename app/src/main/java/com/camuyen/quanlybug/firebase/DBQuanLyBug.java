@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
 import com.camuyen.quanlybug.model.Bugs;
+import com.camuyen.quanlybug.model.Comments;
 import com.camuyen.quanlybug.model.Devices;
 import com.camuyen.quanlybug.model.Jobs;
 import com.camuyen.quanlybug.model.Project;
@@ -455,5 +456,64 @@ public class DBQuanLyBug {
         void onBugsLoaded(List<Devices> devices);
         void onError(Exception e);
     }
+    public void getComments(CommentCallBack callback, String maBug) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference ref = db.collection("bugs").document(maBug).collection("comments");
+        ref.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    List<Comments> comments = new ArrayList<>();
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        String maNhanVien = document.getString("maNhanVien");
+                        String anhDaiDien = document.getString("anhDaiDien");
+                        String noiDung = document.getString("noiDung");
 
+                        Comments comment = new Comments(maNhanVien, noiDung, anhDaiDien);
+                        comments.add(comment);
+
+                    }
+                    callback.onBugsLoaded(comments);
+                } else {
+                    callback.onError(task.getException());
+                }
+            }
+
+        });
+    }
+    public interface CommentCallBack {
+        void onBugsLoaded(List<Comments> comments);
+        void onError(Exception e);
+    }
+    public String convertMa(int number) {
+        return String.format("%03d", number);
+    }
+    public void addNewComment(String maBug, String maComment, Comments comment) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference commentCollectionRefs = db.collection("bugs").document(maBug).collection("comments");
+
+        // Tạo một tài liệu mới với ID được chỉ định
+        Map<String, Object> commentData = new HashMap<>();
+        commentData.put("maNhanVien", comment.getMaNhanVien());
+        commentData.put("anhDaiDien", comment.getAnhDaiDien());
+        commentData.put("noiDung", comment.getNoiDung());
+
+        // Thêm dữ liệu vào Firestore với ID được chỉ định
+        DocumentReference documentReference = commentCollectionRefs.document(maComment);
+        documentReference.set(commentData)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        // Thành công
+                        Log.d("DB", "Document added with ID: " + maComment);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Thất bại
+                        Log.w("DB", "Error adding document", e);
+                    }
+                });
+    }
 }

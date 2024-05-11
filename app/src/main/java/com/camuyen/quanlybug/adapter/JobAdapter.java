@@ -57,7 +57,10 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return list.size();
+        if(list != null){
+            return list.size();
+        }
+        return 0;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{

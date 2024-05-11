@@ -11,22 +11,26 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.camuyen.quanlybug.R;
+import com.camuyen.quanlybug.adapter.BugAdapter;
 import com.camuyen.quanlybug.adapter.JobAdapter;
 import com.camuyen.quanlybug.firebase.DBQuanLyBug;
+import com.camuyen.quanlybug.model.Bugs;
 import com.camuyen.quanlybug.model.Jobs;
+import com.camuyen.quanlybug.model.User;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
 public class JobFragment extends Fragment {
     RecyclerView listJobs;
     DBQuanLyBug database;
-    JobAdapter adapter;
+    BugAdapter adapter;
     @Override
     public void onStart() {
         super.onStart();
@@ -55,6 +59,7 @@ public class JobFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_job, container, false);
+        database = new DBQuanLyBug();
         getWidget(view);
         addAction(view);
 
@@ -71,13 +76,25 @@ public class JobFragment extends Fragment {
 
     }
     public void capNhatList(){
-        database = new DBQuanLyBug();
-        database.getJobsInfo(new DBQuanLyBug.JobsCallBack() {
+        database.getBugsInfo(new DBQuanLyBug.BugsCallBack() {
             @Override
-            public void onIssuesLoaded(List<Jobs> jobs) {
-                adapter = new JobAdapter(jobs);
-                listJobs.setLayoutManager(new LinearLayoutManager(getContext()));
-                listJobs.setAdapter(adapter);
+            public void onBugsLoaded(List<Bugs> bugs) {
+                database.getUserInfor(new DBQuanLyBug.UserCallback() {
+                    @Override
+                    public void onUserLoaded(User user) {
+                        List<Bugs> buglist = new ArrayList<>();
+                        String maNV = user.getMaNhanVien();
+                        for (Bugs a : bugs){
+                            if (a.getMaNhanVien().equals(maNV)){
+                                buglist.add(a);
+                            }
+                        }
+                        adapter = new BugAdapter(buglist, getContext());
+                        listJobs.setLayoutManager(new LinearLayoutManager(getContext()));
+                        listJobs.setAdapter(adapter);
+
+                    }
+                });
             }
 
             @Override
@@ -85,5 +102,8 @@ public class JobFragment extends Fragment {
 
             }
         });
+
+
+
     }
 }

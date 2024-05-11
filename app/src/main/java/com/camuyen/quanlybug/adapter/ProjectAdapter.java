@@ -145,7 +145,10 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHold
     }
     @Override
     public int getItemCount() {
-        return list.size();
+        if(list != null){
+            return list.size();
+        }
+        return 0;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

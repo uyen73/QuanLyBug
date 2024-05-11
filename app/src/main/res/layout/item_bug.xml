@@ -9,7 +9,7 @@
         app:cardCornerRadius="10dp"
         android:layout_margin="32dp"
         android:background="@color/black"
-        android:id="@+id/cardviewProject"
+        android:id="@+id/cardViewBug"
         >
         <LinearLayout
             android:layout_width="match_parent"
