@@ -31,29 +31,7 @@ public class JobFragment extends Fragment {
     RecyclerView listJobs;
     DBQuanLyBug database;
     BugAdapter adapter;
-    @Override
-    public void onStart() {
-        super.onStart();
-        EventBus.getDefault().register(this);
-    }
-
-    @Override
-    public void onStop() {
-        EventBus.getDefault().unregister(this);
-        super.onStop();
-    }
-
-    // Xử lý sự kiện khi fragment được hiển thị
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onFragmentVisible(FragmentVisibleEvent event) {
-        // Kết thúc chính fragment hiện tại
-        getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
-    }
-    @Override
-    public void onResume() {
-        super.onResume();
-        EventBus.getDefault().post(new FragmentVisibleEvent());
-    }
+    List<Bugs> buglist = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -62,20 +40,23 @@ public class JobFragment extends Fragment {
         database = new DBQuanLyBug();
         getWidget(view);
         addAction(view);
-
+        capNhatList();
         return view;
     }
 
     private void getWidget(View view) {
         listJobs = view.findViewById(R.id.listJobs);
         database = new DBQuanLyBug();
-        capNhatList();
+
 
     }
     private void addAction(View view){
 
     }
     public void capNhatList(){
+        adapter = new BugAdapter(buglist, getActivity());
+        listJobs.setLayoutManager(new LinearLayoutManager(getActivity()));
+        listJobs.setAdapter(adapter);
         database.getBugsInfo(new DBQuanLyBug.BugsCallBack() {
             @Override
             public void onBugsLoaded(List<Bugs> bugs) {
@@ -89,8 +70,8 @@ public class JobFragment extends Fragment {
                                 buglist.add(a);
                             }
                         }
-                        adapter = new BugAdapter(buglist, getContext());
-                        listJobs.setLayoutManager(new LinearLayoutManager(getContext()));
+                        adapter = new BugAdapter(buglist, getActivity());
+                        listJobs.setLayoutManager(new LinearLayoutManager(getActivity()));
                         listJobs.setAdapter(adapter);
 
                     }

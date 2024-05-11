@@ -37,24 +37,7 @@ public class NewsFragment extends Fragment {
     ProjectAdapter projectAdapter;
     List<Project> list;
     DBQuanLyBug database;
-    @Override
-    public void onStart() {
-        super.onStart();
-        EventBus.getDefault().register(this);
-    }
 
-    @Override
-    public void onStop() {
-        EventBus.getDefault().unregister(this);
-        super.onStop();
-    }
-
-    // Xử lý sự kiện khi fragment được hiển thị
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onFragmentVisible(FragmentVisibleEvent event) {
-        // Kết thúc chính fragment hiện tại
-        getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
-    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -73,8 +56,8 @@ public class NewsFragment extends Fragment {
         database.getProjectsInfo(new DBQuanLyBug.ProjectsCallBack() {
             @Override
             public void onProjectsLoaded(List<Project> projects) {
-                projectAdapter = new ProjectAdapter(projects, requireContext());
-                recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                projectAdapter = new ProjectAdapter(projects, getActivity());
+                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                 recyclerView.setAdapter(projectAdapter);
             }
 

@@ -29,24 +29,6 @@ public class PeopleFragment extends Fragment {
     RecyclerView listPeople;
     DBQuanLyBug database;
     PeopleAdapter adapter;
-    @Override
-    public void onStart() {
-        super.onStart();
-        EventBus.getDefault().register(this);
-    }
-
-    @Override
-    public void onStop() {
-        EventBus.getDefault().unregister(this);
-        super.onStop();
-    }
-
-    // Xử lý sự kiện khi fragment được hiển thị
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onFragmentVisible(FragmentVisibleEvent event) {
-        // Kết thúc chính fragment hiện tại
-        getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -58,13 +40,14 @@ public class PeopleFragment extends Fragment {
     }
     private void getWidget(View view) {
         listPeople = view.findViewById(R.id.listPeople);
-        listPeople.setLayoutManager(new LinearLayoutManager(getContext()));
+        listPeople.setLayoutManager(new LinearLayoutManager(getActivity()));
         database = new DBQuanLyBug();
 
         database.getUsers(new DBQuanLyBug.UCallBack() {
             @Override
             public void onULoaded(List<User> users) {
                 adapter = new PeopleAdapter(users);
+                listPeople.setLayoutManager(new LinearLayoutManager(getActivity()));
                 listPeople.setAdapter(adapter);
             }
 

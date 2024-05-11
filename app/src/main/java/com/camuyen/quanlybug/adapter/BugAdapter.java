@@ -84,7 +84,8 @@ public class BugAdapter extends RecyclerView.Adapter<BugAdapter.ViewHolder> {
         holder.cardViewBug.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, DetailBugActivity.class);
+                Intent intent = new Intent(context.getApplicationContext(), DetailBugActivity.class);
+                System.out.println("Test bug" +  bug.getMaBug());
                 intent.putExtra("maBug", bug.getMaBug());
                 context.startActivity(intent);
 

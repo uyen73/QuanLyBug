@@ -14,7 +14,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Thêm mới project"
+        android:text="Chỉnh sửa thông tin cá nhân"
         android:layout_margin="32dp"
         android:layout_centerHorizontal="true"
         android:textSize="22sp"
@@ -34,7 +34,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
+            android:layout_gravity="center"
             android:orientation="vertical">
             <LinearLayout
                 android:layout_width="match_parent"
@@ -43,11 +43,10 @@
                 android:orientation="horizontal"
                 >
                 <EditText
-
                     android:id="@+id/edtMaDA"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
-                    android:hint="Mã dự án"
+                    android:hint="Tên đầy đủ của bạn"
                     android:paddingStart="12dp"
                     android:paddingEnd="12dp"
                     android:background="@drawable/custom_edit_text_rounded"
@@ -62,7 +61,7 @@
                     android:id="@+id/edtTenDA"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
-                    android:hint="Tên dự án"
+                    android:hint="Chức vụ"
                     android:paddingStart="12dp"
                     android:paddingEnd="12dp"
                     android:background="@drawable/custom_edit_text_rounded"
@@ -77,43 +76,11 @@
                     android:id="@+id/edtTenQuanLy"
                     android:layout_width="0dp"
                     android:layout_height="60dp"
-                    android:hint="Tên quản lý"
+                    android:hint="SĐT"
                     android:paddingStart="12dp"
                     android:paddingEnd="12dp"
                     android:background="@drawable/custom_edit_text_rounded"
                     />
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:weightSum="6">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:weightSum="3">
-                    <EditText
-                        android:layout_weight="2"
-                        android:id="@+id/edtNgayBatDau"
-                        android:layout_width="0dp"
-                        android:inputType="datetime"
-                        android:layout_height="60dp"
-                        android:hint="Mã dự án"
-                        android:paddingStart="12dp"
-                        android:paddingEnd="12dp"
-                        android:background="@drawable/custom_edit_text_rounded"
-                        />
-                    <ImageView
-                        android:id="@+id/imgShowCalender"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_calendar"
-                        />
-                </LinearLayout>
-
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -125,7 +92,7 @@
                     android:id="@+id/edtMoTa"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
-                    android:hint="Mã dự án"
+                    android:hint="Gmail"
                     android:paddingStart="12dp"
                     android:paddingEnd="12dp"
                     android:background="@drawable/custom_edit_text_rounded"/>
@@ -136,6 +103,7 @@
                 android:layout_height="50dp"
                 android:layout_margin="32dp"
                 app:cardCornerRadius="10dp"
+                android:layout_gravity="center_horizontal"
                 >
                 <TextView
                     android:layout_width="wrap_content"

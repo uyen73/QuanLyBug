@@ -74,13 +74,15 @@ public class DBQuanLyBug {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 if (documentSnapshot.exists()) {
+                    String uid = documentSnapshot.getString("uid");
                     String hoTen = documentSnapshot.getString("hoTen");
                     String maNhanVien = documentSnapshot.getString("maNhanVien");
+                    String ten = documentSnapshot.getString("ten");
                     String chucVu = documentSnapshot.getString("chucVu");
                     String soDienThoai = documentSnapshot.getString("soDienThoai");
                     String gmail = documentSnapshot.getString("gmail");
                     String matKhau = documentSnapshot.getString("matKhau");
-                    User user = new User(maNhanVien, hoTen, chucVu, soDienThoai, gmail, matKhau);
+                    User user = new User(uid, maNhanVien, ten, hoTen, chucVu, soDienThoai, gmail, matKhau);
                     callback.onUserLoaded(user);
                 } else {
                     Log.d("Lỗi DB", "Không tìm thấy thông tin người dùng cho UID: " + uid);
@@ -167,13 +169,15 @@ public class DBQuanLyBug {
                 if (task.isSuccessful()) {
                     List<User> users = new ArrayList<>();
                     for (QueryDocumentSnapshot document : task.getResult()) {
+                        String uid = document.getString("uid");
                         String hoTen = document.getString("hoTen");
                         String maNhanVien = document.getString("maNhanVien");
+                        String ten = document.getString("ten");
                         String chucVu = document.getString("chucVu");
                         String soDienThoai = document.getString("soDienThoai");
                         String gmail = document.getString("gmail");
                         String matKhau = document.getString("matKhau");
-                        User user = new User(maNhanVien, hoTen, chucVu, soDienThoai, gmail, matKhau);
+                        User user = new User(uid, maNhanVien, ten, hoTen, chucVu, soDienThoai, gmail, matKhau);
                         users.add(user);
 
                     }

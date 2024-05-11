@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
         database.getUserInfor(new DBQuanLyBug.UserCallback() {
             @Override
             public void onUserLoaded(User user) {
-                txtName.setText(user.getHoTen());
+                txtName.setText(user.getTen());
             }
         });
     }

@@ -128,7 +128,7 @@ public class DetailBugActivity extends AppCompatActivity {
         imgBackDetailBug.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                getOnBackPressedDispatcher().onBackPressed();
             }
         });
 

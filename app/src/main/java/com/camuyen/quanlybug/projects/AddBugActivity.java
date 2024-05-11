@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -187,16 +188,31 @@ public class AddBugActivity extends AppCompatActivity {
 
                 // Tạo và thêm các EditText vào LinearLayout
                 for (int i = 0; i < numberOfRows; i++) {
-                    EditText editText = new EditText(AddBugActivity.this);
-                    editText.setLayoutParams(new LinearLayout.LayoutParams(
-                            LinearLayout.LayoutParams.MATCH_PARENT,
-                            LinearLayout.LayoutParams.WRAP_CONTENT));
-                    editText.setHint("Bước " + (i + 1));
+                    EditText editText = getEditText(i);
                     linearCacBuoc.addView(editText);
                 }
             }
         });
 
+    }
+
+    @NonNull
+    private EditText getEditText(int i) {
+        EditText editText = new EditText(AddBugActivity.this);
+
+
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,  // chiều rộng
+                LinearLayout.LayoutParams.WRAP_CONTENT, 60// chiều cao
+        );
+
+        int marginInDp = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20, getResources().getDisplayMetrics()); // Chuyển dp sang px
+        int paddingInDp = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, getResources().getDisplayMetrics()); // Chuyển dp sang px
+        layoutParams.setMargins(0, 0, 0, marginInDp);
+        editText.setLayoutParams(layoutParams);
+        editText.setHint("Bước " + (i + 1));
+        editText.setBackgroundResource(R.drawable.custom_edit_text_rounded);
+        return editText;
     }
 
     private void sendNotification(String ngGui, String ngNhan) {

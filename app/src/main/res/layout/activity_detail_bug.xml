@@ -175,7 +175,9 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:hint="Nhập comment tại đây"
-                    android:layout_gravity="center"
+
+                    android:background="@drawable/custom_edit_text_rounded"
+
                     />
                 <ImageView
                     android:layout_weight="1"

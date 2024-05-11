@@ -119,8 +119,8 @@ public class DetailProjectFragment extends Fragment {
                         list.add(a);
                     }
                 }
-                adapter = new BugAdapter(list, getContext());
-                recyclerViewBugs.setLayoutManager(new LinearLayoutManager(getContext()));
+                adapter = new BugAdapter(list, getActivity());
+                recyclerViewBugs.setLayoutManager(new LinearLayoutManager(getActivity()));
                 recyclerViewBugs.setAdapter(adapter);
             }
 
