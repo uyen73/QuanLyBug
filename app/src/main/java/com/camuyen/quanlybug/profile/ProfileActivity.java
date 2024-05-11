@@ -1,13 +1,22 @@
 package com.camuyen.quanlybug.profile;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -21,13 +30,15 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
 public class ProfileActivity extends AppCompatActivity {
-    ImageView imgBackProfile, imgProfile;
+    ImageView imgBackProfile, imgProfile, imgEditImageProfile;
     TextView txtEmailAndPhoneNumber, txtName;
     FirebaseAuth auth;
     DBQuanLyBug database;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,11 +52,14 @@ public class ProfileActivity extends AppCompatActivity {
         imgProfile = findViewById(R.id.imgProfile);
         txtEmailAndPhoneNumber = findViewById(R.id.txtEmailAndPhoneNumber);
         txtName = findViewById(R.id.txtName);
+        imgEditImageProfile = findViewById(R.id.imgEditImageProfile);
 
         auth = FirebaseAuth.getInstance();
         database = new DBQuanLyBug();
 
     }
+
+
     private void addAction(){
         imgBackProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,6 +76,50 @@ public class ProfileActivity extends AppCompatActivity {
                 String name = user.getHoTen();
                 txtName.setText(name);
             }
+        });
+        imgEditImageProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Mở Intent để chọn ảnh từ thư viện
+                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                pickImageLauncher.launch(intent);
+            }
+        });
+    }
+    ActivityResultLauncher<Intent> pickImageLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
+                        // Lấy URI của ảnh từ Intent
+                        Uri imageUri = result.getData().getData();
+
+                        // Tạo tên file cho ảnh dựa trên ID của người dùng
+                        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                        String fileName = userId + ".jpg";
+
+                        // Thực hiện upload ảnh lên Firebase Storage
+                        uploadImage(imageUri, fileName);
+                    }
+                }
+            });
+
+    private void uploadImage(Uri imageUri, String fileName) {
+        // Tham chiếu đến thư mục trong Firebase Storage
+        StorageReference storageRef = FirebaseStorage.getInstance().getReference().child("Images/" + fileName);
+
+        // Upload ảnh lên Firebase Storage
+        UploadTask uploadTask = storageRef.putFile(imageUri);
+        uploadTask.addOnSuccessListener(taskSnapshot -> {
+            // Ảnh đã được upload thành công, lấy URL của ảnh
+            storageRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                String imageUrl = uri.toString();
+                // Hiển thị ảnh trong ImageView
+                Picasso.get().load(imageUrl).into(imgProfile);
+            });
+        }).addOnFailureListener(exception -> {
+            // Xảy ra lỗi khi upload ảnh
+            Toast.makeText(this, "Upload failed: " + exception.getMessage(), Toast.LENGTH_SHORT).show();
         });
     }
 }

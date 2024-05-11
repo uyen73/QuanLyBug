@@ -38,6 +38,7 @@ public class PeopleAdapter extends RecyclerView.Adapter<PeopleAdapter.ViewHolder
         holder.txtNamePeople.setText(a.getHoTen());
         holder.txtPosition.setText(a.getChucVu());
 
+
     }
 
     @Override

@@ -113,6 +113,21 @@ public class DBQuanLyBug {
             }
         });
     }
+    public void setImagePeopleProfile(String userId, ImageView imgProfile){
+        String path = "Images/" + userId + ".jpg";
+        StorageReference storageRef = FirebaseStorage.getInstance().getReference().child(path);
+        storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Picasso.get().load(uri).into(imgProfile);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+            }
+        });
+    }
     public void getProjectsInfo(ProjectsCallBack callback) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference projectsRef = db.collection("projects");
