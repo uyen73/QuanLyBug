@@ -54,7 +54,7 @@
         android:layout_below="@id/linearProject"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Các vấn đề: "
+        android:text="Các bugs: "
         android:textSize="16sp"
         android:textColor="@color/black"
         android:layout_marginStart="32dp"

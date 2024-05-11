@@ -26,9 +26,11 @@ import androidx.core.view.WindowInsetsCompat;
 import com.camuyen.quanlybug.MainActivity;
 import com.camuyen.quanlybug.R;
 import com.camuyen.quanlybug.firebase.DBQuanLyBug;
+import com.camuyen.quanlybug.model.BugStatus;
 import com.camuyen.quanlybug.model.Bugs;
 import com.camuyen.quanlybug.model.User;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -36,24 +38,26 @@ import java.util.List;
 public class RepairBugActivity extends AppCompatActivity {
     ImageView imgBackProfile, imgShowCalender;
     EditText edtTenLoi, edtMucDoNghiemTrong, edtDeadline, edtMoTaLoi, edtSoBuoc, edtKetQuaMongMuon;
-    CardView btnAddBug;
+    CardView btnSuaBug;
     DBQuanLyBug database;
     Calendar calendar;
     LinearLayout linearCacBuoc;
     Button btnOK;
-    Spinner spinnerDev;
+    Spinner spinnerDev, spinnerTrangThai;
     String maBug = "";
-    String trangThai = "";
-    RadioButton radioFix, radioClose;
-    RadioGroup radioGroup;
+    List<BugStatus> bugStatusList = new ArrayList<>();
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_repair_bug);
+        addColorStatus();
         Intent intent = getIntent();
         maBug = intent.getStringExtra("maBug");
         getWidget();
         addAction();
+
 
     }
     private void getWidget() {
@@ -64,14 +68,23 @@ public class RepairBugActivity extends AppCompatActivity {
         edtKetQuaMongMuon = findViewById(R.id.edtKetQuaMongMuon);
         edtDeadline = findViewById(R.id.edtDeadline);
         edtMoTaLoi = findViewById(R.id.edtMoTaLoi);
-        btnAddBug = findViewById(R.id.btnAddBug);
+        btnSuaBug = findViewById(R.id.btnSuaBug);
         btnOK = findViewById(R.id.btnOK);
         edtSoBuoc = findViewById(R.id.edtSoBuoc);
         linearCacBuoc = findViewById(R.id.linearCacBuoc);
         spinnerDev = findViewById(R.id.spinnerDev);
-        radioClose = findViewById(R.id.radioClose);
-        radioFix = findViewById(R.id.radioFix);
-        radioGroup = findViewById(R.id.radioGroup);
+        spinnerTrangThai = findViewById(R.id.spinnerTrangThai);
+
+
+
+
+
+
+        // Tạo Adapter cho Spinner
+        ArrayAdapter<BugStatus> adapter = new ArrayAdapter<>(RepairBugActivity.this, android.R.layout.simple_spinner_item, bugStatusList);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Gắn Adapter với Spinner
+        spinnerTrangThai.setAdapter(adapter);
 
 
         database = new DBQuanLyBug();
@@ -157,14 +170,18 @@ public class RepairBugActivity extends AppCompatActivity {
                     linearCacBuoc.addView(editText);
                     editText.setText(cacBuoc[i]);
                 }
+                for (int i = 0; i < spinnerTrangThai.getCount(); i++) {
+                    BugStatus currentBugStatus = (BugStatus) spinnerTrangThai.getItemAtPosition(i);
 
-                if (bug.getTrangThai().equals("Fix")){
-                    radioFix.setChecked(true);
-                    trangThai = "Fix";
-                } else {
-                    radioClose.setChecked(true);
-                    trangThai = "Close";
+                    String status = currentBugStatus.getStatus();
+                    if (status.equals(bug.getTrangThai())) {
+                        System.out.println(status);
+                        System.out.println(bug.getTrangThai());
+                        spinnerTrangThai.setSelection(i);
+                        break;
+                    }
                 }
+
 
             }
 
@@ -174,6 +191,16 @@ public class RepairBugActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void addColorStatus() {
+        bugStatusList.add(new BugStatus("New", "#fed0ca", "#8f202a"));
+        bugStatusList.add(new BugStatus("Open", "#fed0ca", "#4f7398"));
+        bugStatusList.add(new BugStatus("Fix", "#d3edbc", "#3f6c3f"));
+        bugStatusList.add(new BugStatus("Pending", "#18a034", "#c0f8cf"));
+        bugStatusList.add(new BugStatus("Reopen", "#f14747", "#ffe1e1"));
+        bugStatusList.add(new BugStatus("Close", "#8d8586", "#f9f8f1"));
+        bugStatusList.add(new BugStatus("Rejected", "#e6e6e6", "#645d63"));
     }
 
     private void addAction() {
@@ -189,7 +216,7 @@ public class RepairBugActivity extends AppCompatActivity {
                 showDatePickerDialog(v);
             }
         });
-        btnAddBug.setOnClickListener(new View.OnClickListener() {
+        btnSuaBug.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Bugs bug;
@@ -203,10 +230,10 @@ public class RepairBugActivity extends AppCompatActivity {
 
                             bug.setMaBug(maBug);
                             bug.setMaDuAn(maDuAn);
-                            bug.setTrangThai("Fix");
+
                             Date date = Calendar.getInstance().getTime();
                             bug.setNgayXuatHien(date);
-
+                            System.out.println(maBug);
                             database.updateBug(maBug, bug);
                             System.out.println(database.convertToString(date));
 
@@ -248,16 +275,7 @@ public class RepairBugActivity extends AppCompatActivity {
                 }
             }
         });
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                if (checkedId == R.id.radioFix) {
-                    trangThai = "Fix";
-                } else if (checkedId == R.id.radioClose) {
-                    trangThai = "Close";
-                }
-            }
-        });
+
 
     }
 
@@ -320,6 +338,7 @@ public class RepairBugActivity extends AppCompatActivity {
         String cacBuoc = "";
         String nameDev = "";
         String maNhanVien = "";
+        String trangThai = "";
         // Lặp qua tất cả các EditText trong LinearLayout
         for (int i = 0; i < linearCacBuoc.getChildCount(); i++) {
             View view = linearCacBuoc.getChildAt(i);
@@ -338,6 +357,11 @@ public class RepairBugActivity extends AppCompatActivity {
         if (selectedUser != null){
             nameDev = selectedUser.getHoTen();
             maNhanVien = selectedUser.getMaNhanVien();
+        }
+
+        BugStatus bugStatus = (BugStatus)  spinnerTrangThai.getSelectedItem();
+        if (bugStatus != null){
+            trangThai = bugStatus.getStatus();
         }
         return new Bugs("maBug", tenLoi, moTaLoi, "anh", cacBuoc,
                 ketQuaMongMuon, database.convertToDate(deadline), trangThai,

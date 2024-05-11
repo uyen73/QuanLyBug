@@ -22,6 +22,7 @@ import com.camuyen.quanlybug.MainActivity;
 import com.camuyen.quanlybug.R;
 import com.camuyen.quanlybug.firebase.DBQuanLyBug;
 import com.camuyen.quanlybug.fragment.DetailProjectFragment;
+import com.camuyen.quanlybug.model.BugStatus;
 import com.camuyen.quanlybug.model.Bugs;
 import com.camuyen.quanlybug.model.User;
 import com.camuyen.quanlybug.projects.RepairBugActivity;
@@ -63,13 +64,29 @@ public class BugAdapter extends RecyclerView.Adapter<BugAdapter.ViewHolder> {
         holder.txtThoiGianTao.setText(convertToString(thoiGianTao));
 
         String tienDo = bug.getTrangThai();
-        if (tienDo.equals("Fix")){
-            holder.txtTienDo.setTextColor(Color.parseColor("#333333"));
-            holder.cardviewTienDo.setCardBackgroundColor(Color.parseColor("#F2F2F2"));
-        }else if (tienDo.equals("Close")) {
-            holder.txtTienDo.setTextColor(Color.parseColor("#008000"));
-            holder.cardviewTienDo.setCardBackgroundColor(Color.parseColor("#DFF0D8"));
+        BugStatus bugStatus = new BugStatus();
+        List<BugStatus> bugStatusList = bugStatus.getBugStatusList();
+//
+//        bugStatusList.add(new BugStatus("New", "#fed0ca", "#8f202a"));
+//        bugStatusList.add(new BugStatus("Open", "#fed0ca", "#4f7398"));
+//        bugStatusList.add(new BugStatus("Fix", "#d3edbc", "#3f6c3f"));
+//        bugStatusList.add(new BugStatus("Pending", "#18a034", "#c0f8cf"));
+//        bugStatusList.add(new BugStatus("Reopen", "#f14747", "#ffe1e1"));
+//        bugStatusList.add(new BugStatus("Close", "#8d8586", "#f9f8f1"));
+//        bugStatusList.add(new BugStatus("Rejected", "#e6e6e6", "#645d63"));
+        for (BugStatus a : bugStatusList) {
+            if (tienDo.equals(a.getStatus())){
+                holder.txtTienDo.setTextColor(Color.parseColor(a.getText()));
+                holder.cardviewTienDo.setCardBackgroundColor(Color.parseColor(a.getBackground()));
+            }
         }
+//        if (tienDo.equals("Fix")){
+//            holder.txtTienDo.setTextColor(Color.parseColor("#333333"));
+//            holder.cardviewTienDo.setCardBackgroundColor(Color.parseColor("#F2F2F2"));
+//        }else if (tienDo.equals("Close")) {
+//            holder.txtTienDo.setTextColor(Color.parseColor("#008000"));
+//            holder.cardviewTienDo.setCardBackgroundColor(Color.parseColor("#DFF0D8"));
+//        }
 
         holder.imgMore.setOnClickListener(new View.OnClickListener() {
             @Override

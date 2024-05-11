@@ -284,6 +284,7 @@ public class DBQuanLyBug {
         bugData.put("ketQuaMongMuon", bug.getKetQuaMongMuon());
         bugData.put("deadline", convertToString(bug.getDeadline()));
         bugData.put("trangThai", bug.getTrangThai());
+        System.out.println("Test" + bug.getTrangThai());
         bugData.put("devFix", bug.getDevFix());
         bugData.put("mucDoNghiemTrong", bug.getMucDoNghiemTrong());
         bugData.put("maVanDe", bug.getMaVanDe());
@@ -295,9 +296,9 @@ public class DBQuanLyBug {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
-                    // Cập nhật thành công
+                    System.out.println("Thành công");
                 } else {
-                    // Xảy ra lỗi khi cập nhật
+                    System.out.println("Thất bại");
                 }
             }
         });

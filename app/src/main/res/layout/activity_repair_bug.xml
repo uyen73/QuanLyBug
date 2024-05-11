@@ -159,7 +159,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
             </LinearLayout>
-            <RadioGroup
+            <LinearLayout
                 android:id="@+id/radioGroup"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
@@ -167,25 +167,19 @@
                 android:layout_marginBottom="20dp"
                 android:weightSum="6">
                 <TextView
-                    android:layout_weight="2"
-                    android:layout_width="wrap_content"
+                    android:layout_weight="3"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="Trạng thái: "
                     android:textColor="@color/black"/>
-                <RadioButton
-                    android:layout_weight="2"
-                    android:id="@+id/radioFix"
-                    android:layout_width="wrap_content"
+                <Spinner
+                    android:id="@+id/spinnerTrangThai"
+                    android:layout_weight="3"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Fix" />
 
-                <RadioButton
-                    android:layout_weight="2"
-                    android:id="@+id/radioClose"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Close" />
-            </RadioGroup>
+                    />
+            </LinearLayout>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -223,7 +217,7 @@
             </LinearLayout>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/btnAddBug"
+                android:id="@+id/btnSuaBug"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginEnd="100dp"
