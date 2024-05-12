@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -23,147 +24,172 @@
         android:textStyle="bold"
         />
     <LinearLayout
-        android:layout_below="@id/title"
-        android:id="@+id/linearProject"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="32dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="16dp"
-
-        android:orientation="vertical">
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardviewMoTa"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="20dp"
-            >
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-
-                >
-                <TextView
-                    android:id="@+id/txtMoTaBug"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Mô tả bug: "
-                    android:textSize="16sp"
-                    android:textColor="@color/black"
-                    android:padding="15dp"
-                    />
-                <TextView
-                    android:visibility="gone"
-                    android:id="@+id/txtChiTietMoTaBug"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Đây là mô tả của dự án, dự án này nói về: ....................."
-                    android:textSize="16sp"
-                    android:textColor="@color/black"
-                    android:padding="15dp"
-                    />
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linerAssignment"
-        android:layout_below="@id/linearProject"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        android:weightSum="8"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_weight="3"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Assignment: "
-            android:textSize="16sp"
-            android:textColor="@color/black"
-
-            />
-        <TextView
-            android:padding="10dp"
-            android:layout_weight="5"
-            android:id="@+id/txtAssignment"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Tên người được phân công"
-            android:textSize="16sp"
-            android:textColor="@color/black"
-            />
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/linerTrangThai"
-        android:layout_below="@id/linerAssignment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="16dp"
-        android:weightSum="8"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_weight="3"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Trạng thái:  "
-            android:textSize="16sp"
-            android:textColor="@color/black"
-
-            />
-        <TextView
-            android:layout_weight="5"
-            android:id="@+id/txtTrangThai"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Trạng thái"
-            android:textSize="16sp"
-            android:padding="10dp"
-            android:textColor="@color/black"
-            />
-    </LinearLayout>
-    <TextView
-        android:id="@+id/text"
-        android:layout_below="@+id/linerTrangThai"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="16dp"
-        android:text="Comment: "
-        android:textSize="16sp"
-        android:textColor="@color/black"
-        />
-    <LinearLayout
-        android:layout_below="@+id/text"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
         android:orientation="vertical"
-        android:weightSum="8">
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_weight="7"
-            android:id="@+id/recycleViewComment"
+        android:layout_below="@id/title"
+        >
+        <ScrollView
+            android:layout_weight="13"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="0dp">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+                <ImageView
+                    android:id="@+id/imgAnhBug"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_margin="20dp"
+                    android:src="@mipmap/ic_launcher"
+                    />
+                <LinearLayout
+                    android:layout_below="@id/imgAnhBug"
+                    android:id="@+id/linearProject"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="32dp"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginEnd="16dp"
 
-            >
-        </androidx.recyclerview.widget.RecyclerView>
+                    android:orientation="vertical">
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardviewMoTa"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:cardCornerRadius="20dp"
+                        >
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+
+                            >
+                            <TextView
+                                android:id="@+id/txtMoTaBug"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Mô tả bug: "
+                                android:textSize="16sp"
+                                android:textColor="@color/black"
+                                android:padding="15dp"
+                                />
+                            <TextView
+                                android:visibility="gone"
+                                android:id="@+id/txtChiTietMoTaBug"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Đây là mô tả của dự án, dự án này nói về: ....................."
+                                android:textSize="16sp"
+                                android:textColor="@color/black"
+                                android:padding="15dp"
+                                />
+                        </LinearLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linerAssignment"
+                    android:layout_below="@id/linearProject"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginEnd="32dp"
+                    android:weightSum="8"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_weight="3"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="Assignment: "
+                        android:textSize="16sp"
+                        android:textColor="@color/black"
+
+                        />
+                    <TextView
+                        android:padding="10dp"
+                        android:layout_weight="5"
+                        android:id="@+id/txtAssignment"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="Tên người được phân công"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"
+                        />
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/linerTrangThai"
+                    android:layout_below="@id/linerAssignment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginEnd="32dp"
+                    android:layout_marginBottom="16dp"
+                    android:weightSum="8"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_weight="3"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="Trạng thái:  "
+                        android:textSize="16sp"
+                        android:textColor="@color/black"
+
+                        />
+                    <TextView
+                        android:layout_weight="5"
+                        android:id="@+id/txtTrangThai"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="Trạng thái"
+                        android:textSize="16sp"
+                        android:padding="10dp"
+                        android:textColor="@color/black"
+                        />
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/text"
+                    android:layout_below="@+id/linerTrangThai"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginEnd="32dp"
+                    android:layout_marginBottom="16dp"
+                    android:text="Comment: "
+                    android:textSize="16sp"
+                    android:textColor="@color/black"
+                    />
+                <LinearLayout
+                    android:layout_below="@+id/text"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginEnd="32dp"
+                    android:orientation="vertical"
+                    >
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycleViewComment"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+
+                        >
+                    </androidx.recyclerview.widget.RecyclerView>
+
+                </LinearLayout>
+            </RelativeLayout>
+        </ScrollView>
         <androidx.cardview.widget.CardView
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:cardCornerRadius="10dp"
-            android:layout_marginBottom="20dp">
+            android:layout_margin="20dp"
+            android:layout_alignParentBottom="true">
             <LinearLayout
                 android:weightSum="5"
                 android:layout_width="match_parent"
@@ -175,7 +201,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:hint="Nhập comment tại đây"
-
                     android:background="@drawable/custom_edit_text_rounded"
 
                     />
@@ -188,13 +213,11 @@
                     android:layout_gravity="center_vertical"
                     android:padding="10dp"
                     />
-
             </LinearLayout>
-
-
         </androidx.cardview.widget.CardView>
-
-
     </LinearLayout>
+
+
+
 
 </RelativeLayout>

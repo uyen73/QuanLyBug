@@ -1,10 +1,13 @@
 package com.camuyen.quanlybug.projects;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -17,6 +20,10 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -50,6 +57,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import com.google.firebase.messaging.RemoteMessage;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
 
@@ -62,7 +73,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class AddBugActivity extends AppCompatActivity {
-    ImageView imgBackProfile, imgShowCalender;
+    ImageView imgBackProfile, imgShowCalender, imgAnhBug;
     EditText edtTenLoi, edtMucDoNghiemTrong, edtDeadline, edtMoTaLoi, edtSoBuoc, edtKetQuaMongMuon;
     CardView btnAddBug;
     DBQuanLyBug database;
@@ -93,6 +104,7 @@ public class AddBugActivity extends AppCompatActivity {
         edtSoBuoc = findViewById(R.id.edtSoBuoc);
         linearCacBuoc = findViewById(R.id.linearCacBuoc);
         spinnerDev = findViewById(R.id.spinnerDev);
+        imgAnhBug = findViewById(R.id.imgAnhBug);
 
         database = new DBQuanLyBug();
 
@@ -191,6 +203,14 @@ public class AddBugActivity extends AppCompatActivity {
                     EditText editText = getEditText(i);
                     linearCacBuoc.addView(editText);
                 }
+            }
+        });
+        imgAnhBug.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Mở Intent để chọn ảnh từ thư viện
+                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                pickImageLauncher.launch(intent);
             }
         });
 
@@ -358,12 +378,59 @@ public class AddBugActivity extends AppCompatActivity {
         }
         User selectedUser = (User)  spinnerDev.getSelectedItem();
         if (selectedUser != null){
-            nameDev = selectedUser.getHoTen();
+            nameDev = selectedUser.getTen();
             maNhanVien = selectedUser.getMaNhanVien();
         }
         return new Bugs("maBug", tenLoi, moTaLoi, "anh", cacBuoc,
                 ketQuaMongMuon, database.convertToDate(deadline), "trangthai",
                 nameDev, mucDoNghiemTrong, "maVande", "maDuAn", maNhanVien,
                 database.convertToDate(deadline));
+    }
+    ActivityResultLauncher<Intent> pickImageLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
+                        // Lấy URI của ảnh từ Intent
+                        Uri imageUri = result.getData().getData();
+                        database.getBugsInfo(new DBQuanLyBug.BugsCallBack() {
+                            @Override
+                            public void onBugsLoaded(List<Bugs> bugs) {
+                                int size = bugs.size() + 1;
+                                String id = "BUG" + convertSoBug(size);
+                                String fileName = id + ".jpg";
+
+                                // Thực hiện upload ảnh lên Firebase Storage
+                                uploadImage(imageUri, fileName);
+
+                            }
+
+                            @Override
+                            public void onError(Exception e) {
+
+                            }
+                        });
+
+                    }
+                }
+            });
+
+    private void uploadImage(Uri imageUri, String fileName) {
+        // Tham chiếu đến thư mục trong Firebase Storage
+        StorageReference storageRef = FirebaseStorage.getInstance().getReference().child("Bugs/" + fileName);
+
+        // Upload ảnh lên Firebase Storage
+        UploadTask uploadTask = storageRef.putFile(imageUri);
+        uploadTask.addOnSuccessListener(taskSnapshot -> {
+            // Ảnh đã được upload thành công, lấy URL của ảnh
+            storageRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                String imageUrl = uri.toString();
+                // Hiển thị ảnh trong ImageView
+                Picasso.get().load(imageUrl).into(imgAnhBug);
+            });
+        }).addOnFailureListener(exception -> {
+            // Xảy ra lỗi khi upload ảnh
+            Toast.makeText(this, "Upload failed: " + exception.getMessage(), Toast.LENGTH_SHORT).show();
+        });
     }
 }

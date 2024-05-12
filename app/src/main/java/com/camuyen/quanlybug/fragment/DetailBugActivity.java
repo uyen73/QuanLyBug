@@ -2,6 +2,7 @@ package com.camuyen.quanlybug.fragment;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -24,6 +25,11 @@ import com.camuyen.quanlybug.model.Bugs;
 import com.camuyen.quanlybug.model.Comments;
 import com.camuyen.quanlybug.model.Devices;
 import com.camuyen.quanlybug.model.User;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
 
@@ -41,7 +47,7 @@ import okhttp3.Response;
 public class DetailBugActivity extends AppCompatActivity {
     RecyclerView recycleViewComment;
     TextView txtMoTaBug, txtChiTietMoTaBug, txtAssignment, txtTrangThai, text;
-    ImageView imgBackDetailBug, imgSendComment;
+    ImageView imgBackDetailBug, imgSendComment, imgAnhBug;
     String maBug = "";
     DBQuanLyBug database;
     CommentAdapter commentAdapter;
@@ -52,6 +58,7 @@ public class DetailBugActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail_bug);
         Intent intent = getIntent();
         maBug = intent.getStringExtra("maBug");
+        setImageBug();
         database = new DBQuanLyBug();
         getWidget();
         addAction();
@@ -65,6 +72,7 @@ public class DetailBugActivity extends AppCompatActivity {
         imgBackDetailBug = findViewById(R.id.imgBackDetailBug);
         recycleViewComment = findViewById(R.id.recycleViewComment);
         edtComment = findViewById(R.id.edtComment);
+        imgAnhBug = findViewById(R.id.imgAnhBug);
         imgSendComment = findViewById(R.id.imgSendComment);
 
         text = findViewById(R.id.text);
@@ -196,6 +204,7 @@ public class DetailBugActivity extends AppCompatActivity {
                     }, maBug);
 
                 }
+                text.setText("Comment:");
             }
         });
     }
@@ -316,6 +325,21 @@ public class DetailBugActivity extends AppCompatActivity {
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
 
+            }
+        });
+    }
+    public void setImageBug(){
+        String path = "Bugs/" + maBug + ".jpg";
+        StorageReference storageRef = FirebaseStorage.getInstance().getReference().child(path);
+        storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Picasso.get().load(uri).into(imgAnhBug);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                imgAnhBug.setVisibility(View.GONE);
             }
         });
     }
