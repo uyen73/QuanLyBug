@@ -12,17 +12,18 @@
         android:src="@drawable/ic_back"
         android:layout_margin="32dp"/>
     <TextView
+        android:id="@+id/title"
+        android:layout_below="@+id/imgBackProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Chỉnh sửa thông tin cá nhân"
-        android:layout_margin="32dp"
         android:layout_centerHorizontal="true"
         android:textSize="22sp"
         android:textColor="@color/black"
         android:textStyle="bold"
         />
     <ScrollView
-        android:layout_below="@id/imgBackProfile"
+        android:layout_below="@id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
@@ -37,13 +38,14 @@
             android:layout_gravity="center"
             android:orientation="vertical">
             <LinearLayout
+                android:id="@+id/txtHoTen"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
                 android:orientation="horizontal"
                 >
                 <EditText
-                    android:id="@+id/edtMaDA"
+                    android:id="@+id/edtHoTen"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:hint="Tên đầy đủ của bạn"
@@ -58,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp">
                 <EditText
-                    android:id="@+id/edtTenDA"
+                    android:id="@+id/edtChucVu"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:hint="Chức vụ"
@@ -73,7 +75,7 @@
                 android:layout_marginBottom="20dp">
                 <EditText
                     android:layout_weight="4"
-                    android:id="@+id/edtTenQuanLy"
+                    android:id="@+id/edtSDT"
                     android:layout_width="0dp"
                     android:layout_height="60dp"
                     android:hint="SĐT"
@@ -89,7 +91,7 @@
                 android:layout_marginBottom="20dp">
 
                 <EditText
-                    android:id="@+id/edtMoTa"
+                    android:id="@+id/edtEmail"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:hint="Gmail"
@@ -97,21 +99,22 @@
                     android:paddingEnd="12dp"
                     android:background="@drawable/custom_edit_text_rounded"/>
             </LinearLayout>
+
             <androidx.cardview.widget.CardView
-                android:id="@+id/btnAddProject"
-                android:layout_width="150dp"
+                android:id="@+id/btnUpdateProfile"
+                android:layout_width="141dp"
                 android:layout_height="50dp"
-                android:layout_margin="32dp"
-                app:cardCornerRadius="10dp"
                 android:layout_gravity="center_horizontal"
-                >
+                android:layout_margin="32dp"
+                app:cardCornerRadius="10dp">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Thêm"
                     android:layout_gravity="center"
-                    android:textSize="18sp"
-                    android:textColor="@color/black"/>
+                    android:text="Cập nhật"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
             </androidx.cardview.widget.CardView>
 
         </LinearLayout>

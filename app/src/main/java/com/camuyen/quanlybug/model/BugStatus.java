@@ -15,7 +15,7 @@ public class BugStatus {
 
     public List<BugStatus> getBugStatusList() {
         bugStatusList.add(new BugStatus("New", "#fed0ca", "#8f202a"));
-        bugStatusList.add(new BugStatus("Open", "#fed0ca", "#4f7398"));
+        bugStatusList.add(new BugStatus("Open", "#bee1f5", "#4f7398"));
         bugStatusList.add(new BugStatus("Fix", "#d3edbc", "#3f6c3f"));
         bugStatusList.add(new BugStatus("Pending", "#18a034", "#c0f8cf"));
         bugStatusList.add(new BugStatus("Reopen", "#f14747", "#ffe1e1"));

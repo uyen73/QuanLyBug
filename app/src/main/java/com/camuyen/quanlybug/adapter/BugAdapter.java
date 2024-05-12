@@ -127,7 +127,7 @@ public class BugAdapter extends RecyclerView.Adapter<BugAdapter.ViewHolder> {
         }
     }
     private void showPopupMenu(View v, String maBug) {
-        PopupMenu popupMenu = new PopupMenu(context, v);
+        PopupMenu popupMenu = new PopupMenu(v.getContext(), v);
         popupMenu.getMenuInflater().inflate(R.menu.menu_bug, popupMenu.getMenu());
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override

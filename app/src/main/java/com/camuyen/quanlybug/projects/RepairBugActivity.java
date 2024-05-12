@@ -29,6 +29,7 @@ import com.camuyen.quanlybug.firebase.DBQuanLyBug;
 import com.camuyen.quanlybug.model.BugStatus;
 import com.camuyen.quanlybug.model.Bugs;
 import com.camuyen.quanlybug.model.User;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -244,6 +245,24 @@ public class RepairBugActivity extends AppCompatActivity {
 
                         }
                     });
+                    database.getBugsInfo(new DBQuanLyBug.BugsCallBack() {
+                        @Override
+                        public void onBugsLoaded(List<Bugs> bugs) {
+                            Intent intent = new Intent();
+                            Gson gson = new Gson();
+                            String updatedBugListJson = gson.toJson(bugs);
+                            intent.putExtra("updatedBugListJson", updatedBugListJson);
+                            setResult(RESULT_OK, intent);
+                            finish();
+                        }
+
+                        @Override
+                        public void onError(Exception e) {
+
+                        }
+                    });
+
+
                     Toast.makeText(RepairBugActivity.this, "Thành công", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(RepairBugActivity.this, MainActivity.class);
                     startActivity(intent);

@@ -96,6 +96,36 @@ public class DBQuanLyBug {
         });
     }
 
+    public void updateUser(User user) {
+        // Khởi tạo đối tượng Firestore
+        String documentID = auth.getUid();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference docRef = db.collection("users").document(documentID);
+
+        // Tạo một tài liệu mới với ID được chỉ định
+        Map<String, Object> data = new HashMap<>();
+        data.put("uid", user.getUid());
+        data.put("chucVu", user.getChucVu());
+        data.put("gmail", user.getGmail());
+        data.put("hoTen", user.getHoTen());
+        data.put("maNhanVien", user.getMaNhanVien());
+        data.put("soDienThoai", user.getSoDienThoai());
+        data.put("ten", user.getTen());
+        data.put("matKhau", user.getMatKhau());
+
+        // Sử dụng phương thức update() để cập nhật tài liệu
+        docRef.update(data).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    // Cập nhật thành công
+                } else {
+                    // Xảy ra lỗi khi cập nhật
+                }
+            }
+        });
+    }
+
     public interface UserCallback {
         void onUserLoaded(User user);
     }

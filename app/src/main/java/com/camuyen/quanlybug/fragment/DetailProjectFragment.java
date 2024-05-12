@@ -1,9 +1,15 @@
 package com.camuyen.quanlybug.fragment;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -27,11 +33,14 @@ import com.camuyen.quanlybug.adapter.BugAdapter;
 import com.camuyen.quanlybug.firebase.DBQuanLyBug;
 import com.camuyen.quanlybug.model.Bugs;
 import com.camuyen.quanlybug.model.Project;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -86,6 +95,7 @@ public class DetailProjectFragment extends Fragment {
         txtMoTa = view.findViewById(R.id.txtMoTa);
         recyclerViewBugs = view.findViewById(R.id.recycleviewBugs);
         imgBugFilter = view.findViewById(R.id.imgBugFilter);
+
 
     }
 
