@@ -38,6 +38,7 @@ public class ProfileActivity extends AppCompatActivity {
     TextView txtEmailAndPhoneNumber, txtName;
     FirebaseAuth auth;
     DBQuanLyBug database;
+    TextView txtEditProfileInformation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +54,8 @@ public class ProfileActivity extends AppCompatActivity {
         txtEmailAndPhoneNumber = findViewById(R.id.txtEmailAndPhoneNumber);
         txtName = findViewById(R.id.txtName);
         imgEditImageProfile = findViewById(R.id.imgEditImageProfile);
+
+        txtEditProfileInformation = findViewById(R.id.txtEditProfileInformation);
 
         auth = FirebaseAuth.getInstance();
         database = new DBQuanLyBug();
@@ -77,12 +80,19 @@ public class ProfileActivity extends AppCompatActivity {
                 txtName.setText(name);
             }
         });
+
         imgEditImageProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Mở Intent để chọn ảnh từ thư viện
                 Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 pickImageLauncher.launch(intent);
+            }
+        });
+        txtEditProfileInformation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ProfileActivity.this, EditProfileActivity.class));
             }
         });
     }

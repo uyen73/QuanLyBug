@@ -11,12 +11,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -82,7 +78,11 @@ public class DetailBugActivity extends AppCompatActivity {
                         break;
                     }
                 }
-                txtChiTietMoTaBug.setText(bug.getMoTaLoi());
+                String chiTietMoTaBug = getMoTa(bug);
+
+                txtChiTietMoTaBug.setText(chiTietMoTaBug);
+
+
                 txtAssignment.setText(bug.getDevFix());
                 txtTrangThai.setText(bug.getTrangThai());
 
@@ -133,6 +133,19 @@ public class DetailBugActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    private String getMoTa(Bugs bug) {
+        String tenBug = "- Tên bug: " + bug.getTenBug() + "\n";
+        String[] split = bug.getCacBuoc().split(" \\| ");
+        String cacBuocThucHien = "- Các bước thực hiện: \n";
+        for (int i = 0; i < split.length; i++) {
+            cacBuocThucHien +=   "\t"+ "\t" + "+ " + split[i] + "\n";
+        }
+        String moTa = "- Mô tả lỗi: " + bug.getMoTaLoi()  + "\n";
+        String ketQua = "- Kết quả mong muốn: " + bug.getKetQuaMongMuon() + "\n";
+        String result = tenBug + cacBuocThucHien + moTa + ketQua;
+        return result;
     }
 
     private void addAction() {
