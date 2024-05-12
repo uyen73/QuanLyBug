@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/mnuNew"
+        android:title="New" />
+    <item
+        android:id="@+id/mnuOpen"
+        android:title="Open" />
+    <item
+        android:id="@+id/mnuFix"
+        android:title="Fix" />
+    <item
+        android:id="@+id/mnuPending"
+        android:title="Pending" />
+    <item
+        android:id="@+id/mnuReopen"
+        android:title="Reopen" />
+    <item
+        android:id="@+id/mnuClose"
+        android:title="Close" />
+    <item
+        android:id="@+id/mnuRejected"
+        android:title="Rejected" />
+</menu>

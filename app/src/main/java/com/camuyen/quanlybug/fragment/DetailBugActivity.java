@@ -252,7 +252,7 @@ public class DetailBugActivity extends AppCompatActivity {
                                 JSONObject jsonObject = new JSONObject();
                                 JSONObject notificationObj = new JSONObject();
                                 notificationObj.put("title", "Có comment mới tại bug bạn đang fix.");
-                                notificationObj.put("body",  user.getHoTen() + " vừa thêm 1 comment.");
+                                notificationObj.put("body",  user.getTen() + " vừa thêm 1 comment.");
 
                                 jsonObject.put("notification", notificationObj);
                                 for (Devices a : devices){

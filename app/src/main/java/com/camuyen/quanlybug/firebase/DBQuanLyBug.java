@@ -535,4 +535,47 @@ public class DBQuanLyBug {
                     }
                 });
     }
+    public void getBugFiler(BugFilerCallBack callback, String trangThai){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference collectionRef = db.collection("bugs");
+
+        // Lấy dữ liệu có thuộc tính "your_property" có giá trị bằng "desired_value"
+        collectionRef.whereEqualTo("trangThai", trangThai)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            List<Bugs> bugs = new ArrayList<>();
+                            for (DocumentSnapshot document : task.getResult()) {
+                                String maBug = document.getString("maBug");
+                                String tenBug = document.getString("tenBug");
+                                String moTaLoi = document.getString("moTaLoi");
+                                String anh = document.getString("anh");
+                                String cacBuoc = document.getString("cacBuoc");
+                                String ketQuaMongMuon = document.getString("ketQuaMongMuon");
+                                String ngayXuatHien = document.getString("ngayXuatHien");
+                                String trangThai = document.getString("trangThai");
+                                String devFix = document.getString("devFix");
+                                String mucDoNghiemTrong = document.getString("mucDoNghiemTrong");
+                                String maVanDe = document.getString("maVanDe");
+                                String maDuAn = document.getString("maDuAn");
+                                String maNhanVien = document.getString("maNhanVien");
+                                String deadline = document.getString("deadline");
+
+
+
+                                Bugs bug = new Bugs(maBug, tenBug, moTaLoi, anh, cacBuoc, ketQuaMongMuon, convertToDate(ngayXuatHien), trangThai, devFix, mucDoNghiemTrong, maVanDe, maDuAn, maNhanVien, convertToDate(deadline));
+                                bugs.add(bug);
+                            }
+                            callback.onBugsFilterLoaded(bugs);
+                        } else {
+                            Log.d("Lỗi DB", "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+    }
+    public interface BugFilerCallBack {
+        void onBugsFilterLoaded(List<Bugs> bugs);
+    }
 }

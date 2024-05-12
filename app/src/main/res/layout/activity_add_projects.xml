@@ -99,7 +99,7 @@
                         android:layout_width="0dp"
                         android:inputType="datetime"
                         android:layout_height="60dp"
-                        android:hint="Mã dự án"
+                        android:hint="Ngày bắt đầu "
                         android:paddingStart="12dp"
                         android:paddingEnd="12dp"
                         android:background="@drawable/custom_edit_text_rounded"
@@ -125,7 +125,7 @@
                     android:id="@+id/edtMoTa"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
-                    android:hint="Mã dự án"
+                    android:hint="Mô tả"
                     android:paddingStart="12dp"
                     android:paddingEnd="12dp"
                     android:background="@drawable/custom_edit_text_rounded"/>

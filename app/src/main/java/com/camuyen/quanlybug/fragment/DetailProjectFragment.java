@@ -11,11 +11,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
+import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +37,7 @@ import java.util.List;
 
 public class DetailProjectFragment extends Fragment {
     TextView txtMoTa, txtChiTietMoTa;
+    ImageView imgBugFilter;
     RecyclerView recyclerViewBugs;
     BugAdapter adapter;
     DBQuanLyBug database;
@@ -81,6 +85,7 @@ public class DetailProjectFragment extends Fragment {
         txtChiTietMoTa = view.findViewById(R.id.txtChiTietMoTa);
         txtMoTa = view.findViewById(R.id.txtMoTa);
         recyclerViewBugs = view.findViewById(R.id.recycleviewBugs);
+        imgBugFilter = view.findViewById(R.id.imgBugFilter);
 
     }
 
@@ -129,6 +134,12 @@ public class DetailProjectFragment extends Fragment {
 
             }
         });
+        imgBugFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPopupMenu(v, maDuAn);
+            }
+        });
     }
     private void toggleDescription() {
         if (txtChiTietMoTa.getVisibility() == View.VISIBLE) {
@@ -163,6 +174,137 @@ public class DetailProjectFragment extends Fragment {
             public void onAnimationRepeat(Animation animation) {}
         });
         view.startAnimation(animation);
+    }
+    private void showPopupMenu(View v, String maDuAn) {
+        PopupMenu popupMenu = new PopupMenu(getContext(), v);
+        popupMenu.getMenuInflater().inflate(R.menu.menu_bug_filter, popupMenu.getMenu());
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                if (item.getItemId() == R.id.mnuNew){
+                    database.getBugFiler(new DBQuanLyBug.BugFilerCallBack() {
+                        @Override
+                        public void onBugsFilterLoaded(List<Bugs> bugs) {
+                            List<Bugs> bugsList = new ArrayList<>();
+                            for (Bugs a : bugs){
+                                if (a.getMaDuAn().equals(maDuAn)){
+                                    bugsList.add(a);
+                                }
+                            }
+                            adapter = new BugAdapter(bugsList, getActivity());
+                            recyclerViewBugs.setLayoutManager(new LinearLayoutManager(getActivity()));
+                            recyclerViewBugs.setAdapter(adapter);
+
+                        }
+                    }, "New");
+                }
+                if (item.getItemId() == R.id.mnuOpen){
+                    database.getBugFiler(new DBQuanLyBug.BugFilerCallBack() {
+                        @Override
+                        public void onBugsFilterLoaded(List<Bugs> bugs) {
+                            List<Bugs> bugsList = new ArrayList<>();
+                            for (Bugs a : bugs){
+                                if (a.getMaDuAn().equals(maDuAn)){
+                                    bugsList.add(a);
+                                }
+                            }
+                            adapter = new BugAdapter(bugsList, getActivity());
+                            recyclerViewBugs.setLayoutManager(new LinearLayoutManager(getActivity()));
+                            recyclerViewBugs.setAdapter(adapter);
+
+                        }
+                    }, "Open");
+                }
+                if (item.getItemId() == R.id.mnuFix){
+                    database.getBugFiler(new DBQuanLyBug.BugFilerCallBack() {
+                        @Override
+                        public void onBugsFilterLoaded(List<Bugs> bugs) {
+                            List<Bugs> bugsList = new ArrayList<>();
+                            for (Bugs a : bugs){
+                                if (a.getMaDuAn().equals(maDuAn)){
+                                    bugsList.add(a);
+                                }
+                            }
+                            adapter = new BugAdapter(bugsList, getActivity());
+                            recyclerViewBugs.setLayoutManager(new LinearLayoutManager(getActivity()));
+                            recyclerViewBugs.setAdapter(adapter);
+
+                        }
+                    }, "Fix");
+                }
+                if (item.getItemId() == R.id.mnuPending){
+                    database.getBugFiler(new DBQuanLyBug.BugFilerCallBack() {
+                        @Override
+                        public void onBugsFilterLoaded(List<Bugs> bugs) {
+                            List<Bugs> bugsList = new ArrayList<>();
+                            for (Bugs a : bugs){
+                                if (a.getMaDuAn().equals(maDuAn)){
+                                    bugsList.add(a);
+                                }
+                            }
+                            adapter = new BugAdapter(bugsList, getActivity());
+                            recyclerViewBugs.setLayoutManager(new LinearLayoutManager(getActivity()));
+                            recyclerViewBugs.setAdapter(adapter);
+
+                        }
+                    }, "Pending");
+                }
+                if (item.getItemId() == R.id.mnuReopen){
+                    database.getBugFiler(new DBQuanLyBug.BugFilerCallBack() {
+                        @Override
+                        public void onBugsFilterLoaded(List<Bugs> bugs) {
+                            List<Bugs> bugsList = new ArrayList<>();
+                            for (Bugs a : bugs){
+                                if (a.getMaDuAn().equals(maDuAn)){
+                                    bugsList.add(a);
+                                }
+                            }
+                            adapter = new BugAdapter(bugsList, getActivity());
+                            recyclerViewBugs.setLayoutManager(new LinearLayoutManager(getActivity()));
+                            recyclerViewBugs.setAdapter(adapter);
+
+                        }
+                    }, "Reopen");
+                }
+                if (item.getItemId() == R.id.mnuClose){
+                    database.getBugFiler(new DBQuanLyBug.BugFilerCallBack() {
+                        @Override
+                        public void onBugsFilterLoaded(List<Bugs> bugs) {
+                            List<Bugs> bugsList = new ArrayList<>();
+                            for (Bugs a : bugs){
+                                if (a.getMaDuAn().equals(maDuAn)){
+                                    bugsList.add(a);
+                                }
+                            }
+                            adapter = new BugAdapter(bugsList, getActivity());
+                            recyclerViewBugs.setLayoutManager(new LinearLayoutManager(getActivity()));
+                            recyclerViewBugs.setAdapter(adapter);
+
+                        }
+                    }, "Close");
+                }
+                if (item.getItemId() == R.id.mnuRejected){
+                    database.getBugFiler(new DBQuanLyBug.BugFilerCallBack() {
+                        @Override
+                        public void onBugsFilterLoaded(List<Bugs> bugs) {
+                            List<Bugs> bugsList = new ArrayList<>();
+                            for (Bugs a : bugs){
+                                if (a.getMaDuAn().equals(maDuAn)){
+                                    bugsList.add(a);
+                                }
+                            }
+                            adapter = new BugAdapter(bugsList, getActivity());
+                            recyclerViewBugs.setLayoutManager(new LinearLayoutManager(getActivity()));
+                            recyclerViewBugs.setAdapter(adapter);
+
+                        }
+                    }, "Rejected");
+                }
+                return true;
+            }
+        });
+
+        popupMenu.show();
     }
 
 }

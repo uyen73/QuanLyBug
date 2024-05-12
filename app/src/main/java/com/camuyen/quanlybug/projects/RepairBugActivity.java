@@ -355,7 +355,7 @@ public class RepairBugActivity extends AppCompatActivity {
         }
         User selectedUser = (User)  spinnerDev.getSelectedItem();
         if (selectedUser != null){
-            nameDev = selectedUser.getHoTen();
+            nameDev = selectedUser.getTen();
             maNhanVien = selectedUser.getMaNhanVien();
         }
 

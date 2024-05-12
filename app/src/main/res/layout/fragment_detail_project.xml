@@ -49,19 +49,36 @@
     </LinearLayout>
 
 
-    <TextView
-        android:id="@+id/texxt"
-        android:layout_below="@id/linearProject"
+    <RelativeLayout
+        android:id="@+id/relativetext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Các bugs: "
-        android:textSize="16sp"
-        android:textColor="@color/black"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        />
+        android:layout_below="@id/linearProject">
+        <TextView
+            android:id="@+id/texxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Các bugs: "
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            />
+        <ImageView
+            android:id="@+id/imgBugFilter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_filter"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+
+            />
+
+    </RelativeLayout>
+
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_below="@id/texxt"
+        android:layout_below="@id/relativetext"
         android:id="@+id/recycleviewBugs"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
