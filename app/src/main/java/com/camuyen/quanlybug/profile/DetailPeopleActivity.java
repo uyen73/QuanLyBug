@@ -17,6 +17,7 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -29,6 +30,8 @@ import com.camuyen.quanlybug.adapter.BugAdapter;
 import com.camuyen.quanlybug.firebase.DBQuanLyBug;
 import com.camuyen.quanlybug.model.Bugs;
 import com.camuyen.quanlybug.model.User;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -82,6 +85,43 @@ public class DetailPeopleActivity extends AppCompatActivity {
             }
         });
         database.setImageProfile(imgProfile);
+
+        database.getUsers(new DBQuanLyBug.UCallBack() {
+            @Override
+            public void onULoaded(List<User> users) {
+                User a = new User();
+                for (User user : users){
+                    if (user.getMaNhanVien().equals(maNV)){
+                        a = user;
+                        break;
+                    }
+                }
+                String emailandphone = a.getGmail() + " | " + a.getSoDienThoai();
+                txtEmailAndPhoneNumber.setText(emailandphone);
+                String name = a.getHoTen();
+                txtName.setText(name);
+
+                String path = "Images/" + a.getUid() + ".jpg";
+                StorageReference storageRef = FirebaseStorage.getInstance().getReference().child(path);
+                storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        Picasso.get().load(uri).into(imgProfile);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+
+            }
+
+            @Override
+            public void onError(Exception e) {
+
+            }
+        });
         database.getUserInfor(new DBQuanLyBug.UserCallback() {
             @Override
             public void onUserLoaded(User user) {
@@ -132,13 +172,32 @@ public class DetailPeopleActivity extends AppCompatActivity {
                     if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
                         // Lấy URI của ảnh từ Intent
                         Uri imageUri = result.getData().getData();
+                        database.getUsers(new DBQuanLyBug.UCallBack() {
+                            @Override
+                            public void onULoaded(List<User> users) {
+                                User a = new User();
+                                for (User user : users){
+                                    if (user.getMaNhanVien().equals(maNV)){
+                                        a = user;
+                                        break;
+                                    }
+                                }
+                                // Tạo tên file cho ảnh dựa trên ID của người dùng
+                                String userId = a.getUid();
+                                String fileName = userId + ".jpg";
 
-                        // Tạo tên file cho ảnh dựa trên ID của người dùng
-                        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                        String fileName = userId + ".jpg";
+                                // Thực hiện upload ảnh lên Firebase Storage
+                                uploadImage(imageUri, fileName);
 
-                        // Thực hiện upload ảnh lên Firebase Storage
-                        uploadImage(imageUri, fileName);
+                            }
+
+                            @Override
+                            public void onError(Exception e) {
+
+                            }
+                        });
+
+
                     }
                 }
             });
