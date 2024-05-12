@@ -133,6 +133,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onUserLoaded(User user) {
                 txtName.setText(user.getTen());
+                SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("maQuanLy", user.getMaNhanVien());
+                editor.apply();
             }
         });
     }

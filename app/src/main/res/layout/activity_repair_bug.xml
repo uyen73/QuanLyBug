@@ -38,74 +38,78 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
-                android:orientation="horizontal"
-                android:weightSum="6">
-                <TextView
-                    android:layout_weight="2"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="Tên lỗi: "
-                    android:textColor="@color/black"/>
+                android:orientation="horizontal">
                 <EditText
-                    android:layout_weight="4"
+                    android:background="@drawable/custom_edit_text_rounded"
                     android:id="@+id/edtTenLoi"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:weightSum="6">
-                <TextView
-                    android:layout_weight="3"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="Mức độ nghiêm trọng"
-                    android:textColor="@color/black"/>
-                <EditText
-                    android:layout_weight="3"
-                    android:id="@+id/edtMucDoNghiemTrong"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"/>
+                    android:layout_width="match_parent"
+                    android:hint="Nhập tên lỗi"
+                    android:padding="12dp"
+                    android:layout_height="50dp"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp">
-                <TextView
+                <EditText
                     android:layout_weight="3"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="Dev fix: "
-                    android:textColor="@color/black"/>
-                <Spinner
-                    android:layout_weight="3"
-                    android:id="@+id/spinnerDev"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-
+                    android:id="@+id/edtMucDoNghiemTrong"
+                    android:layout_width="match_parent"
+                    android:hint="Mức độ nghiêm trọng"
+                    android:layout_height="50dp"
+                    android:padding="12dp"
+                    android:background="@drawable/custom_edit_text_rounded"
                     />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
-                android:weightSum="6">
+                android:padding="12dp">
                 <TextView
                     android:layout_weight="2"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Deadline: "
-                    android:layout_gravity="center"
+                    android:text="Được tạo bởi: "
                     android:textColor="@color/black"/>
-                <LinearLayout
+
+                <Spinner
+                    android:id="@+id/spinnerQL"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:padding="12dp">
+                <TextView
                     android:layout_weight="3"
                     android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Dev fix: "
+
+                    android:textColor="@color/black"/>
+                <Spinner
+                    android:layout_weight="3"
+                    android:id="@+id/spinnerDev"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:weightSum="3">
@@ -113,8 +117,11 @@
                         android:layout_weight="2"
                         android:id="@+id/edtDeadline"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
                         android:inputType="datetime"
+                        android:hint="Deadline"
+                        android:layout_height="50dp"
+                        android:padding="12dp"
+                        android:background="@drawable/custom_edit_text_rounded"
                         />
                     <ImageView
                         android:id="@+id/imgShowCalender"
@@ -130,34 +137,30 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:weightSum="6">
-                <TextView
-                    android:layout_weight="3"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="Kết quả mong muốn: "
-                    android:textColor="@color/black"/>
+                android:layout_marginBottom="20dp">
                 <EditText
-                    android:layout_weight="3"
                     android:id="@+id/edtKetQuaMongMuon"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"/>
+                    android:layout_width="match_parent"
+                    android:hint="Kết quả mong muốn"
+                    android:layout_height="50dp"
+                    android:padding="12dp"
+                    android:background="@drawable/custom_edit_text_rounded"
+                    />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_marginBottom="20dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Mô tả lỗi: "
-                    android:textColor="@color/black"/>
                 <EditText
                     android:id="@+id/edtMoTaLoi"
+                    android:hint="Mô tả lỗi"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="50dp"
+                    android:padding="12dp"
+                    android:background="@drawable/custom_edit_text_rounded"
+
+                    />
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/radioGroup"
@@ -180,12 +183,6 @@
 
                     />
             </LinearLayout>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Các bước: "
-                android:textColor="@color/black"
-                />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -196,16 +193,20 @@
                     <EditText
                         android:id="@+id/edtSoBuoc"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
                         android:hint="Nhập số bước "
-                        android:layout_margin="10dp"
+
+                        android:layout_height="50dp"
+                        android:padding="12dp"
+                        android:background="@drawable/custom_edit_text_rounded"
                         />
                     <Button
                         android:id="@+id/btnOK"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="OK"
-                        android:layout_margin="10dp"
+                        android:padding="12dp"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="12dp"
                         />
                 </LinearLayout>
                 <LinearLayout

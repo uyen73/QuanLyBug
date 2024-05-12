@@ -5,6 +5,7 @@ import java.util.Date;
 
 public class Bugs {
     private String maBug;
+    private String maQuanLy;
     private String tenBug;
     private String moTaLoi;
     private String anh;
@@ -19,8 +20,9 @@ public class Bugs {
     private String maNhanVien;
     private Date deadline;
 
-    public Bugs(String maBug, String tenBug, String moTaLoi, String anh, String cacBuoc, String ketQuaMongMuon, Date ngayXuatHien, String trangThai, String devFix, String mucDoNghiemTrong, String maVanDe, String maDuAn, String maNhanVien, Date deadline) {
+    public Bugs(String maBug, String maQuanLy, String tenBug, String moTaLoi, String anh, String cacBuoc, String ketQuaMongMuon, Date ngayXuatHien, String trangThai, String devFix, String mucDoNghiemTrong, String maVanDe, String maDuAn, String maNhanVien, Date deadline) {
         this.maBug = maBug;
+        this.maQuanLy = maQuanLy;
         this.tenBug = tenBug;
         this.moTaLoi = moTaLoi;
         this.anh = anh;
@@ -37,6 +39,14 @@ public class Bugs {
     }
 
     public Bugs() {
+    }
+
+    public String getMaQuanLy() {
+        return maQuanLy;
+    }
+
+    public void setMaQuanLy(String maQuanLy) {
+        this.maQuanLy = maQuanLy;
     }
 
     public String getMaBug() {

@@ -20,6 +20,7 @@ import com.camuyen.quanlybug.MainActivity;
 import com.camuyen.quanlybug.R;
 import com.camuyen.quanlybug.firebase.DBQuanLyBug;
 import com.camuyen.quanlybug.model.Project;
+import com.camuyen.quanlybug.model.User;
 
 import java.util.Calendar;
 import java.util.List;
@@ -49,6 +50,13 @@ public class AddProjectsActivity extends AppCompatActivity {
         edtTenQuanLy = findViewById(R.id.edtTenQuanLy);
         database = new DBQuanLyBug();
         imgShowCalender = findViewById(R.id.imgShowCalender);
+        database.getUserInfor(new DBQuanLyBug.UserCallback() {
+            @Override
+            public void onUserLoaded(User user) {
+                edtTenQuanLy.setText(user.getTen());
+                edtTenQuanLy.setEnabled(false);
+            }
+        });
 
         database.getProjectsInfo(new DBQuanLyBug.ProjectsCallBack() {
             @Override

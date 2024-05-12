@@ -80,7 +80,7 @@ public class AddBugActivity extends AppCompatActivity {
     Calendar calendar;
     LinearLayout linearCacBuoc;
     Button btnOK;
-    Spinner spinnerDev;
+    Spinner spinnerDev, spinnerQLAdd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,6 +104,7 @@ public class AddBugActivity extends AppCompatActivity {
         edtSoBuoc = findViewById(R.id.edtSoBuoc);
         linearCacBuoc = findViewById(R.id.linearCacBuoc);
         spinnerDev = findViewById(R.id.spinnerDev);
+        spinnerQLAdd = findViewById(R.id.spinnerQLAdd);
         imgAnhBug = findViewById(R.id.imgAnhBug);
         imgMoAnh = findViewById(R.id.imgMoAnh);
         database = new DBQuanLyBug();
@@ -111,12 +112,32 @@ public class AddBugActivity extends AppCompatActivity {
         database.getUsers(new DBQuanLyBug.UCallBack() {
             @Override
             public void onULoaded(List<User> users) {
+                List<User> qlList = new ArrayList<>();
+                List<User> listDev = new ArrayList<>();
+                for (User a : users){
+                    if (a.getChucVu().equals("Dev")){
+                        listDev.add(a);
+                    }
+                    String chucVu = a.getMaNhanVien().substring(0, 2);
+                    if (a.getChucVu().equals("Tester")) {
+                        qlList.add(a);
+                    }
+                    if (chucVu.equals("QL")) {
+                        qlList.add(a);
+                    }
+                }
                 // Tạo Adapter cho Spinner
-                ArrayAdapter<User> adapter = new ArrayAdapter<>(AddBugActivity.this, android.R.layout.simple_spinner_item, users);
+                ArrayAdapter<User> adapter = new ArrayAdapter<>(AddBugActivity.this, android.R.layout.simple_spinner_item, listDev);
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
                 // Gắn Adapter với Spinner
                 spinnerDev.setAdapter(adapter);
+
+                // Tạo Adapter cho Spinner
+                ArrayAdapter<User> adapterQL = new ArrayAdapter<>(AddBugActivity.this, android.R.layout.simple_spinner_item, qlList);
+                adapterQL.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                // Gắn Adapter với Spinner
+                spinnerQLAdd.setAdapter(adapterQL);
             }
 
             @Override
@@ -158,6 +179,7 @@ public class AddBugActivity extends AppCompatActivity {
                             bug.setMaBug(id);
                             bug.setMaDuAn(maDuAn);
                             bug.setTrangThai("Fix");
+
                             Date date = Calendar.getInstance().getTime();
                             bug.setNgayXuatHien(date);
 
@@ -227,10 +249,12 @@ public class AddBugActivity extends AppCompatActivity {
         );
 
         int marginInDp = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20, getResources().getDisplayMetrics()); // Chuyển dp sang px
-        int paddingInDp = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, getResources().getDisplayMetrics()); // Chuyển dp sang px
+        int paddingInDp = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12, getResources().getDisplayMetrics()); // Chuyển dp sang px
         layoutParams.setMargins(0, 0, 0, marginInDp);
+
         editText.setLayoutParams(layoutParams);
         editText.setHint("Bước " + (i + 1));
+        editText.setPadding(paddingInDp, paddingInDp, paddingInDp, paddingInDp);
         editText.setBackgroundResource(R.drawable.custom_edit_text_rounded);
         return editText;
     }
@@ -362,6 +386,7 @@ public class AddBugActivity extends AppCompatActivity {
         String cacBuoc = "";
         String nameDev = "";
         String maNhanVien = "";
+        String maQuanLy = "";
         // Lặp qua tất cả các EditText trong LinearLayout
         for (int i = 0; i < linearCacBuoc.getChildCount(); i++) {
             View view = linearCacBuoc.getChildAt(i);
@@ -381,7 +406,11 @@ public class AddBugActivity extends AppCompatActivity {
             nameDev = selectedUser.getTen();
             maNhanVien = selectedUser.getMaNhanVien();
         }
-        return new Bugs("maBug", tenLoi, moTaLoi, "anh", cacBuoc,
+        User quanLy = (User) spinnerQLAdd.getSelectedItem();
+        if (quanLy != null){
+            maQuanLy = quanLy.getMaNhanVien();
+        }
+        return new Bugs("maBug", maQuanLy, tenLoi, moTaLoi, "anh", cacBuoc,
                 ketQuaMongMuon, database.convertToDate(deadline), "trangthai",
                 nameDev, mucDoNghiemTrong, "maVande", "maDuAn", maNhanVien,
                 database.convertToDate(deadline));

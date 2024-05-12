@@ -274,6 +274,7 @@ public class DBQuanLyBug {
         bugData.put("maDuAn", bug.getMaDuAn());
         bugData.put("maNhanVien", bug.getMaNhanVien());
         bugData.put("ngayXuatHien", convertToString(bug.getNgayXuatHien()));
+        bugData.put("maQuanLy", bug.getMaQuanLy());
 
 
         // Thêm dữ liệu vào Firestore với ID được chỉ định
@@ -341,6 +342,7 @@ public class DBQuanLyBug {
         bugData.put("maDuAn", bug.getMaDuAn());
         bugData.put("maNhanVien", bug.getMaNhanVien());
         bugData.put("ngayXuatHien", convertToString(bug.getNgayXuatHien()));
+        bugData.put("maQuanLy", bug.getMaQuanLy());
 
         docRef.update(bugData).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
@@ -354,33 +356,6 @@ public class DBQuanLyBug {
         });
 
     }
-//    public void updateUser(User user){
-//        // Khởi tạo đối tượng Firestore
-//        FirebaseFirestore db = FirebaseFirestore.getInstance();
-//        String documentID = FirebaseAuth.getInstance().getUid();
-//        DocumentReference docRef = db.collection("users").document(documentID);
-//
-//        // Tạo một tài liệu mới với ID được chỉ định
-//        Map<String, Object> projectData = new HashMap<>();
-//        projectData.put("maDuAn", project.getMaDuAn());
-//        projectData.put("tenQuanLy", project.getTenQuanLy());
-//        projectData.put("tenDuAn", project.getTenDuAn());
-//        projectData.put("moTa", project.getMoTa());
-//        projectData.put("ngayBatDau", convertToString(project.getNgayBatDau()));
-//        projectData.put("trangThai", project.getTrangThai());
-//
-//        // Sử dụng phương thức update() để cập nhật tài liệu
-//        docRef.update(projectData).addOnCompleteListener(new OnCompleteListener<Void>() {
-//            @Override
-//            public void onComplete(@NonNull Task<Void> task) {
-//                if (task.isSuccessful()) {
-//                    // Cập nhật thành công
-//                } else {
-//                    // Xảy ra lỗi khi cập nhật
-//                }
-//            }
-//        });
-//    }
     public void deleteDocument(Context context, String nameFolder ,String id) {
         // Tham chiếu đến tài liệu bạn muốn xóa
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -452,10 +427,11 @@ public class DBQuanLyBug {
                         String maDuAn = document.getString("maDuAn");
                         String maNhanVien = document.getString("maNhanVien");
                         String deadline = document.getString("deadline");
+                        String maQuanLy = document.getString("maQuanLy");
 
 
 
-                        Bugs bug = new Bugs(maBug, tenBug, moTaLoi, anh, cacBuoc, ketQuaMongMuon, convertToDate(ngayXuatHien), trangThai, devFix, mucDoNghiemTrong, maVanDe, maDuAn, maNhanVien, convertToDate(deadline));
+                        Bugs bug = new Bugs(maBug, maQuanLy, tenBug, moTaLoi, anh, cacBuoc, ketQuaMongMuon, convertToDate(ngayXuatHien), trangThai, devFix, mucDoNghiemTrong, maVanDe, maDuAn, maNhanVien, convertToDate(deadline));
                         bugs.add(bug);
 
                     }
@@ -619,10 +595,10 @@ public class DBQuanLyBug {
                                 String maDuAn = document.getString("maDuAn");
                                 String maNhanVien = document.getString("maNhanVien");
                                 String deadline = document.getString("deadline");
+                                String maQuanLy = document.getString("maQuanLy");
 
 
-
-                                Bugs bug = new Bugs(maBug, tenBug, moTaLoi, anh, cacBuoc, ketQuaMongMuon, convertToDate(ngayXuatHien), trangThai, devFix, mucDoNghiemTrong, maVanDe, maDuAn, maNhanVien, convertToDate(deadline));
+                                Bugs bug = new Bugs(maBug, maQuanLy, tenBug, moTaLoi, anh, cacBuoc, ketQuaMongMuon, convertToDate(ngayXuatHien), trangThai, devFix, mucDoNghiemTrong, maVanDe, maDuAn, maNhanVien, convertToDate(deadline));
                                 bugs.add(bug);
                             }
                             callback.onBugsFilterLoaded(bugs);

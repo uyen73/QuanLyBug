@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -44,15 +45,15 @@ public class RepairBugActivity extends AppCompatActivity {
     Calendar calendar;
     LinearLayout linearCacBuoc;
     Button btnOK;
-    Spinner spinnerDev, spinnerTrangThai;
+    Spinner spinnerDev, spinnerTrangThai, spinnerQL;
     String maBug = "";
     List<BugStatus> bugStatusList = new ArrayList<>();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_repair_bug);
+        database = new DBQuanLyBug();
         addColorStatus();
         Intent intent = getIntent();
         maBug = intent.getStringExtra("maBug");
@@ -75,9 +76,7 @@ public class RepairBugActivity extends AppCompatActivity {
         linearCacBuoc = findViewById(R.id.linearCacBuoc);
         spinnerDev = findViewById(R.id.spinnerDev);
         spinnerTrangThai = findViewById(R.id.spinnerTrangThai);
-
-
-
+        spinnerQL = findViewById(R.id.spinnerQL);
 
 
 
@@ -88,17 +87,38 @@ public class RepairBugActivity extends AppCompatActivity {
         spinnerTrangThai.setAdapter(adapter);
 
 
-        database = new DBQuanLyBug();
+
 
         database.getUsers(new DBQuanLyBug.UCallBack() {
             @Override
             public void onULoaded(List<User> users) {
+                List<User> listDev = new ArrayList<>();
+                List<User> qlList = new ArrayList<>();
+                for (User user : users) {
+                    if (user.getChucVu().equals("Dev")) {
+                        listDev.add(user);
+                    }
+                    String chucVu = user.getMaNhanVien().substring(0, 2);
+                    if (user.getChucVu().equals("Tester")) {
+                        qlList.add(user);
+                    }
+                    if (chucVu.equals("QL")) {
+                        qlList.add(user);
+                    }
+                }
                 // Tạo Adapter cho Spinner
-                ArrayAdapter<User> adapter = new ArrayAdapter<>(RepairBugActivity.this, android.R.layout.simple_spinner_item, users);
+                ArrayAdapter<User> adapter = new ArrayAdapter<>(RepairBugActivity.this, android.R.layout.simple_spinner_item, listDev);
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
                 // Gắn Adapter với Spinner
                 spinnerDev.setAdapter(adapter);
+
+                // Tạo Adapter cho Spinner
+                ArrayAdapter<User> adapterQL = new ArrayAdapter<>(RepairBugActivity.this, android.R.layout.simple_spinner_item, qlList);
+                adapterQL.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                // Gắn Adapter với Spinner
+                spinnerQL.setAdapter(adapterQL);
+
+
                 database.getBugsInfo(new DBQuanLyBug.BugsCallBack() {
                     @Override
                     public void onBugsLoaded(List<Bugs> bugs) {
@@ -116,6 +136,16 @@ public class RepairBugActivity extends AppCompatActivity {
                                 System.out.println(maNhanVien);
                                 System.out.println(bug.getMaNhanVien());
                                 spinnerDev.setSelection(i);
+                                break;
+                            }
+                        }
+                        for (int i = 0; i < spinnerQL.getCount(); i++) {
+                            User currentUser = (User) spinnerQL.getItemAtPosition(i);
+                            String maNhanVien = currentUser.getMaNhanVien();
+                            if (maNhanVien.equals(bug.getMaQuanLy())) {
+                                System.out.println(maNhanVien);
+                                System.out.println(bug.getMaQuanLy());
+                                spinnerQL.setSelection(i);
                                 break;
                             }
                         }
@@ -283,12 +313,7 @@ public class RepairBugActivity extends AppCompatActivity {
 
                 // Tạo và thêm các EditText vào LinearLayout
                 for (int i = 0; i < numberOfRows; i++) {
-                    EditText editText = new EditText(RepairBugActivity.this);
-                    editText.setLayoutParams(new LinearLayout.LayoutParams(
-                            LinearLayout.LayoutParams.MATCH_PARENT,
-                            LinearLayout.LayoutParams.WRAP_CONTENT));
-                    editText.setHint("Bước " + (i + 1));
-                    editText.setText("Bước " + (i + 1) + ": ");
+                    EditText editText = getEditText(i);
                     linearCacBuoc.addView(editText);
 
                 }
@@ -297,7 +322,25 @@ public class RepairBugActivity extends AppCompatActivity {
 
 
     }
+    private EditText getEditText(int i) {
+        EditText editText = new EditText(RepairBugActivity.this);
 
+
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,  // chiều rộng
+                LinearLayout.LayoutParams.WRAP_CONTENT, 60// chiều cao
+        );
+
+        int marginInDp = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20, getResources().getDisplayMetrics()); // Chuyển dp sang px
+        int paddingInDp = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12, getResources().getDisplayMetrics()); // Chuyển dp sang px
+        layoutParams.setMargins(0, 0, 0, marginInDp);
+
+        editText.setLayoutParams(layoutParams);
+        editText.setHint("Bước " + (i + 1));
+        editText.setPadding(paddingInDp, paddingInDp, paddingInDp, paddingInDp);
+        editText.setBackgroundResource(R.drawable.custom_edit_text_rounded);
+        return editText;
+    }
     public String convertSoBug(int number) {
         return String.format("%03d", number);
     }
@@ -358,6 +401,7 @@ public class RepairBugActivity extends AppCompatActivity {
         String nameDev = "";
         String maNhanVien = "";
         String trangThai = "";
+        String maQuanLy = "";
         // Lặp qua tất cả các EditText trong LinearLayout
         for (int i = 0; i < linearCacBuoc.getChildCount(); i++) {
             View view = linearCacBuoc.getChildAt(i);
@@ -382,7 +426,12 @@ public class RepairBugActivity extends AppCompatActivity {
         if (bugStatus != null){
             trangThai = bugStatus.getStatus();
         }
-        return new Bugs("maBug", tenLoi, moTaLoi, "anh", cacBuoc,
+        User quanLy = (User) spinnerQL.getSelectedItem();
+        if (quanLy != null){
+            maQuanLy = quanLy.getMaNhanVien();
+        }
+
+        return new Bugs("maBug", maQuanLy, tenLoi, moTaLoi, "anh", cacBuoc,
                 ketQuaMongMuon, database.convertToDate(deadline), trangThai,
                 nameDev, mucDoNghiemTrong, "maVande", "maDuAn", maNhanVien,
                 database.convertToDate(deadline));
