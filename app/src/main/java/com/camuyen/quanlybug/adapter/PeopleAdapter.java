@@ -1,5 +1,7 @@
 package com.camuyen.quanlybug.adapter;
 
+import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,11 +10,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.camuyen.quanlybug.R;
 import com.camuyen.quanlybug.firebase.DBQuanLyBug;
 import com.camuyen.quanlybug.model.User;
+import com.camuyen.quanlybug.profile.DetailPeopleActivity;
+import com.camuyen.quanlybug.profile.ProfileActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
@@ -26,9 +31,11 @@ import java.util.List;
 
 public class PeopleAdapter extends RecyclerView.Adapter<PeopleAdapter.ViewHolder> {
     List<User> list = new ArrayList<>();
+    Context context;
     DBQuanLyBug database;
-    public PeopleAdapter(List<User> list) {
+    public PeopleAdapter(List<User> list, Context context) {
         this.list = list;
+        this.context = context;
     }
 
     @NonNull
@@ -58,6 +65,14 @@ public class PeopleAdapter extends RecyclerView.Adapter<PeopleAdapter.ViewHolder
 
             }
         });
+        holder.cardviewPeople.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, DetailPeopleActivity.class);
+                intent.putExtra("maNV", a.getMaNhanVien());
+                context.startActivity(intent);
+            }
+        });
 
     }
 
@@ -71,13 +86,15 @@ public class PeopleAdapter extends RecyclerView.Adapter<PeopleAdapter.ViewHolder
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         ImageView imgProfilePeople;
+        CardView cardviewPeople;
         TextView txtPosition, txtNamePeople;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             txtPosition = itemView.findViewById(R.id.txtPosition);
             txtNamePeople = itemView.findViewById(R.id.txtNamePeople);
             imgProfilePeople = itemView.findViewById(R.id.imgProfilePeople);
-
+            cardviewPeople = itemView.findViewById(R.id.cardviewPeople);
         }
     }
 }

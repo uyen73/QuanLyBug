@@ -46,7 +46,7 @@ public class PeopleFragment extends Fragment {
         database.getUsers(new DBQuanLyBug.UCallBack() {
             @Override
             public void onULoaded(List<User> users) {
-                adapter = new PeopleAdapter(users);
+                adapter = new PeopleAdapter(users, getActivity());
                 listPeople.setLayoutManager(new LinearLayoutManager(getActivity()));
                 listPeople.setAdapter(adapter);
             }
