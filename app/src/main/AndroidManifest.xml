@@ -29,7 +29,8 @@
             android:exported="false" />
         <activity
             android:name=".fragment.DetailBugActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustPan|stateHidden"/>
         <activity
             android:name=".projects.RepairBugActivity"
             android:exported="false" />
@@ -50,9 +51,6 @@
 
         <activity
             android:name=".projects.OpenBugActivity"
-            android:exported="false" />
-        <activity
-            android:name=".projects.OpenProjectActivity"
             android:exported="false" />
         <activity
             android:name=".projects.AddProjectsActivity"

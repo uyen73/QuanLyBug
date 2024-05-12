@@ -105,7 +105,7 @@ public class AddBugActivity extends AppCompatActivity {
         linearCacBuoc = findViewById(R.id.linearCacBuoc);
         spinnerDev = findViewById(R.id.spinnerDev);
         imgAnhBug = findViewById(R.id.imgAnhBug);
-
+        imgMoAnh = findViewById(R.id.imgMoAnh);
         database = new DBQuanLyBug();
 
         database.getUsers(new DBQuanLyBug.UCallBack() {
@@ -428,6 +428,7 @@ public class AddBugActivity extends AppCompatActivity {
                 // Hiển thị ảnh trong ImageView
                 Picasso.get().load(imageUrl).into(imgAnhBug);
                 imgAnhBug.setVisibility(View.VISIBLE);
+                imgMoAnh.setVisibility(View.GONE);
             });
         }).addOnFailureListener(exception -> {
             // Xảy ra lỗi khi upload ảnh
