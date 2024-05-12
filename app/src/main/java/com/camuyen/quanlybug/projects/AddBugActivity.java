@@ -73,7 +73,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class AddBugActivity extends AppCompatActivity {
-    ImageView imgBackProfile, imgShowCalender, imgAnhBug;
+    ImageView imgBackProfile, imgShowCalender, imgAnhBug, imgMoAnh;
     EditText edtTenLoi, edtMucDoNghiemTrong, edtDeadline, edtMoTaLoi, edtSoBuoc, edtKetQuaMongMuon;
     CardView btnAddBug;
     DBQuanLyBug database;
@@ -205,7 +205,7 @@ public class AddBugActivity extends AppCompatActivity {
                 }
             }
         });
-        imgAnhBug.setOnClickListener(new View.OnClickListener() {
+        imgMoAnh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Mở Intent để chọn ảnh từ thư viện
@@ -427,6 +427,7 @@ public class AddBugActivity extends AppCompatActivity {
                 String imageUrl = uri.toString();
                 // Hiển thị ảnh trong ImageView
                 Picasso.get().load(imageUrl).into(imgAnhBug);
+                imgAnhBug.setVisibility(View.VISIBLE);
             });
         }).addOnFailureListener(exception -> {
             // Xảy ra lỗi khi upload ảnh

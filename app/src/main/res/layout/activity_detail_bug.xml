@@ -37,15 +37,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 >
-                <ImageView
-                    android:id="@+id/imgAnhBug"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:layout_margin="20dp"
-                    android:src="@mipmap/ic_launcher"
-                    />
                 <LinearLayout
-                    android:layout_below="@id/imgAnhBug"
                     android:id="@+id/linearProject"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -75,6 +67,13 @@
                                 android:textSize="16sp"
                                 android:textColor="@color/black"
                                 android:padding="15dp"
+                                />
+                            <ImageView
+                                android:visibility="gone"
+                                android:id="@+id/imgAnhBug"
+                                android:layout_width="match_parent"
+                                android:layout_height="200dp"
+                                android:layout_margin="20dp"
                                 />
                             <TextView
                                 android:visibility="gone"

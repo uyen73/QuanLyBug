@@ -52,6 +52,7 @@ public class DetailBugActivity extends AppCompatActivity {
     DBQuanLyBug database;
     CommentAdapter commentAdapter;
     EditText edtComment;
+    boolean isImage = true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -229,11 +230,20 @@ public class DetailBugActivity extends AppCompatActivity {
     }
 
     private void toggleDescription() {
-        if (txtChiTietMoTaBug.getVisibility() == View.VISIBLE) {
+        if (txtChiTietMoTaBug.getVisibility() == View.VISIBLE && !isImage) {
+            imgAnhBug.setVisibility(View.GONE);
             animateViewOut(txtChiTietMoTaBug);
-        } else {
+        } else if (txtChiTietMoTaBug.getVisibility() == View.VISIBLE && isImage) {
+            imgAnhBug.setVisibility(View.GONE);
+            animateViewOut(txtChiTietMoTaBug);
+        } else if (txtChiTietMoTaBug.getVisibility() == View.GONE && !isImage) {
+            imgAnhBug.setVisibility(View.GONE);
+            animateViewIn(txtChiTietMoTaBug);
+        }else if (txtChiTietMoTaBug.getVisibility() == View.GONE && isImage) {
+            imgAnhBug.setVisibility(View.VISIBLE);
             animateViewIn(txtChiTietMoTaBug);
         }
+
     }
 
     private void animateViewIn(View view) {
@@ -335,11 +345,13 @@ public class DetailBugActivity extends AppCompatActivity {
             @Override
             public void onSuccess(Uri uri) {
                 Picasso.get().load(uri).into(imgAnhBug);
+                isImage = true;
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
                 imgAnhBug.setVisibility(View.GONE);
+                isImage = false;
             }
         });
     }

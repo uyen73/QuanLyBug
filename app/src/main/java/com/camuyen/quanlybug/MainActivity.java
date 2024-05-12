@@ -156,9 +156,7 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 menuItem.setChecked(false);
                 int id = menuItem.getItemId();
-                if (id == R.id.nav_me){
-                    Toast.makeText(MainActivity.this, "Về chúng tôi", Toast.LENGTH_SHORT).show();
-                }else if (id == R.id.nav_logout){
+               if (id == R.id.nav_logout){
                     FirebaseAuth mAuth = FirebaseAuth.getInstance();
                     // Đăng xuất người dùng
                     mAuth.signOut();

@@ -8,9 +8,6 @@
             android:id="@+id/nav_add_bug"
             android:title="Thêm bug" />
         <item
-            android:id="@+id/nav_me"
-            android:title="Về bản thân" />
-        <item
             android:id="@+id/nav_logout"
             android:title="Đăng xuất" />
     </group>
