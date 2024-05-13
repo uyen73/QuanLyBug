@@ -18,13 +18,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
+import android.widget.TextView;
 
 import com.camuyen.quanlybug.R;
 import com.camuyen.quanlybug.adapter.BugAdapter;
 import com.camuyen.quanlybug.adapter.JobAdapter;
+import com.camuyen.quanlybug.adapter.ProjectAdapter;
 import com.camuyen.quanlybug.firebase.DBQuanLyBug;
 import com.camuyen.quanlybug.model.Bugs;
 import com.camuyen.quanlybug.model.Jobs;
+import com.camuyen.quanlybug.model.Project;
 import com.camuyen.quanlybug.model.User;
 import com.camuyen.quanlybug.projects.RepairBugActivity;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -38,21 +41,15 @@ import java.util.List;
 
 
 public class JobFragment extends Fragment {
-    RecyclerView listJobs;
+    RecyclerView listJobs, listProject;
     DBQuanLyBug database;
     BugAdapter adapter;
+    ProjectAdapter projectAdapter;
     ImageView imgFilter;
+    TextView txtTextProject, txtTextBug;
 
     List<Bugs> buglist = new ArrayList<>();
-    ActivityResultLauncher<Intent> updateBug = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
-            new ActivityResultCallback<ActivityResult>() {
-                @Override
-                public void onActivityResult(ActivityResult result) {
-                    if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
-                        // Xử lý kết quả khi người dùng chọn hình ảnh
-                    }
-                }
-            });
+    List<Project> projectlist = new ArrayList<>();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -68,6 +65,9 @@ public class JobFragment extends Fragment {
         listJobs = view.findViewById(R.id.listJobs);
         database = new DBQuanLyBug();
         imgFilter = view.findViewById(R.id.imgFilter);
+        listProject = view.findViewById(R.id.listProject);
+        txtTextProject = view.findViewById(R.id.txtTextProject);
+        txtTextBug = view.findViewById(R.id.txtTextBug);
 
 
     }
@@ -89,23 +89,85 @@ public class JobFragment extends Fragment {
         adapter = new BugAdapter(buglist, getActivity());
         listJobs.setLayoutManager(new LinearLayoutManager(getActivity()));
         listJobs.setAdapter(adapter);
+
+        projectAdapter = new ProjectAdapter(projectlist, getActivity());
+        listProject.setLayoutManager(new LinearLayoutManager(getActivity()));
+        listProject.setAdapter(projectAdapter);
+
         database.getBugsInfo(new DBQuanLyBug.BugsCallBack() {
             @Override
             public void onBugsLoaded(List<Bugs> bugs) {
                 database.getUserInfor(new DBQuanLyBug.UserCallback() {
                     @Override
                     public void onUserLoaded(User user) {
-                        List<Bugs> buglist = new ArrayList<>();
-                        String maNV = user.getMaNhanVien();
-                        for (Bugs a : bugs){
-                            if (a.getMaNhanVien().equals(maNV)){
-                                buglist.add(a);
+                        if (user.getMaNhanVien().startsWith("QL")){
+                            List<Bugs> buglist = new ArrayList<>();
+                            String maNV = user.getMaNhanVien();
+                            for (Bugs a : bugs){
+                                if (a.getMaQuanLy().equals(maNV)){
+                                    buglist.add(a);
+                                }
                             }
-                        }
-                        adapter = new BugAdapter(buglist, getActivity());
-                        listJobs.setLayoutManager(new LinearLayoutManager(getActivity()));
-                        listJobs.setAdapter(adapter);
+                            if (!buglist.isEmpty()){
+                                txtTextBug.setVisibility(View.VISIBLE);
+                            }
+                            adapter = new BugAdapter(buglist, getActivity());
+                            listJobs.setLayoutManager(new LinearLayoutManager(getActivity()));
+                            listJobs.setAdapter(adapter);
 
+                            database.getProjectsInfo(new DBQuanLyBug.ProjectsCallBack() {
+                                @Override
+                                public void onProjectsLoaded(List<Project> projects) {
+                                    List<Project> projectlist = new ArrayList<>();
+                                    for (Project a : projects){
+                                        if (a.getMaQuanLy().equals(maNV)){
+                                            projectlist.add(a);
+                                        }
+                                    }
+                                    if (!projectlist.isEmpty()){
+                                        txtTextProject.setVisibility(View.VISIBLE);
+                                    }
+                                    projectAdapter = new ProjectAdapter(projectlist, getActivity());
+                                    listProject.setLayoutManager(new LinearLayoutManager(getActivity()));
+                                    listProject.setAdapter(projectAdapter);
+                                }
+
+                                @Override
+                                public void onError(Exception e) {
+
+                                }
+                            });
+
+
+                        } else if (user.getMaNhanVien().startsWith("DEV")) {
+                            List<Bugs> buglist = new ArrayList<>();
+                            String maNV = user.getMaNhanVien();
+                            for (Bugs a : bugs){
+                                if (a.getMaNhanVien().equals(maNV)){
+                                    buglist.add(a);
+                                }
+                            }
+                            if (!buglist.isEmpty()){
+                                txtTextBug.setVisibility(View.VISIBLE);
+                            }
+                            adapter = new BugAdapter(buglist, getActivity());
+                            listJobs.setLayoutManager(new LinearLayoutManager(getActivity()));
+                            listJobs.setAdapter(adapter);
+                        } else if (user.getMaNhanVien().startsWith("TEST")) {
+                            List<Bugs> buglist = new ArrayList<>();
+                            String maNV = user.getMaNhanVien();
+                            for (Bugs a : bugs){
+                                if (a.getMaQuanLy().equals(maNV)){
+                                    buglist.add(a);
+                                }
+                            }
+                            if (!buglist.isEmpty()){
+                                txtTextBug.setVisibility(View.VISIBLE);
+                            }
+                            adapter = new BugAdapter(buglist, getActivity());
+                            listJobs.setLayoutManager(new LinearLayoutManager(getActivity()));
+                            listJobs.setAdapter(adapter);
+                        }
                     }
                 });
             }
@@ -115,6 +177,7 @@ public class JobFragment extends Fragment {
 
             }
         });
+
     }
     private void showPopupMenu(View v, String maNV) {
         PopupMenu popupMenu = new PopupMenu(getContext(), v);

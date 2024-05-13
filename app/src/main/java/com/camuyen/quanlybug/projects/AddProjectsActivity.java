@@ -2,6 +2,7 @@ package com.camuyen.quanlybug.projects;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.DatePicker;
@@ -171,7 +172,11 @@ public class AddProjectsActivity extends AppCompatActivity {
         String tenQuanLy = edtTenQuanLy.getText().toString();
         String ngayBatDau = edtNgayBatDau.getText().toString();
         String moTa = edtMoTa.getText().toString();
+        String maQuanLy = "";
+        SharedPreferences preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        maQuanLy = preferences.getString("maQuanLy", "");
 
-        return new Project(maDA, tenQuanLy, tenDA, moTa, database.convertToDate(ngayBatDau), "Processing");
+
+        return new Project(maDA, maQuanLy, tenQuanLy, tenDA, moTa, database.convertToDate(ngayBatDau), "Processing");
     }
 }

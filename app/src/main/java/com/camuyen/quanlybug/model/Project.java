@@ -4,14 +4,16 @@ import java.util.Date;
 
 public class Project {
     String maDuAn;
+    String maQuanLy;
     String tenQuanLy;
     String tenDuAn;
     String moTa;
     Date ngayBatDau;
     String trangThai;
 
-    public Project(String maDuAn, String tenQuanLy, String tenDuAn, String moTa, Date ngayBatDau, String trangThai) {
+    public Project(String maDuAn, String maQuanLy, String tenQuanLy, String tenDuAn, String moTa, Date ngayBatDau, String trangThai) {
         this.maDuAn = maDuAn;
+        this.maQuanLy = maQuanLy;
         this.tenQuanLy = tenQuanLy;
         this.tenDuAn = tenDuAn;
         this.moTa = moTa;
@@ -28,6 +30,14 @@ public class Project {
 
     public void setTrangThai(String trangThai) {
         this.trangThai = trangThai;
+    }
+
+    public String getMaQuanLy() {
+        return maQuanLy;
+    }
+
+    public void setMaQuanLy(String maQuanLy) {
+        this.maQuanLy = maQuanLy;
     }
 
     public String getTenQuanLy() {

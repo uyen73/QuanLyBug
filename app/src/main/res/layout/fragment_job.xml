@@ -14,11 +14,41 @@
         android:layout_marginBottom="16dp"
         android:layout_marginEnd="32dp"
         />
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/txtTextProject"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="Project: "
+        android:textColor="@color/black"
+        android:layout_above="@+id/listProject"
+        />
     <androidx.recyclerview.widget.RecyclerView
         android:layout_below="@+id/imgFilter"
+        android:id="@+id/listProject"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </androidx.recyclerview.widget.RecyclerView>
+    <TextView
+        android:id="@+id/txtTextBug"
+        android:layout_below="@id/listProject"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:textColor="@color/black"
+        android:text="Bug: "
+        android:visibility="gone"
+        />
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_below="@+id/txtTextBug"
+        android:layout_marginTop="16dp"
         android:id="@+id/listJobs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
     </androidx.recyclerview.widget.RecyclerView>
+
+
+
 </RelativeLayout>

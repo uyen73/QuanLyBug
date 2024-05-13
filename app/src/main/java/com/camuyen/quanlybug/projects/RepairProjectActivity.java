@@ -36,6 +36,7 @@ public class RepairProjectActivity extends AppCompatActivity {
     Calendar calendar;
     ImageView imgShowCalender;
     String maDuAn = "";
+    String maQuanLy = "";
     String trangThai = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +44,7 @@ public class RepairProjectActivity extends AppCompatActivity {
         setContentView(R.layout.activity_repair_project);
         Intent intent = getIntent();
         maDuAn = intent.getStringExtra("maDuAn");
+        maQuanLy = intent.getStringExtra("maQuanLy");
         getWidget();
         addAction();
     }
@@ -188,6 +190,6 @@ public class RepairProjectActivity extends AppCompatActivity {
         String ngayBatDau = edtNgayBatDau.getText().toString();
         String moTa = edtMoTa.getText().toString();
 
-        return new Project(maDA, tenQuanLy, tenDA, moTa, database.convertToDate(ngayBatDau), trangThai);
+        return new Project(maDA, maQuanLy, tenQuanLy, tenDA, moTa, database.convertToDate(ngayBatDau), trangThai);
     }
 }

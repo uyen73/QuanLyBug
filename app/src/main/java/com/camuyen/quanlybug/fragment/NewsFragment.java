@@ -42,7 +42,7 @@ public class NewsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_news, container, false);
-        DBQuanLyBug database = new DBQuanLyBug();
+        database = new DBQuanLyBug();
         getWidget(view);
         addAction(view);
         getData();

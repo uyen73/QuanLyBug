@@ -175,7 +175,8 @@ public class DBQuanLyBug {
                         String ngayBatDau = document.getString("ngayBatDau");
                         String tenQuanLy = document.getString("tenQuanLy");
                         String trangThai = document.getString("trangThai");
-                        Project project = new Project(maDuAn, tenQuanLy, tenDuAn, moTa, convertToDate(ngayBatDau), trangThai);
+                        String maQuanLy = document.getString("maQuanLy");
+                        Project project = new Project(maDuAn, maQuanLy, tenQuanLy, tenDuAn, moTa, convertToDate(ngayBatDau), trangThai);
                         projects.add(project);
                     }
                     callback.onProjectsLoaded(projects);

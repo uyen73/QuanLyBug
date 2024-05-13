@@ -78,7 +78,7 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHold
         holder.imgMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showPopupMenu(v, a.getMaDuAn());
+                showPopupMenu(v, a.getMaDuAn(), a.getMaQuanLy());
             }
         });
         holder.cardviewProject.setOnClickListener(new View.OnClickListener() {
@@ -105,7 +105,7 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHold
         }
 
     }
-    private void showPopupMenu(View v, String maDuAn) {
+    private void showPopupMenu(View v, String maDuAn, String maQuanLy) {
         PopupMenu popupMenu = new PopupMenu(context, v);
         popupMenu.getMenuInflater().inflate(R.menu.menu_project, popupMenu.getMenu());
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -114,6 +114,7 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHold
                 if (item.getItemId() == R.id.mnuSuaProject){
                     Intent intent = new Intent(context, RepairProjectActivity.class);
                     intent.putExtra("maDuAn", maDuAn);
+                    intent.putExtra("maQuanLy", maQuanLy);
                     context.startActivity(intent);
                 }
                 if (item.getItemId() == R.id.mnuXoaProject){
