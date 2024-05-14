@@ -62,14 +62,14 @@ public class PeopleAdapter extends RecyclerView.Adapter<PeopleAdapter.ViewHolder
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-
+                holder.imgProfilePeople.setImageResource(R.mipmap.ic_launcher);
             }
         });
         holder.cardviewPeople.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, DetailPeopleActivity.class);
-                intent.putExtra("maNV", a.getMaNhanVien());
+                intent.putExtra("maNhanVien", a.getMaNhanVien());
                 context.startActivity(intent);
             }
         });

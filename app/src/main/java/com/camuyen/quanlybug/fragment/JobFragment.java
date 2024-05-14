@@ -1,13 +1,7 @@
 package com.camuyen.quanlybug.fragment;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,19 +16,11 @@ import android.widget.TextView;
 
 import com.camuyen.quanlybug.R;
 import com.camuyen.quanlybug.adapter.BugAdapter;
-import com.camuyen.quanlybug.adapter.JobAdapter;
 import com.camuyen.quanlybug.adapter.ProjectAdapter;
 import com.camuyen.quanlybug.firebase.DBQuanLyBug;
 import com.camuyen.quanlybug.model.Bugs;
-import com.camuyen.quanlybug.model.Jobs;
 import com.camuyen.quanlybug.model.Project;
 import com.camuyen.quanlybug.model.User;
-import com.camuyen.quanlybug.projects.RepairBugActivity;
-import com.google.firebase.firestore.FirebaseFirestore;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;

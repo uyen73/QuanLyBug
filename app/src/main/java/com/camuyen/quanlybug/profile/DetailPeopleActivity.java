@@ -55,7 +55,7 @@ public class DetailPeopleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_people);
         Intent intent = getIntent();
-        maNV = intent.getStringExtra("maNV");
+        maNV = intent.getStringExtra("maNhanVien");
         getWidget();
         addAction();
     }
@@ -81,11 +81,9 @@ public class DetailPeopleActivity extends AppCompatActivity {
         imgBackProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getOnBackPressedDispatcher().onBackPressed();
+                finish();
             }
         });
-        database.setImageProfile(imgProfile);
-
         database.getUsers(new DBQuanLyBug.UCallBack() {
             @Override
             public void onULoaded(List<User> users) {
@@ -111,7 +109,7 @@ public class DetailPeopleActivity extends AppCompatActivity {
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-
+                        imgProfile.setImageResource(R.mipmap.ic_launcher);
                     }
                 });
 
@@ -122,15 +120,7 @@ public class DetailPeopleActivity extends AppCompatActivity {
 
             }
         });
-        database.getUserInfor(new DBQuanLyBug.UserCallback() {
-            @Override
-            public void onUserLoaded(User user) {
-                String emailandphone = user.getGmail() + " | " + user.getSoDienThoai();
-                txtEmailAndPhoneNumber.setText(emailandphone);
-                String name = user.getHoTen();
-                txtName.setText(name);
-            }
-        });
+
         imgEditImageProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -144,7 +134,7 @@ public class DetailPeopleActivity extends AppCompatActivity {
             public void onBugsLoaded(List<Bugs> bugs) {
                 List<Bugs> bugsList = new ArrayList<>();
                 for (Bugs bug : bugs) {
-                    if (bug.getMaNhanVien().equals(maNV)) {
+                    if (bug.getMaNhanVien().equals(maNV) || bug.getMaQuanLy().equals(maNV)) {
                         bugsList.add(bug);
                     }
                 }

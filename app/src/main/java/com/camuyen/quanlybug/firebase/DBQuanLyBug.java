@@ -2,18 +2,16 @@ package com.camuyen.quanlybug.firebase;
 
 import android.content.Context;
 import android.net.Uri;
-import android.os.Build;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 
+import com.camuyen.quanlybug.R;
 import com.camuyen.quanlybug.model.Bugs;
 import com.camuyen.quanlybug.model.Comments;
 import com.camuyen.quanlybug.model.Devices;
-import com.camuyen.quanlybug.model.Jobs;
 import com.camuyen.quanlybug.model.Project;
 import com.camuyen.quanlybug.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -35,10 +33,6 @@ import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -141,7 +135,7 @@ public class DBQuanLyBug {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-
+                imgProfile.setImageResource(R.mipmap.ic_launcher);
             }
         });
     }
@@ -375,35 +369,6 @@ public class DBQuanLyBug {
                 Toast.makeText(context, "Không thể xóa tài liệu", Toast.LENGTH_SHORT).show();
             }
         });
-    }
-    public void getJobsInfo(JobsCallBack callback) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        CollectionReference ref = db.collection("jobs");
-        ref.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    List<Jobs> jobs = new ArrayList<>();
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        String maVanDe = document.getString("maVanDe");
-                        String maNhanVien = document.getString("maNhanVien");
-                        String maCongViec = document.getString("maCongViec");
-                        Jobs job = new Jobs(maCongViec, maNhanVien, maVanDe);
-                        jobs.add(job);
-
-                    }
-                    callback.onIssuesLoaded(jobs);
-                } else {
-                    callback.onError(task.getException());
-                }
-            }
-
-        });
-    }
-    public interface JobsCallBack {
-        void onIssuesLoaded(List<Jobs> jobs);
-        void onError(Exception e);
     }
     public void getBugsInfo(BugsCallBack callback) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
