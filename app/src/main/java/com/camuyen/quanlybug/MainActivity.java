@@ -243,6 +243,25 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+        bottomNavigation.setOnReselectListener(new MeowBottomNavigation.ReselectListener() {
+            @Override
+            public void onReselectItem(MeowBottomNavigation.Model item) {
+                switch (item.getId()) {
+                    case 1:
+                        viewPager.setCurrentItem(1);
+                        txtTitle.setText("Home page");
+                        break;
+                    case 2:
+                        viewPager.setCurrentItem(2);
+                        txtTitle.setText("Your works");
+                        break;
+                    case 3:
+                        viewPager.setCurrentItem(3);
+                        txtTitle.setText("People");
+                        break;
+                }
+            }
+        });
 
         viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override

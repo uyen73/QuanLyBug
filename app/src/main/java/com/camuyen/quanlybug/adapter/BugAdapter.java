@@ -78,7 +78,7 @@ public class BugAdapter extends RecyclerView.Adapter<BugAdapter.ViewHolder> {
         holder.imgMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showPopupMenu(v, bug.getMaBug());
+                showPopupMenu(v, bug.getMaBug(), bug.getMaNhanVien());
             }
         });
         holder.cardViewBug.setOnClickListener(new View.OnClickListener() {
@@ -126,17 +126,31 @@ public class BugAdapter extends RecyclerView.Adapter<BugAdapter.ViewHolder> {
             imgMore = itemView.findViewById(R.id.imgMoreBug);
         }
     }
-    private void showPopupMenu(View v, String maBug) {
+    private void showPopupMenu(View v, String maBug, String maNV) {
         PopupMenu popupMenu = new PopupMenu(v.getContext(), v);
         popupMenu.getMenuInflater().inflate(R.menu.menu_bug, popupMenu.getMenu());
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 if (item.getItemId() == R.id.mnuSuaBug){
-                    Intent intent = new Intent(context, RepairBugActivity.class);
-                    intent.putExtra("maBug", maBug);
-                    context.startActivity(intent);
-                    System.out.println(maBug);
+                    database.getUserInfor(new DBQuanLyBug.UserCallback() {
+                        @Override
+                        public void onUserLoaded(User user) {
+                            String maNhanVien = user.getMaNhanVien();
+                            if (!maNhanVien.startsWith("DEV") ){
+                                Intent intent = new Intent(context, RepairBugActivity.class);
+                                intent.putExtra("maBug", maBug);
+                                context.startActivity(intent);
+                            } else if (maNhanVien.startsWith("DEV") && !maNV.equals(maNhanVien)){
+                                Toast.makeText(context, "Bạn không có quyền truy cập", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Intent intent = new Intent(context, RepairBugActivity.class);
+                                intent.putExtra("maBug", maBug);
+                                context.startActivity(intent);
+                            }
+                        }
+                    });
+
                 }
                 if (item.getItemId() == R.id.mnuXoaBug){
                     deleteDocument(maBug);
