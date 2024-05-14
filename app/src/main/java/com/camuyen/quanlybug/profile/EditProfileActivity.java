@@ -3,6 +3,7 @@ package com.camuyen.quanlybug.profile;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +20,7 @@ public class EditProfileActivity extends AppCompatActivity {
     CardView btnUpdateProfile;
     EditText edtHoTen, edtChucVu, edtSDT, edtEmail;
     DBQuanLyBug database;
+    ImageView imgBackProfile;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +36,7 @@ public class EditProfileActivity extends AppCompatActivity {
         edtChucVu = findViewById(R.id.edtChucVu);
         edtSDT = findViewById(R.id.edtSDT);
         edtEmail = findViewById(R.id.edtEmail);
+        imgBackProfile = findViewById(R.id.imgBackProfile);
 
         database.getUserInfor(new DBQuanLyBug.UserCallback() {
             @Override
@@ -46,6 +49,12 @@ public class EditProfileActivity extends AppCompatActivity {
         });
     }
     private void addAction() {
+        imgBackProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getOnBackPressedDispatcher().onBackPressed();
+            }
+        });
         btnUpdateProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
