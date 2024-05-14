@@ -22,6 +22,9 @@
         android:theme="@style/Theme.QuanLyBug"
         tools:targetApi="31">
         <activity
+            android:name=".profile.CreateAccountActivity"
+            android:exported="false" />
+        <activity
             android:name=".profile.DetailPeopleActivity"
             android:exported="false" />
         <activity
@@ -30,7 +33,7 @@
         <activity
             android:name=".fragment.DetailBugActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustPan|stateHidden"/>
+            android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
             android:name=".projects.RepairBugActivity"
             android:exported="false" />

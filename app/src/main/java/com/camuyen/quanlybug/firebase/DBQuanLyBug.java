@@ -18,6 +18,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -577,4 +578,88 @@ public class DBQuanLyBug {
     public interface BugFilerCallBack {
         void onBugsFilterLoaded(List<Bugs> bugs);
     }
+    public void addNewUser(User a){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        // Tạo một tài liệu mới với ID được chỉ định
+        Map<String, Object> data = new HashMap<>();
+        data.put("uid", a.getUid());
+        data.put("chucVu", a.getChucVu());
+        data.put("gmail", a.getGmail());
+        data.put("hoTen", a.getHoTen());
+        data.put("maNhanVien", a.getMaNhanVien());
+        data.put("soDienThoai", a.getSoDienThoai());
+        data.put("ten", a.getTen());
+        data.put("matKhau", a.getMatKhau());
+
+        // Thêm dữ liệu vào Firestore với ID được chỉ định
+
+        db.collection("users").document(a.getUid()).set(data)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        // Thành công
+                        Log.d("DB", "Document added with ID: " + a.getUid());
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Thất bại
+                        Log.w("DB", "Error adding document", e);
+                    }
+                });
+    }
+    public void createAccount(User a){
+        auth.createUserWithEmailAndPassword(a.getGmail(), a.getMatKhau())
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            FirebaseUser user = auth.getCurrentUser();
+                            if (user != null) {
+                                String uid = user.getUid();
+                                a.setUid(uid);
+                                addNewUser(a);
+                            }
+                        } else {
+                            System.out.println("Lỗi tạo account");
+                        }
+                    }
+                });
+    }
+    public void getUserSort(UserSortCallBack callback){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference collectionRef = db.collection("users");
+
+        // Lấy dữ liệu có thuộc tính "your_property" có giá trị bằng "desired_value"
+        collectionRef.orderBy("ten")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            List<User> users = new ArrayList<>();
+                            for (DocumentSnapshot document : task.getResult()) {
+                                String uid = document.getString("uid");
+                                String hoTen = document.getString("hoTen");
+                                String maNhanVien = document.getString("maNhanVien");
+                                String ten = document.getString("ten");
+                                String chucVu = document.getString("chucVu");
+                                String soDienThoai = document.getString("soDienThoai");
+                                String gmail = document.getString("gmail");
+                                String matKhau = document.getString("matKhau");
+                                User user = new User(uid, maNhanVien, ten, hoTen, chucVu, soDienThoai, gmail, matKhau);
+                                users.add(user);
+                            }
+                            callback.onBugsFilterLoaded(users);
+                        } else {
+                            Log.d("Lỗi DB", "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+    }
+    public interface UserSortCallBack {
+        void onBugsFilterLoaded(List<User> users);
+    }
+
 }

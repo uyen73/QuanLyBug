@@ -42,21 +42,14 @@ public class PeopleFragment extends Fragment {
         listPeople = view.findViewById(R.id.listPeople);
         listPeople.setLayoutManager(new LinearLayoutManager(getActivity()));
         database = new DBQuanLyBug();
-
-        database.getUsers(new DBQuanLyBug.UCallBack() {
+        database.getUserSort(new DBQuanLyBug.UserSortCallBack() {
             @Override
-            public void onULoaded(List<User> users) {
+            public void onBugsFilterLoaded(List<User> users) {
                 adapter = new PeopleAdapter(users, getActivity());
                 listPeople.setLayoutManager(new LinearLayoutManager(getActivity()));
                 listPeople.setAdapter(adapter);
             }
-
-            @Override
-            public void onError(Exception e) {
-
-            }
         });
-
     }
     private void addAction(View view){
 

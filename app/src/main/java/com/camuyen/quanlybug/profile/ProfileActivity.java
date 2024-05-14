@@ -38,7 +38,7 @@ public class ProfileActivity extends AppCompatActivity {
     TextView txtEmailAndPhoneNumber, txtName;
     FirebaseAuth auth;
     DBQuanLyBug database;
-    TextView txtEditProfileInformation;
+    TextView txtEditProfileInformation, txtTaoTaiKhoanMoi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +56,7 @@ public class ProfileActivity extends AppCompatActivity {
         imgEditImageProfile = findViewById(R.id.imgEditImageProfile);
 
         txtEditProfileInformation = findViewById(R.id.txtEditProfileInformation);
+        txtTaoTaiKhoanMoi = findViewById(R.id.txtTaoTaiKhoanMoi);
 
         auth = FirebaseAuth.getInstance();
         database = new DBQuanLyBug();
@@ -93,6 +94,12 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(ProfileActivity.this, EditProfileActivity.class));
+            }
+        });
+        txtTaoTaiKhoanMoi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ProfileActivity.this, CreateAccountActivity.class));
             }
         });
     }
