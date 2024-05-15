@@ -99,7 +99,17 @@ public class ProfileActivity extends AppCompatActivity {
         txtTaoTaiKhoanMoi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ProfileActivity.this, CreateAccountActivity.class));
+                database.getUserInfor(new DBQuanLyBug.UserCallback() {
+                    @Override
+                    public void onUserLoaded(User user) {
+                        if (user.getMaNhanVien().startsWith("QL")){
+                            startActivity(new Intent(ProfileActivity.this, CreateAccountActivity.class));
+                        }else {
+                            Toast.makeText(ProfileActivity.this, "Bạn không có quyền tạo tài khoản", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+                
             }
         });
     }
