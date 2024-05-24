@@ -179,8 +179,10 @@ public class DetailBugActivity extends AppCompatActivity {
                                         @Override
                                         public void onBugsLoaded(List<Bugs> bugs) {
                                             for (Bugs a : bugs) {
-                                                if (a.getMaBug().equals(maBug)) {
+                                                if (a.getMaBug().equals(maBug) && user.getMaNhanVien().startsWith("QL") || user.getMaNhanVien().startsWith("TEST")) {
                                                     sendNotification(a.getMaNhanVien());
+                                                } else if (a.getMaBug().equals(maBug) && user.getMaNhanVien().startsWith("NV")) {
+                                                    sendNotification(a.getMaQuanLy());
                                                 }
                                             }
 
