@@ -44,30 +44,44 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
                 android:orientation="horizontal">
-                <EditText
-                    android:layout_weight="4"
-                    android:id="@+id/edtTenLoi"
-                    android:layout_width="0dp"
-                    android:layout_height="60dp"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:endIconMode="clear_text"
+                    app:helperTextEnabled="true"
+                    app:helperText="*Required"
+                    app:helperTextTextColor="@color/red"
+                    app:errorEnabled="true"
                     android:hint="Tên lỗi"
-                    android:paddingStart="12dp"
-                    android:paddingEnd="12dp"
-                    android:background="@drawable/custom_edit_text_rounded"
-                    />
+                    >
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edtTenLoi"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        />
+                </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp">
-                <EditText
-                    android:layout_weight="3"
-                    android:id="@+id/edtMucDoNghiemTrong"
+
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
+                    android:layout_height="wrap_content"
+                    app:endIconMode="clear_text"
+                    app:helperTextEnabled="true"
+                    app:helperText="*Required"
+                    app:helperTextTextColor="@color/red"
+                    app:errorEnabled="true"
                     android:hint="Mức độ nghiêm trọng"
-                    android:paddingStart="12dp"
-                    android:paddingEnd="12dp"
-                    android:background="@drawable/custom_edit_text_rounded"/>
+                    >
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edtMucDoNghiemTrong"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        />
+                </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
             <ImageView
                 android:id="@+id/imgMoAnh"
@@ -129,23 +143,30 @@
                 android:orientation="horizontal"
                 android:layout_marginBottom ="20dp"
                 android:weightSum="3">
-                <EditText
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_weight="2"
-                    android:id="@+id/edtDeadline"
                     android:layout_width="0dp"
-                    android:layout_height="60dp"
-                    android:background="@drawable/custom_edit_text_rounded"
-                    android:inputType="datetime"
+                    android:layout_height="wrap_content"
+                    app:endIconMode="clear_text"
+                    app:helperTextEnabled="true"
+                    app:helperText="*Required"
+                    app:helperTextTextColor="@color/red"
+                    app:errorEnabled="true"
                     android:hint="Deadline"
-                    android:paddingStart="12dp"
-                    android:paddingEnd="12dp"
-                    />
+                    >
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edtDeadline"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        />
+                </com.google.android.material.textfield.TextInputLayout>
                 <ImageView
                     android:id="@+id/imgShowCalender"
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
                     android:src="@drawable/ic_calendar"
                     />
             </LinearLayout>
@@ -153,30 +174,44 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp">
-                <EditText
-                    android:id="@+id/edtKetQuaMongMuon"
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:paddingStart="12dp"
-                    android:paddingEnd="12dp"
+                    android:layout_height="wrap_content"
+                    app:endIconMode="clear_text"
+                    app:helperTextEnabled="true"
+                    app:helperText="*Required"
+                    app:helperTextTextColor="@color/red"
+                    app:errorEnabled="true"
                     android:hint="Kết quả mong muốn"
-                    android:background="@drawable/custom_edit_text_rounded"
-                    />
+                    >
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edtKetQuaMongMuon"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        />
+                </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_marginBottom="20dp">
-                <EditText
-                    android:id="@+id/edtMoTaLoi"
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
+                    android:layout_height="wrap_content"
+                    app:endIconMode="clear_text"
+                    app:helperTextEnabled="true"
+                    app:helperText="*Required"
+                    app:helperTextTextColor="@color/red"
+                    app:errorEnabled="true"
                     android:hint="Mô tả lỗi"
-                    android:paddingStart="12dp"
-                    android:paddingEnd="12dp"
-                    android:background="@drawable/custom_edit_text_rounded"
-                    />
+                    >
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edtMoTaLoi"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        />
+                </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -185,26 +220,33 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-                    <EditText
+                    <com.google.android.material.textfield.TextInputLayout
                         android:layout_weight="4"
-                        android:id="@+id/edtSoBuoc"
-                        android:layout_width="wrap_content"
-                        android:layout_height="60dp"
-                        android:hint="Nhập số bước "
-                        android:layout_gravity="center"
-                        android:paddingStart="12dp"
-                        android:paddingEnd="12dp"
-                        android:background="@drawable/custom_edit_text_rounded"
-                        android:inputType="number"
-                        />
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:endIconMode="clear_text"
+                        app:helperTextEnabled="true"
+                        app:helperText="*Required"
+                        app:helperTextTextColor="@color/red"
+                        app:errorEnabled="true"
+                        android:hint="Số bước"
+                        >
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edtSoBuoc"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            />
+                    </com.google.android.material.textfield.TextInputLayout>
+
                     <Button
                         android:layout_weight="1"
                         android:id="@+id/btnOK"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:text="OK"
-                        android:layout_margin="10dp"
+
                         android:layout_gravity="center"
+                        android:layout_marginBottom="10dp"
                         />
                 </LinearLayout>
                 <LinearLayout

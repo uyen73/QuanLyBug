@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/ic_background"
     android:id="@+id/loginActivity"
     tools:context=".login.LoginActivity">
@@ -24,28 +25,48 @@
         android:orientation="vertical"
         android:layout_centerInParent="true"
         >
-        <EditText
-            android:id="@+id/edtEmail"
+
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="12dp"
-            android:layout_margin="8dp"
-            android:background="@drawable/text_box"
-            android:inputType="textEmailAddress"
-            android:hint="Email"/>
-        <EditText
-            android:id="@+id/edtPassword"
+            android:layout_margin="12dp"
+            app:endIconMode="clear_text"
+            app:helperTextEnabled="true"
+            app:helperText="*Required"
+            app:helperTextTextColor="@color/red"
+            app:errorEnabled="true"
+            android:hint="Email"
+            >
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="12dp"
-            android:layout_margin="8dp"
-            android:background="@drawable/text_box"
+            android:layout_margin="12dp"
+            app:endIconMode="password_toggle"
+            app:helperTextEnabled="true"
+            app:helperText="*Required"
+            app:helperTextTextColor="@color/red"
+            app:errorEnabled="true"
             android:hint="Password"
-            android:inputType="textPassword"/>
+            >
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <CheckBox
+                android:visibility="gone"
                 android:id="@+id/cbShowPassword"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -67,7 +88,7 @@
 
 
     </LinearLayout>
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
