@@ -87,20 +87,7 @@ public class JobFragment extends Fragment {
                     @Override
                     public void onUserLoaded(User user) {
                         if (user.getMaNhanVien().startsWith("QL")){
-                            List<Bugs> buglist = new ArrayList<>();
                             String maNV = user.getMaNhanVien();
-                            for (Bugs a : bugs){
-                                if (a.getMaQuanLy().equals(maNV)){
-                                    buglist.add(a);
-                                }
-                            }
-                            if (!buglist.isEmpty()){
-                                txtTextBug.setVisibility(View.VISIBLE);
-                            }
-                            adapter = new BugAdapter(buglist, getActivity());
-                            listJobs.setLayoutManager(new LinearLayoutManager(getActivity()));
-                            listJobs.setAdapter(adapter);
-
                             database.getProjectsInfo(new DBQuanLyBug.ProjectsCallBack() {
                                 @Override
                                 public void onProjectsLoaded(List<Project> projects) {
@@ -126,6 +113,7 @@ public class JobFragment extends Fragment {
 
 
                         } else if (user.getMaNhanVien().startsWith("DEV")) {
+                            imgFilter.setVisibility(View.INVISIBLE);
                             List<Bugs> buglist = new ArrayList<>();
                             String maNV = user.getMaNhanVien();
                             for (Bugs a : bugs){
@@ -140,6 +128,7 @@ public class JobFragment extends Fragment {
                             listJobs.setLayoutManager(new LinearLayoutManager(getActivity()));
                             listJobs.setAdapter(adapter);
                         } else if (user.getMaNhanVien().startsWith("TEST")) {
+                            imgFilter.setVisibility(View.INVISIBLE);
                             List<Bugs> buglist = new ArrayList<>();
                             String maNV = user.getMaNhanVien();
                             for (Bugs a : bugs){
