@@ -729,5 +729,24 @@ public class DBQuanLyBug {
                     }
                 });
     }
+    public void getDeadlineBug(DeadlineCallback callback, String maBug){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference bugRef = db.collection("bugs");
+        bugRef.document(maBug).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                String deadline = documentSnapshot.getString("deadline");
+                callback.onDeadlineLoaded(deadline);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+            }
+        });
+    }
+    public interface DeadlineCallback{
+        void onDeadlineLoaded(String deadline);
+    }
 
 }

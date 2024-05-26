@@ -31,10 +31,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.camuyen.quanlybug.adapter.ViewPagerAdapter;
+import com.camuyen.quanlybug.fcm.AlarmScheduler;
 import com.camuyen.quanlybug.fcm.MyApp;
+import com.camuyen.quanlybug.fcm.NotificationScheduler;
 import com.camuyen.quanlybug.firebase.DBQuanLyBug;
 import com.camuyen.quanlybug.fragment.DetailProjectFragment;
 import com.camuyen.quanlybug.login.LoginActivity;
+import com.camuyen.quanlybug.model.Bugs;
 import com.camuyen.quanlybug.model.User;
 import com.camuyen.quanlybug.profile.ProfileActivity;
 import com.camuyen.quanlybug.projects.AddBugActivity;
@@ -46,6 +49,9 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.iid.internal.FirebaseInstanceIdInternal;
 import com.google.firebase.messaging.FirebaseMessaging;
+
+import java.util.Calendar;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     DrawerLayout drawerLayout;
@@ -59,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        database = new DBQuanLyBug();
         getWidget();
         setupViewPager();
         setupBottomNavigation();
@@ -90,16 +97,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void requestNotificationPermission() {
-        if (!NotificationManagerCompat.from(this).areNotificationsEnabled()) {
+        if (NotificationManagerCompat.from(this).getImportance() == NotificationManagerCompat.IMPORTANCE_NONE) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Yêu cầu quyền thông báo");
-            builder.setMessage("Ứng dụng cần quyền truy cập thông báo để hoạt động đúng. Vui lòng cấp quyền cho ứng dụng.");
+            builder.setTitle("Yêu cầu quyền truy cập chế độ thông báo");
+            builder.setMessage("Ứng dụng cần quyền truy cập chế độ thông báo để hoạt động đúng. Vui lòng cấp quyền cho ứng dụng.");
             builder.setPositiveButton("Đồng ý", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    // Chuyển người dùng đến màn hình cài đặt để cấp quyền thông báo
-                    Intent intent = new Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS);
-                    intent.putExtra(Settings.EXTRA_APP_PACKAGE, getPackageName());
+                    // Chuyển người dùng đến màn hình cài đặt để cấp quyền chế độ thông báo
+                    Intent intent = new Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS);
                     startActivity(intent);
                 }
             });
@@ -112,6 +118,7 @@ public class MainActivity extends AppCompatActivity {
             builder.show();
         }
     }
+
 
 
     private void getWidget(){
@@ -193,8 +200,59 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+        database.getUserInfor(new DBQuanLyBug.UserCallback() {
+            @Override
+            public void onUserLoaded(User user) {
+                String maNV = user.getMaNhanVien();
+                database.getBugsInfo(new DBQuanLyBug.BugsCallBack() {
+                    @Override
+                    public void onBugsLoaded(List<Bugs> bugs) {
+                        for (Bugs bug : bugs) {
+                            if ( maNV.startsWith("TEST") || maNV.startsWith("QL") && bug.getMaQuanLy().equals(maNV)){
+                                database.getDeadlineBug(new DBQuanLyBug.DeadlineCallback() {
+                                    @Override
+                                    public void onDeadlineLoaded(String deadline) {
+                                        long notificationTime = NotificationScheduler.getNotificationTime(deadline);
+                                        System.out.println(deadline);
+                                        AlarmScheduler.scheduleNotification(MainActivity.this, notificationTime, "Upcoming " + deadline, "Your task is due today!");
+                                    }
+                                }, bug.getMaBug());
+                            } else if (maNV.startsWith("DEV") && bug.getMaNhanVien().equals(maNV)){
+                                database.getDeadlineBug(new DBQuanLyBug.DeadlineCallback() {
+                                    @Override
+                                    public void onDeadlineLoaded(String deadline) {
+                                        long notificationTime = NotificationScheduler.getNotificationTime(deadline);
+                                        System.out.println(deadline);
+                                        AlarmScheduler.scheduleNotification(MainActivity.this, notificationTime, "Upcoming " + deadline, "Your task is due today!");
+                                    }
+                                }, bug.getMaBug());
+                            }
+
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+
+                    }
+                });
+            }
+        });
+
+
+        // Fetch deadline and schedule notification
+
 
     }
+//    private void scheduleTestNotification() {
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.setTimeInMillis(System.currentTimeMillis());
+//        calendar.add(Calendar.SECOND, 10);
+//
+//        AlarmScheduler.scheduleNotification(this, calendar.getTimeInMillis(), "Test Notification", "This is a test notification.");
+//        Toast.makeText(this, calendar.toString(), Toast.LENGTH_SHORT).show();
+//    }
 
     private void setupViewPager() {
         viewPager.setAdapter(new ViewPagerAdapter(this));
