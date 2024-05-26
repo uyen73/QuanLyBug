@@ -13,9 +13,20 @@ import androidx.core.app.NotificationCompat;
 
 import com.camuyen.quanlybug.MainActivity;
 import com.camuyen.quanlybug.R;
+import com.camuyen.quanlybug.firebase.DBQuanLyBug;
+import com.camuyen.quanlybug.model.Devices;
+import com.camuyen.quanlybug.model.NotificationItem;
+import com.camuyen.quanlybug.model.User;
+import com.camuyen.quanlybug.profile.NotificationActivity;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public static final String TAG = MyFirebaseMessagingService.class.getName();
@@ -32,7 +43,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     }
 
     private void sendNotification(String strTitle, String strMessage) {
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, NotificationActivity.class);
         PendingIntent pendingIntent;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
@@ -42,7 +53,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, MyApp.CHANNEL_ID)
                 .setContentTitle(strTitle)
                 .setContentText(strMessage)
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.drawable.ic_app)
                 .setContentIntent(pendingIntent);
 
         Notification notification = notificationBuilder.build();

@@ -31,11 +31,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="12dp"
             app:endIconMode="clear_text"
-            app:helperTextEnabled="true"
-            app:helperText="*Required"
-            app:helperTextTextColor="@color/red"
             app:errorEnabled="true"
-            android:hint="Email"
+            android:id="@+id/TILEmail"
             >
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edtEmail"
@@ -49,11 +46,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="12dp"
             app:endIconMode="password_toggle"
-            app:helperTextEnabled="true"
-            app:helperText="*Required"
-            app:helperTextTextColor="@color/red"
             app:errorEnabled="true"
-            android:hint="Password"
+            android:id="@+id/TILPassword"
             >
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edtPassword"

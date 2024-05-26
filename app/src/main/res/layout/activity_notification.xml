@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".profile.NotificationActivity">
+    <ImageView
+        android:id="@+id/imgBackNotification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_back"
+        android:layout_margin="32dp"
+        android:padding="5dp"
+
+        />
+    <ImageView
+        android:id="@+id/imgMenuNotification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_more"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="32dp"
+        android:padding="5dp"
+        />
+<!--    <TextView-->
+<!--        android:id="@+id/txtDanhDau"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Đánh dấu là đã đọc"-->
+<!--        android:layout_alignParentEnd="true"-->
+<!--        android:layout_margin="32dp"-->
+<!--        android:textColor="#00BCD4"-->
+<!--        android:padding="5dp"-->
+<!--        />-->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycleViewNotification"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imgMenuNotification"
+        >
+
+    </androidx.recyclerview.widget.RecyclerView>
+</RelativeLayout>

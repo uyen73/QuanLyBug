@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/mnuDanhDauDaDoc"
+        android:title="Đánh dấu tất cả là đã đọc" />
+    <item
+        android:id="@+id/mnuXoaTatCa"
+        android:title="Xoá tất cả thông báo" />
+</menu>

@@ -7,13 +7,17 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.camuyen.quanlybug.R;
+import com.camuyen.quanlybug.adapter.NotificationAdapter;
 import com.camuyen.quanlybug.model.Bugs;
 import com.camuyen.quanlybug.model.Comments;
 import com.camuyen.quanlybug.model.Devices;
+import com.camuyen.quanlybug.model.NotificationItem;
 import com.camuyen.quanlybug.model.Project;
 import com.camuyen.quanlybug.model.User;
+import com.camuyen.quanlybug.profile.NotificationActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -463,7 +467,7 @@ public class DBQuanLyBug {
                         devices.add(device);
 
                     }
-                    callback.onBugsLoaded(devices);
+                    callback.onDeviceLoaded(devices);
                 } else {
                     callback.onError(task.getException());
                 }
@@ -472,7 +476,7 @@ public class DBQuanLyBug {
         });
     }
     public interface DeviceCallBack {
-        void onBugsLoaded(List<Devices> devices);
+        void onDeviceLoaded(List<Devices> devices);
         void onError(Exception e);
     }
     public void getComments(CommentCallBack callback, String maBug) {
@@ -660,6 +664,70 @@ public class DBQuanLyBug {
     }
     public interface UserSortCallBack {
         void onBugsFilterLoaded(List<User> users);
+    }
+    public void getNotifications(NotificationCallback callback) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference notificationsRef = db.collection("notifications");
+
+        notificationsRef.get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        List<NotificationItem> notificationList = new ArrayList<>();
+                        for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
+                            String id = document.getId(); // Lấy id của thông báo
+                            String token = document.getString("token");
+                            String title = document.getString("title");
+                            String message = document.getString("message");
+                            boolean isRead = document.getBoolean("isRead");
+                            String maBug = document.getString("maBug");
+                            if (token != null && title != null && message != null) {
+                                notificationList.add(new NotificationItem(id, token, title, message, isRead, maBug));
+                            }
+                        }
+                        callback.onNotificationLoaded(notificationList);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.e("Lỗi DB", "Error getting documents: " + e);
+                    }
+                });
+    }
+    public interface NotificationCallback{
+        void onNotificationLoaded(List<NotificationItem> notification);
+
+    }
+    public void addNewNotification(String documentId, NotificationItem item) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference projectsCollectionRef = db.collection("notifications");
+
+        // Tạo một tài liệu mới với ID được chỉ định
+        Map<String, Object> notificationData = new HashMap<>();
+        notificationData.put("token", item.getToken());  // Token của thiết bị
+        notificationData.put("title", item.getTitle());
+        notificationData.put("message", item.getMessage());
+        notificationData.put("isRead", false);
+        notificationData.put("maBug", item.getMaBug());
+
+        // Thêm dữ liệu vào Firestore với ID được chỉ định
+        DocumentReference documentReference = projectsCollectionRef.document(documentId);
+        documentReference.set(notificationData)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        // Thành công
+                        Log.d("DB", "Document added with ID: " + documentId);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Thất bại
+                        Log.w("DB", "Error adding document", e);
+                    }
+                });
     }
 
 }

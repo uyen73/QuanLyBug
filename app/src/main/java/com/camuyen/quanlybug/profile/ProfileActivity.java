@@ -38,7 +38,7 @@ public class ProfileActivity extends AppCompatActivity {
     TextView txtEmailAndPhoneNumber, txtName;
     FirebaseAuth auth;
     DBQuanLyBug database;
-    TextView txtEditProfileInformation, txtTaoTaiKhoanMoi;
+    TextView txtEditProfileInformation, txtTaoTaiKhoanMoi, txtThongBao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +53,7 @@ public class ProfileActivity extends AppCompatActivity {
         imgProfile = findViewById(R.id.imgProfile);
         txtEmailAndPhoneNumber = findViewById(R.id.txtEmailAndPhoneNumber);
         txtName = findViewById(R.id.txtName);
+        txtThongBao = findViewById(R.id.txtThongBao);
         imgEditImageProfile = findViewById(R.id.imgEditImageProfile);
 
         txtEditProfileInformation = findViewById(R.id.txtEditProfileInformation);
@@ -60,7 +61,12 @@ public class ProfileActivity extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
         database = new DBQuanLyBug();
-
+        txtThongBao.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ProfileActivity.this, NotificationActivity.class));
+            }
+        });
     }
 
 
@@ -112,6 +118,7 @@ public class ProfileActivity extends AppCompatActivity {
                 
             }
         });
+
     }
     ActivityResultLauncher<Intent> pickImageLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {

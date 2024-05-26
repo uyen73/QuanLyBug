@@ -27,11 +27,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:endIconMode="clear_text"
-                app:helperTextEnabled="true"
-                app:helperText="*Required"
-                app:helperTextTextColor="@color/red"
                 app:errorEnabled="true"
-                android:hint="Họ và tên"
+                android:hint="@string/hoVaTen"
                 android:layout_marginBottom="12dp"
                 >
                 <com.google.android.material.textfield.TextInputEditText
@@ -44,6 +41,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Chức vụ: "
+                    android:textSize="16sp"
+                    android:textColor="@color/black"
+                    android:layout_gravity="center_vertical"
+                    />
                 <Spinner
                     android:id="@+id/spinnerChucVu"
                     android:layout_width="match_parent"
@@ -58,11 +63,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:endIconMode="clear_text"
-                app:helperTextEnabled="true"
-                app:helperText="*Required"
-                app:helperTextTextColor="@color/red"
                 app:errorEnabled="true"
-                android:hint="Số điện thoại"
+                android:hint="@string/soDienThoai"
                 android:layout_marginBottom="12dp"
                 >
                 <com.google.android.material.textfield.TextInputEditText
@@ -75,11 +77,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:endIconMode="clear_text"
-                app:helperTextEnabled="true"
-                app:helperText="*Required"
-                app:helperTextTextColor="@color/red"
                 app:errorEnabled="true"
-                android:hint="Gmail"
+                android:hint="@string/gmail"
                 android:layout_marginBottom="12dp"
                 >
                 <com.google.android.material.textfield.TextInputEditText
@@ -93,11 +92,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:endIconMode="password_toggle"
-                app:helperTextEnabled="true"
-                app:helperText="*Required"
-                app:helperTextTextColor="@color/red"
                 app:errorEnabled="true"
-                android:hint="Mật khẩu"
+                android:hint="@string/matKhau"
                 android:layout_marginBottom="12dp"
 
                 >

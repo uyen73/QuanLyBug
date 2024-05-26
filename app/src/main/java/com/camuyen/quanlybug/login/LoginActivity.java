@@ -9,6 +9,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
@@ -25,6 +26,7 @@ import com.camuyen.quanlybug.firebase.DBQuanLyBug;
 import com.camuyen.quanlybug.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.android.play.core.integrity.IntegrityTokenRequest;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -33,6 +35,7 @@ import com.google.firebase.database.FirebaseDatabase;
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "EmailPassword";
     EditText edtEmail, edtPassword;
+    TextInputLayout TILEmail, TILPassword;
     TextView txtForgotPassword;
     Button btnLogin;
     CheckBox cbShowPassword;
@@ -59,9 +62,15 @@ public class LoginActivity extends AppCompatActivity {
     public void getWidget(){
         edtEmail = findViewById(R.id.edtEmail);
         edtPassword = findViewById(R.id.edtPassword);
+        TILEmail = findViewById(R.id.TILEmail);
+        TILPassword = findViewById(R.id.TILPassword);
+
         txtForgotPassword = findViewById(R.id.txtForgotPassword);
         btnLogin = findViewById(R.id.btnLogin);
         cbShowPassword = findViewById(R.id.cbShowPassword);
+
+        TILEmail.setHint(Html.fromHtml("Email <font color='#FF0000'> *</font>", Html.FROM_HTML_MODE_LEGACY));
+        TILPassword.setHint(Html.fromHtml("Password <font color='#FF0000'> *</font>", Html.FROM_HTML_MODE_LEGACY));
 
         mAuth = FirebaseAuth.getInstance();
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);

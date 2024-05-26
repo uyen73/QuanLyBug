@@ -37,15 +37,13 @@
             android:gravity="center"
             android:orientation="vertical">
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/TILMaDA"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:endIconMode="clear_text"
-                app:helperTextEnabled="true"
-                app:helperText="*Required"
-                app:helperTextTextColor="@color/red"
                 app:errorEnabled="true"
-                android:hint="Mã dự án"
                 android:layout_marginBottom="12dp"
+                android:hint="@string/maDA"
                 >
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edtMaDA"
@@ -57,11 +55,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:endIconMode="clear_text"
-                app:helperTextEnabled="true"
-                app:helperText="*Required"
-                app:helperTextTextColor="@color/red"
                 app:errorEnabled="true"
-                android:hint="Tên dự án"
+                android:hint="@string/tenDA"
                 android:layout_marginBottom="12dp"
                 >
                 <com.google.android.material.textfield.TextInputEditText
@@ -74,11 +69,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:endIconMode="clear_text"
-                app:helperTextEnabled="true"
-                app:helperText="*Required"
-                app:helperTextTextColor="@color/red"
                 app:errorEnabled="true"
-                android:hint="Tên quản lý"
+                android:hint="@string/tenQL"
                 android:layout_marginBottom="12dp"
                 >
                 <com.google.android.material.textfield.TextInputEditText
@@ -102,11 +94,8 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         app:endIconMode="clear_text"
-                        app:helperTextEnabled="true"
-                        app:helperText="*Required"
-                        app:helperTextTextColor="@color/red"
                         app:errorEnabled="true"
-                        android:hint="Tên quản lý"
+                        android:hint="@string/ngayBatDau"
                         android:layout_marginBottom="12dp"
                         >
                         <com.google.android.material.textfield.TextInputEditText
@@ -132,11 +121,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:endIconMode="clear_text"
-                app:helperTextEnabled="true"
-                app:helperText="*Required"
-                app:helperTextTextColor="@color/red"
                 app:errorEnabled="true"
-                android:hint="Mô tả"
+                android:hint="@string/moTa"
                 android:layout_marginBottom="12dp"
                 >
                 <com.google.android.material.textfield.TextInputEditText

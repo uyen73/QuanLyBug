@@ -40,6 +40,7 @@ import com.camuyen.quanlybug.R;
 import com.camuyen.quanlybug.firebase.DBQuanLyBug;
 import com.camuyen.quanlybug.model.Bugs;
 import com.camuyen.quanlybug.model.Devices;
+import com.camuyen.quanlybug.model.NotificationItem;
 import com.camuyen.quanlybug.model.Project;
 import com.camuyen.quanlybug.model.User;
 
@@ -266,17 +267,40 @@ public class AddBugActivity extends AppCompatActivity {
                 try {
                     database.getDevices(new DBQuanLyBug.DeviceCallBack() {
                         @Override
-                        public void onBugsLoaded(List<Devices> devices) {
+                        public void onDeviceLoaded(List<Devices> devices) {
                             try {
                                 JSONObject jsonObject = new JSONObject();
                                 JSONObject notificationObj = new JSONObject();
-                                notificationObj.put("title", "Bug mới cần bạn fix");
-                                notificationObj.put("body", user.getTen() + " vừa thêm 1 bug cho bạn");
+                                String title = "Bug mới cần bạn fix";
+                                String body = user.getTen() + "vừa thêm 1 bug cho bạn";
+                                notificationObj.put("title", title);
+                                notificationObj.put("body", body);
 
                                 jsonObject.put("notification", notificationObj);
                                 for (Devices a : devices){
                                     if (a.getMaNhanVien().equals(ngNhan)){
                                         jsonObject.put("to", a.getToken());
+                                        database.getNotifications(new DBQuanLyBug.NotificationCallback() {
+                                            @Override
+                                            public void onNotificationLoaded(List<NotificationItem> notification) {
+                                                int size = notification.size() + 1;
+                                                String maNotification = "NTF" + database.convertMa(size);
+                                                database.getBugsInfo(new DBQuanLyBug.BugsCallBack() {
+                                                    @Override
+                                                    public void onBugsLoaded(List<Bugs> bugs) {
+                                                        int size = bugs.size() + 1;
+                                                        String id = "BUG" + convertSoBug(size);
+                                                        database.addNewNotification(maNotification, new NotificationItem(maNotification, a.getToken(), title, body, false, id));
+                                                    }
+
+                                                    @Override
+                                                    public void onError(Exception e) {
+
+                                                    }
+                                                });
+
+                                            }
+                                        });
                                         break;
                                     }
                                 }

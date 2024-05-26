@@ -24,6 +24,7 @@ import com.camuyen.quanlybug.model.BugStatus;
 import com.camuyen.quanlybug.model.Bugs;
 import com.camuyen.quanlybug.model.Comments;
 import com.camuyen.quanlybug.model.Devices;
+import com.camuyen.quanlybug.model.NotificationItem;
 import com.camuyen.quanlybug.model.User;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -137,7 +138,7 @@ public class DetailBugActivity extends AppCompatActivity {
         imgBackDetailBug.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getOnBackPressedDispatcher().onBackPressed();
+                finish();
             }
         });
 
@@ -181,7 +182,7 @@ public class DetailBugActivity extends AppCompatActivity {
                                             for (Bugs a : bugs) {
                                                 if (a.getMaBug().equals(maBug) && user.getMaNhanVien().startsWith("QL") || user.getMaNhanVien().startsWith("TEST")) {
                                                     sendNotification(a.getMaNhanVien());
-                                                } else if (a.getMaBug().equals(maBug) && user.getMaNhanVien().startsWith("NV")) {
+                                                } else if (a.getMaBug().equals(maBug) && user.getMaNhanVien().startsWith("DEV")) {
                                                     sendNotification(a.getMaQuanLy());
                                                 }
                                             }
@@ -281,17 +282,28 @@ public class DetailBugActivity extends AppCompatActivity {
                 try {
                     database.getDevices(new DBQuanLyBug.DeviceCallBack() {
                         @Override
-                        public void onBugsLoaded(List<Devices> devices) {
+                        public void onDeviceLoaded(List<Devices> devices) {
                             try {
                                 JSONObject jsonObject = new JSONObject();
                                 JSONObject notificationObj = new JSONObject();
-                                notificationObj.put("title", "Có comment mới tại bug bạn đang fix.");
-                                notificationObj.put("body",  user.getTen() + " vừa thêm 1 comment.");
+                                String title = "Có comment mới tại bug bạn đang fix.";
+                                String body = user.getTen() + " vừa thêm 1 comment.";
+                                notificationObj.put("title", title);
+                                notificationObj.put("body",  body);
 
                                 jsonObject.put("notification", notificationObj);
                                 for (Devices a : devices){
                                     if (a.getMaNhanVien().equals(ngNhan)){
                                         jsonObject.put("to", a.getToken());
+                                        database.getNotifications(new DBQuanLyBug.NotificationCallback() {
+                                            @Override
+                                            public void onNotificationLoaded(List<NotificationItem> notification) {
+                                                int size = notification.size() + 1;
+                                                String maNotification = "NTF" + database.convertMa(size);
+                                                System.out.println("Bug khi gửi thông báo: " + maBug);
+                                                database.addNewNotification(maNotification, new NotificationItem(maNotification, a.getToken(), title, body, false, maBug));
+                                            }
+                                        });
                                         break;
                                     }
                                 }
@@ -319,7 +331,6 @@ public class DetailBugActivity extends AppCompatActivity {
     }
     public void callAPI(JSONObject jsonObject) {
         MediaType JSON = MediaType.get("application/json");
-
         OkHttpClient client = new OkHttpClient();
         String url = "https://fcm.googleapis.com/fcm/send";
         RequestBody body = RequestBody.create(jsonObject.toString(), JSON);
@@ -357,4 +368,5 @@ public class DetailBugActivity extends AppCompatActivity {
             }
         });
     }
+
 }

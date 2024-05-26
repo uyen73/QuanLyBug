@@ -48,11 +48,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:endIconMode="clear_text"
-                    app:helperTextEnabled="true"
-                    app:helperText="*Required"
-                    app:helperTextTextColor="@color/red"
                     app:errorEnabled="true"
-                    android:hint="Tên lỗi"
+                    android:hint="@string/tenLoi"
                     >
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edtTenLoi"
@@ -70,11 +67,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:endIconMode="clear_text"
-                    app:helperTextEnabled="true"
-                    app:helperText="*Required"
-                    app:helperTextTextColor="@color/red"
                     app:errorEnabled="true"
-                    android:hint="Mức độ nghiêm trọng"
+                    android:hint="@string/mucDoNghiemTrong"
                     >
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edtMucDoNghiemTrong"
@@ -148,11 +142,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     app:endIconMode="clear_text"
-                    app:helperTextEnabled="true"
-                    app:helperText="*Required"
-                    app:helperTextTextColor="@color/red"
                     app:errorEnabled="true"
-                    android:hint="Deadline"
+                    android:hint="@string/Deadline"
                     >
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edtDeadline"
@@ -178,11 +169,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:endIconMode="clear_text"
-                    app:helperTextEnabled="true"
-                    app:helperText="*Required"
-                    app:helperTextTextColor="@color/red"
                     app:errorEnabled="true"
-                    android:hint="Kết quả mong muốn"
+                    android:hint="@string/ketQuaMongMuon"
                     >
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edtKetQuaMongMuon"
@@ -200,11 +188,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:endIconMode="clear_text"
-                    app:helperTextEnabled="true"
-                    app:helperText="*Required"
-                    app:helperTextTextColor="@color/red"
                     app:errorEnabled="true"
-                    android:hint="Mô tả lỗi"
+                    android:hint="@string/moTa"
                     >
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edtMoTaLoi"
@@ -225,11 +210,8 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         app:endIconMode="clear_text"
-                        app:helperTextEnabled="true"
-                        app:helperText="*Required"
-                        app:helperTextTextColor="@color/red"
                         app:errorEnabled="true"
-                        android:hint="Số bước"
+                        android:hint="@string/soBuoc"
                         >
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edtSoBuoc"
