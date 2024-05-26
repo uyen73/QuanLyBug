@@ -272,7 +272,7 @@ public class AddBugActivity extends AppCompatActivity {
                                 JSONObject jsonObject = new JSONObject();
                                 JSONObject notificationObj = new JSONObject();
                                 String title = "Bug mới cần bạn fix";
-                                String body = user.getTen() + "vừa thêm 1 bug cho bạn";
+                                String body = user.getTen() + " vừa thêm 1 bug cho bạn.";
                                 notificationObj.put("title", title);
                                 notificationObj.put("body", body);
 

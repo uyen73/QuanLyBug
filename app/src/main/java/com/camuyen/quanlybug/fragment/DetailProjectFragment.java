@@ -45,7 +45,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DetailProjectFragment extends Fragment {
-    TextView txtMoTa, txtChiTietMoTa;
+    TextView txtMoTa, txtChiTietMoTa, texxt;
     ImageView imgBugFilter;
     RecyclerView recyclerViewBugs;
     BugAdapter adapter;
@@ -82,7 +82,7 @@ public class DetailProjectFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_detail_project, container, false);
         SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         maDuAn = sharedPreferences.getString("maDuAn", ""); // "" là giá trị mặc định nếu không tìm thấy
-        System.out.println(maDuAn);
+
         database = new DBQuanLyBug();
         getWidget(view);
         addAction();
@@ -95,6 +95,7 @@ public class DetailProjectFragment extends Fragment {
         txtMoTa = view.findViewById(R.id.txtMoTa);
         recyclerViewBugs = view.findViewById(R.id.recycleviewBugs);
         imgBugFilter = view.findViewById(R.id.imgBugFilter);
+        texxt = view.findViewById(R.id.texxt);
 
 
     }
@@ -133,6 +134,9 @@ public class DetailProjectFragment extends Fragment {
                     if(a.getMaDuAn().equals(maDuAn)){
                         list.add(a);
                     }
+                }
+                if (list.isEmpty()){
+                    texxt.setText("Các bugs: Chưa có Bug nào");
                 }
                 adapter = new BugAdapter(list, getActivity());
                 recyclerViewBugs.setLayoutManager(new LinearLayoutManager(getActivity()));
