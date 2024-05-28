@@ -1,29 +1,21 @@
 package com.camuyen.quanlybug;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationManagerCompat;
-import androidx.core.graphics.Insets;
 import androidx.core.view.GravityCompat;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.app.AlertDialog;
-import android.app.Notification;
-import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -32,10 +24,8 @@ import android.widget.Toast;
 
 import com.camuyen.quanlybug.adapter.ViewPagerAdapter;
 import com.camuyen.quanlybug.fcm.AlarmScheduler;
-import com.camuyen.quanlybug.fcm.MyApp;
 import com.camuyen.quanlybug.fcm.NotificationScheduler;
 import com.camuyen.quanlybug.firebase.DBQuanLyBug;
-import com.camuyen.quanlybug.fragment.DetailProjectFragment;
 import com.camuyen.quanlybug.login.LoginActivity;
 import com.camuyen.quanlybug.model.Bugs;
 import com.camuyen.quanlybug.model.User;
@@ -47,10 +37,8 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.iid.internal.FirebaseInstanceIdInternal;
 import com.google.firebase.messaging.FirebaseMessaging;
 
-import java.util.Calendar;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -72,7 +60,6 @@ public class MainActivity extends AppCompatActivity {
         addAction();
         requestNotificationPermission();
         updateTokenUser();
-
     }
 
     private void updateTokenUser() {

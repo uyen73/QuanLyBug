@@ -68,4 +68,5 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         super.onNewToken(token);
         Log.e(TAG, token);
     }
+
 }

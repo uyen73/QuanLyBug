@@ -1,13 +1,9 @@
 package com.camuyen.quanlybug.login;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationManagerCompat;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -27,11 +23,9 @@ import android.widget.Toast;
 import com.camuyen.quanlybug.MainActivity;
 import com.camuyen.quanlybug.R;
 import com.camuyen.quanlybug.firebase.DBQuanLyBug;
-import com.camuyen.quanlybug.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.android.play.core.integrity.IntegrityTokenRequest;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -53,7 +47,6 @@ public class LoginActivity extends AppCompatActivity {
         getWidget();
         addAction();
     }
-
     @Override
     protected void onStart() {
         super.onStart();
