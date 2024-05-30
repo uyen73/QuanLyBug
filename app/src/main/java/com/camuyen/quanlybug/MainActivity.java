@@ -183,8 +183,7 @@ public class MainActivity extends AppCompatActivity {
                     database.getUserInfor(new DBQuanLyBug.UserCallback() {
                         @Override
                         public void onUserLoaded(User user) {
-                            String chucVu = user.getMaNhanVien().substring(0, 2);
-                            if (chucVu.equals("QL")){
+                            if (user.getMaNhanVien().startsWith("QL") || user.getMaNhanVien().startsWith("TEST")){
                                 Intent intent = new Intent(MainActivity.this, AddBugActivity.class);
                                 startActivity(intent);
                                 drawerLayout.closeDrawers();

@@ -89,10 +89,7 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHold
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.putString("maDuAn", ma);
                 editor.apply();
-
                 ((MainActivity) context).switchToDetailProjectFragment();
-
-
             }
         });
         String tienDo = a.getTrangThai();
