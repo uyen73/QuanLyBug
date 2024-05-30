@@ -180,59 +180,71 @@ public class MainActivity extends AppCompatActivity {
                     });
                     
                 } else if (id == R.id.nav_add_bug) {
-                    Intent intent = new Intent(MainActivity.this, AddBugActivity.class);
-                    startActivity(intent);
-                    drawerLayout.closeDrawers();
+                    database.getUserInfor(new DBQuanLyBug.UserCallback() {
+                        @Override
+                        public void onUserLoaded(User user) {
+                            String chucVu = user.getMaNhanVien().substring(0, 2);
+                            if (chucVu.equals("QL")){
+                                Intent intent = new Intent(MainActivity.this, AddBugActivity.class);
+                                startActivity(intent);
+                                drawerLayout.closeDrawers();
+                            } else {
+                                Toast.makeText(MainActivity.this, "Bạn không có quyền để thêm bug", Toast.LENGTH_SHORT).show();
+                            }
+
+                        }
+                    });
+
                 }
                 return true;
             }
         });
-        database.getUserInfor(new DBQuanLyBug.UserCallback() {
-            @Override
-            public void onUserLoaded(User user) {
-                String maNV = user.getMaNhanVien();
-                database.getBugsInfo(new DBQuanLyBug.BugsCallBack() {
-                    @Override
-                    public void onBugsLoaded(List<Bugs> bugs) {
-                        for (Bugs bug : bugs) {
-                            if ( maNV.startsWith("TEST") || maNV.startsWith("QL") && bug.getMaQuanLy().equals(maNV)){
-                                database.getDeadlineBug(new DBQuanLyBug.DeadlineCallback() {
-                                    @Override
-                                    public void onDeadlineLoaded(String deadline) {
-                                        long notificationTime = NotificationScheduler.getNotificationTime(deadline);
-                                        long timestamp = Calendar.getInstance().getTime().getTime();
-                                        if (timestamp <= notificationTime) {
-                                            System.out.println(deadline);
-                                            AlarmScheduler.scheduleNotification(MainActivity.this, notificationTime, "Deadline", "Your task is due today!");
-                                        }
-
-                                    }
-                                }, bug.getMaBug());
-                            } else if (maNV.startsWith("DEV") && bug.getMaNhanVien().equals(maNV)){
-                                database.getDeadlineBug(new DBQuanLyBug.DeadlineCallback() {
-                                    @Override
-                                    public void onDeadlineLoaded(String deadline) {
-                                        long notificationTime = NotificationScheduler.getNotificationTime(deadline);
-                                        long timestamp = Calendar.getInstance().getTime().getTime();
-                                        if (timestamp <= notificationTime) {
-                                            System.out.println(deadline);
-                                            AlarmScheduler.scheduleNotification(MainActivity.this, notificationTime, "Deadline", "Your task is due today!");
-                                        }
-                                    }
-                                }, bug.getMaBug());
-                            }
-
-                        }
-
-                    }
-
-                    @Override
-                    public void onError(Exception e) {
-
-                    }
-                });
-            }
-        });
+//        database.getUserInfor(new DBQuanLyBug.UserCallback() {
+//            @Override
+//            public void onUserLoaded(User user) {
+//                String maNV = user.getMaNhanVien();
+//                database.getBugsInfo(new DBQuanLyBug.BugsCallBack() {
+//                    @Override
+//                    public void onBugsLoaded(List<Bugs> bugs) {
+//                        for (Bugs bug : bugs) {
+//                            if ( maNV.startsWith("TEST") || maNV.startsWith("QL") && bug.getMaQuanLy().equals(maNV)){
+//                                database.getDeadlineBug(new DBQuanLyBug.DeadlineCallback() {
+//                                    @Override
+//                                    public void onDeadlineLoaded(String deadline) {
+//                                        long notificationTime = NotificationScheduler.getNotificationTime(deadline);
+//                                        long timestamp = Calendar.getInstance().getTime().getTime();
+//                                        if (timestamp <= notificationTime) {
+//                                            System.out.println(deadline);
+//                                            AlarmScheduler.scheduleNotification(MainActivity.this, notificationTime, "Deadline", "Your task is due today!");
+//                                        }
+//
+//                                    }
+//                                }, bug.getMaBug());
+//                            } else if (maNV.startsWith("DEV") && bug.getMaNhanVien().equals(maNV)){
+//                                database.getDeadlineBug(new DBQuanLyBug.DeadlineCallback() {
+//                                    @Override
+//                                    public void onDeadlineLoaded(String deadline) {
+//                                        long notificationTime = NotificationScheduler.getNotificationTime(deadline);
+//                                        long timestamp = Calendar.getInstance().getTime().getTime();
+//                                        if (timestamp <= notificationTime) {
+//                                            System.out.println(deadline);
+//                                            AlarmScheduler.scheduleNotification(MainActivity.this, notificationTime, "Deadline", "Your task is due today!");
+//                                        }
+//                                    }
+//                                }, bug.getMaBug());
+//                            }
+//
+//                        }
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(Exception e) {
+//
+//                    }
+//                });
+//            }
+//        });
 
 
         // Fetch deadline and schedule notification

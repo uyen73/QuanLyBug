@@ -1,5 +1,7 @@
 package com.camuyen.quanlybug.model;
 
+import androidx.annotation.NonNull;
+
 import java.util.Date;
 
 public class Project {
@@ -77,5 +79,11 @@ public class Project {
 
     public void setNgayBatDau(Date ngayBatDau) {
         this.ngayBatDau = ngayBatDau;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return tenDuAn;
     }
 }

@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     tools:context=".fragment.JobFragment">
     <ImageView
-        android:visibility="gone"
+        android:visibility="visible"
         android:id="@+id/imgFilter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -15,7 +15,15 @@
         android:layout_marginBottom="16dp"
         android:layout_marginEnd="32dp"
         />
+    <Spinner
+        android:id="@+id/spnProject"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="32dp"
+        android:visibility="visible"
+        />
     <ScrollView
+        android:layout_below="@+id/spnProject"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <LinearLayout

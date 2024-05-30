@@ -27,8 +27,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.camuyen.quanlybug.R;
 import com.camuyen.quanlybug.adapter.BugAdapter;
+import com.camuyen.quanlybug.adapter.ProjectAdapter;
 import com.camuyen.quanlybug.firebase.DBQuanLyBug;
 import com.camuyen.quanlybug.model.Bugs;
+import com.camuyen.quanlybug.model.Project;
 import com.camuyen.quanlybug.model.User;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -44,6 +46,7 @@ import java.util.List;
 public class DetailPeopleActivity extends AppCompatActivity {
     RecyclerView recycleviewPeople;
     BugAdapter adapter;
+    ProjectAdapter projectAdapter;
     ImageView imgBackProfile, imgProfile, imgEditImageProfile, imgFilterBugPeople;
     TextView txtEmailAndPhoneNumber, txtName;
     FirebaseAuth auth;
@@ -129,25 +132,51 @@ public class DetailPeopleActivity extends AppCompatActivity {
                 pickImageLauncher.launch(intent);
             }
         });
-        database.getBugsInfo(new DBQuanLyBug.BugsCallBack() {
-            @Override
-            public void onBugsLoaded(List<Bugs> bugs) {
-                List<Bugs> bugsList = new ArrayList<>();
-                for (Bugs bug : bugs) {
-                    if (bug.getMaNhanVien().equals(maNV) || bug.getMaQuanLy().equals(maNV)) {
-                        bugsList.add(bug);
+        if (maNV.startsWith("QL")){
+            imgFilterBugPeople.setVisibility(View.GONE);
+            database.getProjectsInfo(new DBQuanLyBug.ProjectsCallBack() {
+                @Override
+                public void onProjectsLoaded(List<Project> projects) {
+                    List<Project> projectList = new ArrayList<>();
+                    for (Project project : projects){
+                        if (project.getMaQuanLy().equals(maNV)){
+                            projectList.add(project);
+                        }
+                    }
+                    projectAdapter = new ProjectAdapter(projectList, DetailPeopleActivity.this);
+                    recycleviewPeople.setLayoutManager(new LinearLayoutManager(DetailPeopleActivity.this));
+                    recycleviewPeople.setAdapter(projectAdapter);
+                }
+
+                @Override
+                public void onError(Exception e) {
+
+                }
+            });
+        }else {
+            database.getBugsInfo(new DBQuanLyBug.BugsCallBack() {
+                @Override
+                public void onBugsLoaded(List<Bugs> bugs) {
+                    if (maNV.startsWith("TEST") || maNV.startsWith("DEV")){
+                        List<Bugs> bugsList = new ArrayList<>();
+                        for (Bugs bug : bugs) {
+                            if (bug.getMaNhanVien().equals(maNV) || bug.getMaQuanLy().equals(maNV)) {
+                                bugsList.add(bug);
+                            }
+                        }
+                        adapter = new BugAdapter(bugsList, DetailPeopleActivity.this);
+                        recycleviewPeople.setLayoutManager(new LinearLayoutManager(DetailPeopleActivity.this));
+                        recycleviewPeople.setAdapter(adapter);
                     }
                 }
-                adapter = new BugAdapter(bugsList, DetailPeopleActivity.this);
-                recycleviewPeople.setLayoutManager(new LinearLayoutManager(DetailPeopleActivity.this));
-                recycleviewPeople.setAdapter(adapter);
-            }
 
-            @Override
-            public void onError(Exception e) {
+                @Override
+                public void onError(Exception e) {
 
-            }
-        });
+                }
+            });
+        }
+
         imgFilterBugPeople.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -212,7 +241,7 @@ public class DetailPeopleActivity extends AppCompatActivity {
     }
     private void showPopupMenu(View v, String maNV) {
         PopupMenu popupMenu = new PopupMenu(v.getContext(), v);
-        popupMenu.getMenuInflater().inflate(R.menu.menu_bug_filter, popupMenu.getMenu());
+        popupMenu.getMenuInflater().inflate(R.menu.menu_people_filter, popupMenu.getMenu());
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -220,15 +249,27 @@ public class DetailPeopleActivity extends AppCompatActivity {
                     database.getBugFiler(new DBQuanLyBug.BugFilerCallBack() {
                         @Override
                         public void onBugsFilterLoaded(List<Bugs> bugs) {
-                            List<Bugs> bugsList = new ArrayList<>();
-                            for (Bugs a : bugs){
-                                if (a.getMaNhanVien().equals(maNV)){
-                                    bugsList.add(a);
+                            if (maNV.startsWith("TEST")){
+                                List<Bugs> bugsList = new ArrayList<>();
+                                for (Bugs a : bugs){
+                                    if (a.getMaQuanLy().equals(maNV)){
+                                        bugsList.add(a);
+                                    }
                                 }
+                                adapter = new BugAdapter(bugsList,DetailPeopleActivity.this);
+                                recycleviewPeople.setLayoutManager(new LinearLayoutManager(DetailPeopleActivity.this));
+                                recycleviewPeople.setAdapter(adapter);
+                            } else if (maNV.startsWith("DEV")) {
+                                List<Bugs> bugsList = new ArrayList<>();
+                                for (Bugs a : bugs){
+                                    if (a.getMaNhanVien().equals(maNV)){
+                                        bugsList.add(a);
+                                    }
+                                }
+                                adapter = new BugAdapter(bugsList,DetailPeopleActivity.this);
+                                recycleviewPeople.setLayoutManager(new LinearLayoutManager(DetailPeopleActivity.this));
+                                recycleviewPeople.setAdapter(adapter);
                             }
-                            adapter = new BugAdapter(bugsList,DetailPeopleActivity.this);
-                            recycleviewPeople.setLayoutManager(new LinearLayoutManager(DetailPeopleActivity.this));
-                            recycleviewPeople.setAdapter(adapter);
 
                         }
                     }, "New");
@@ -237,15 +278,27 @@ public class DetailPeopleActivity extends AppCompatActivity {
                     database.getBugFiler(new DBQuanLyBug.BugFilerCallBack() {
                         @Override
                         public void onBugsFilterLoaded(List<Bugs> bugs) {
-                            List<Bugs> bugsList = new ArrayList<>();
-                            for (Bugs a : bugs){
-                                if (a.getMaNhanVien().equals(maNV)){
-                                    bugsList.add(a);
+                            if (maNV.startsWith("TEST")){
+                                List<Bugs> bugsList = new ArrayList<>();
+                                for (Bugs a : bugs){
+                                    if (a.getMaQuanLy().equals(maNV)){
+                                        bugsList.add(a);
+                                    }
                                 }
+                                adapter = new BugAdapter(bugsList,DetailPeopleActivity.this);
+                                recycleviewPeople.setLayoutManager(new LinearLayoutManager(DetailPeopleActivity.this));
+                                recycleviewPeople.setAdapter(adapter);
+                            } else if (maNV.startsWith("DEV")) {
+                                List<Bugs> bugsList = new ArrayList<>();
+                                for (Bugs a : bugs){
+                                    if (a.getMaNhanVien().equals(maNV)){
+                                        bugsList.add(a);
+                                    }
+                                }
+                                adapter = new BugAdapter(bugsList,DetailPeopleActivity.this);
+                                recycleviewPeople.setLayoutManager(new LinearLayoutManager(DetailPeopleActivity.this));
+                                recycleviewPeople.setAdapter(adapter);
                             }
-                            adapter = new BugAdapter(bugsList,DetailPeopleActivity.this);
-                            recycleviewPeople.setLayoutManager(new LinearLayoutManager(DetailPeopleActivity.this));
-                            recycleviewPeople.setAdapter(adapter);
 
                         }
                     }, "Open");
@@ -254,15 +307,27 @@ public class DetailPeopleActivity extends AppCompatActivity {
                     database.getBugFiler(new DBQuanLyBug.BugFilerCallBack() {
                         @Override
                         public void onBugsFilterLoaded(List<Bugs> bugs) {
-                            List<Bugs> bugsList = new ArrayList<>();
-                            for (Bugs a : bugs){
-                                if (a.getMaNhanVien().equals(maNV)){
-                                    bugsList.add(a);
+                            if (maNV.startsWith("TEST")){
+                                List<Bugs> bugsList = new ArrayList<>();
+                                for (Bugs a : bugs){
+                                    if (a.getMaQuanLy().equals(maNV)){
+                                        bugsList.add(a);
+                                    }
                                 }
+                                adapter = new BugAdapter(bugsList,DetailPeopleActivity.this);
+                                recycleviewPeople.setLayoutManager(new LinearLayoutManager(DetailPeopleActivity.this));
+                                recycleviewPeople.setAdapter(adapter);
+                            } else if (maNV.startsWith("DEV")) {
+                                List<Bugs> bugsList = new ArrayList<>();
+                                for (Bugs a : bugs){
+                                    if (a.getMaNhanVien().equals(maNV)){
+                                        bugsList.add(a);
+                                    }
+                                }
+                                adapter = new BugAdapter(bugsList,DetailPeopleActivity.this);
+                                recycleviewPeople.setLayoutManager(new LinearLayoutManager(DetailPeopleActivity.this));
+                                recycleviewPeople.setAdapter(adapter);
                             }
-                            adapter = new BugAdapter(bugsList,DetailPeopleActivity.this);
-                            recycleviewPeople.setLayoutManager(new LinearLayoutManager(DetailPeopleActivity.this));
-                            recycleviewPeople.setAdapter(adapter);
 
                         }
                     }, "Fix");
@@ -271,15 +336,27 @@ public class DetailPeopleActivity extends AppCompatActivity {
                     database.getBugFiler(new DBQuanLyBug.BugFilerCallBack() {
                         @Override
                         public void onBugsFilterLoaded(List<Bugs> bugs) {
-                            List<Bugs> bugsList = new ArrayList<>();
-                            for (Bugs a : bugs){
-                                if (a.getMaNhanVien().equals(maNV)){
-                                    bugsList.add(a);
+                            if (maNV.startsWith("TEST")){
+                                List<Bugs> bugsList = new ArrayList<>();
+                                for (Bugs a : bugs){
+                                    if (a.getMaQuanLy().equals(maNV)){
+                                        bugsList.add(a);
+                                    }
                                 }
+                                adapter = new BugAdapter(bugsList,DetailPeopleActivity.this);
+                                recycleviewPeople.setLayoutManager(new LinearLayoutManager(DetailPeopleActivity.this));
+                                recycleviewPeople.setAdapter(adapter);
+                            } else if (maNV.startsWith("DEV")) {
+                                List<Bugs> bugsList = new ArrayList<>();
+                                for (Bugs a : bugs){
+                                    if (a.getMaNhanVien().equals(maNV)){
+                                        bugsList.add(a);
+                                    }
+                                }
+                                adapter = new BugAdapter(bugsList,DetailPeopleActivity.this);
+                                recycleviewPeople.setLayoutManager(new LinearLayoutManager(DetailPeopleActivity.this));
+                                recycleviewPeople.setAdapter(adapter);
                             }
-                            adapter = new BugAdapter(bugsList,DetailPeopleActivity.this);
-                            recycleviewPeople.setLayoutManager(new LinearLayoutManager(DetailPeopleActivity.this));
-                            recycleviewPeople.setAdapter(adapter);
 
                         }
                     }, "Pending");
@@ -288,15 +365,27 @@ public class DetailPeopleActivity extends AppCompatActivity {
                     database.getBugFiler(new DBQuanLyBug.BugFilerCallBack() {
                         @Override
                         public void onBugsFilterLoaded(List<Bugs> bugs) {
-                            List<Bugs> bugsList = new ArrayList<>();
-                            for (Bugs a : bugs){
-                                if (a.getMaNhanVien().equals(maNV)){
-                                    bugsList.add(a);
+                            if (maNV.startsWith("TEST")){
+                                List<Bugs> bugsList = new ArrayList<>();
+                                for (Bugs a : bugs){
+                                    if (a.getMaQuanLy().equals(maNV)){
+                                        bugsList.add(a);
+                                    }
                                 }
+                                adapter = new BugAdapter(bugsList,DetailPeopleActivity.this);
+                                recycleviewPeople.setLayoutManager(new LinearLayoutManager(DetailPeopleActivity.this));
+                                recycleviewPeople.setAdapter(adapter);
+                            } else if (maNV.startsWith("DEV")) {
+                                List<Bugs> bugsList = new ArrayList<>();
+                                for (Bugs a : bugs){
+                                    if (a.getMaNhanVien().equals(maNV)){
+                                        bugsList.add(a);
+                                    }
+                                }
+                                adapter = new BugAdapter(bugsList,DetailPeopleActivity.this);
+                                recycleviewPeople.setLayoutManager(new LinearLayoutManager(DetailPeopleActivity.this));
+                                recycleviewPeople.setAdapter(adapter);
                             }
-                            adapter = new BugAdapter(bugsList,DetailPeopleActivity.this);
-                            recycleviewPeople.setLayoutManager(new LinearLayoutManager(DetailPeopleActivity.this));
-                            recycleviewPeople.setAdapter(adapter);
 
                         }
                     }, "Reopen");
@@ -305,15 +394,27 @@ public class DetailPeopleActivity extends AppCompatActivity {
                     database.getBugFiler(new DBQuanLyBug.BugFilerCallBack() {
                         @Override
                         public void onBugsFilterLoaded(List<Bugs> bugs) {
-                            List<Bugs> bugsList = new ArrayList<>();
-                            for (Bugs a : bugs){
-                                if (a.getMaNhanVien().equals(maNV)){
-                                    bugsList.add(a);
+                            if (maNV.startsWith("TEST")){
+                                List<Bugs> bugsList = new ArrayList<>();
+                                for (Bugs a : bugs){
+                                    if (a.getMaQuanLy().equals(maNV)){
+                                        bugsList.add(a);
+                                    }
                                 }
+                                adapter = new BugAdapter(bugsList,DetailPeopleActivity.this);
+                                recycleviewPeople.setLayoutManager(new LinearLayoutManager(DetailPeopleActivity.this));
+                                recycleviewPeople.setAdapter(adapter);
+                            } else if (maNV.startsWith("DEV")) {
+                                List<Bugs> bugsList = new ArrayList<>();
+                                for (Bugs a : bugs){
+                                    if (a.getMaNhanVien().equals(maNV)){
+                                        bugsList.add(a);
+                                    }
+                                }
+                                adapter = new BugAdapter(bugsList,DetailPeopleActivity.this);
+                                recycleviewPeople.setLayoutManager(new LinearLayoutManager(DetailPeopleActivity.this));
+                                recycleviewPeople.setAdapter(adapter);
                             }
-                            adapter = new BugAdapter(bugsList,DetailPeopleActivity.this);
-                            recycleviewPeople.setLayoutManager(new LinearLayoutManager(DetailPeopleActivity.this));
-                            recycleviewPeople.setAdapter(adapter);
 
                         }
                     }, "Close");
@@ -322,15 +423,27 @@ public class DetailPeopleActivity extends AppCompatActivity {
                     database.getBugFiler(new DBQuanLyBug.BugFilerCallBack() {
                         @Override
                         public void onBugsFilterLoaded(List<Bugs> bugs) {
-                            List<Bugs> bugsList = new ArrayList<>();
-                            for (Bugs a : bugs){
-                                if (a.getMaNhanVien().equals(maNV)){
-                                    bugsList.add(a);
+                            if (maNV.startsWith("TEST")){
+                                List<Bugs> bugsList = new ArrayList<>();
+                                for (Bugs a : bugs){
+                                    if (a.getMaQuanLy().equals(maNV)){
+                                        bugsList.add(a);
+                                    }
                                 }
+                                adapter = new BugAdapter(bugsList,DetailPeopleActivity.this);
+                                recycleviewPeople.setLayoutManager(new LinearLayoutManager(DetailPeopleActivity.this));
+                                recycleviewPeople.setAdapter(adapter);
+                            } else if (maNV.startsWith("DEV")) {
+                                List<Bugs> bugsList = new ArrayList<>();
+                                for (Bugs a : bugs){
+                                    if (a.getMaNhanVien().equals(maNV)){
+                                        bugsList.add(a);
+                                    }
+                                }
+                                adapter = new BugAdapter(bugsList,DetailPeopleActivity.this);
+                                recycleviewPeople.setLayoutManager(new LinearLayoutManager(DetailPeopleActivity.this));
+                                recycleviewPeople.setAdapter(adapter);
                             }
-                            adapter = new BugAdapter(bugsList,DetailPeopleActivity.this);
-                            recycleviewPeople.setLayoutManager(new LinearLayoutManager(DetailPeopleActivity.this));
-                            recycleviewPeople.setAdapter(adapter);
 
                         }
                     }, "Rejected");
