@@ -37,7 +37,11 @@ public class NewsFragment extends Fragment {
     ProjectAdapter projectAdapter;
     List<Project> list;
     DBQuanLyBug database;
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        EventBus.getDefault().post(new FragmentVisibleEvent());
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

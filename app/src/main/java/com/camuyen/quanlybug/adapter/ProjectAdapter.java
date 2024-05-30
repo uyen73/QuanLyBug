@@ -23,6 +23,7 @@ import com.camuyen.quanlybug.MainActivity;
 import com.camuyen.quanlybug.R;
 import com.camuyen.quanlybug.firebase.DBQuanLyBug;
 import com.camuyen.quanlybug.fragment.JobFragment;
+import com.camuyen.quanlybug.model.Bugs;
 import com.camuyen.quanlybug.model.Project;
 import com.camuyen.quanlybug.model.User;
 import com.camuyen.quanlybug.projects.RepairProjectActivity;
@@ -116,6 +117,21 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHold
                 }
                 if (item.getItemId() == R.id.mnuXoaProject){
                     deleteDocument(maDuAn);
+                    database.getBugsInfo(new DBQuanLyBug.BugsCallBack() {
+                        @Override
+                        public void onBugsLoaded(List<Bugs> bugs) {
+                            for (Bugs bug : bugs) {
+                                if (bug.getMaDuAn().equals(maDuAn)) {
+                                    database.deleteDocument(context, "bugs", bug.getMaBug());
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onError(Exception e) {
+
+                        }
+                    });
                 }
                 return true;
             }

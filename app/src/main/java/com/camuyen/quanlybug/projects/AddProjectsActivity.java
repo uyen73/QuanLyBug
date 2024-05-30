@@ -62,8 +62,14 @@ public class AddProjectsActivity extends AppCompatActivity {
         database.getProjectsInfo(new DBQuanLyBug.ProjectsCallBack() {
             @Override
             public void onProjectsLoaded(List<Project> projects) {
-                int size = projects.size() + 1;
-                String id = "DA" + convertSoDuAn(size);
+                int m = projects.size() - 1;
+                String str = projects.get(m).getMaDuAn();
+                // Lấy ra phần số từ chuỗi ID
+                String numberPart = str.substring(3);
+                // Chuyển đổi sang số và tăng giá trị lên 1
+                int number = Integer.parseInt(numberPart) + 1;
+                // Chuyển lại về dạng chuỗi và thêm vào "CMT"
+                String id = String.format("DA%03d", number);
                 edtMaDA.setText(id);
                 edtMaDA.setEnabled(false);
             }
@@ -92,8 +98,14 @@ public class AddProjectsActivity extends AppCompatActivity {
                     database.getProjectsInfo(new DBQuanLyBug.ProjectsCallBack() {
                         @Override
                         public void onProjectsLoaded(List<Project> projects) {
-                            int size = projects.size() + 1;
-                            String id = "DA" + convertSoDuAn(size);
+                            int m = projects.size() - 1;
+                            String str = projects.get(m).getMaDuAn();
+                            // Lấy ra phần số từ chuỗi ID
+                            String numberPart = str.substring(3);
+                            // Chuyển đổi sang số và tăng giá trị lên 1
+                            int number = Integer.parseInt(numberPart) + 1;
+                            // Chuyển lại về dạng chuỗi và thêm vào "CMT"
+                            String id = String.format("DA%03d", number);
                             database.addNewProject(id, project);
                         }
                         @Override

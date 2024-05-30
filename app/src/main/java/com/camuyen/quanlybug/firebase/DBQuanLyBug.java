@@ -230,6 +230,7 @@ public class DBQuanLyBug {
         // Tạo một tài liệu mới với ID được chỉ định
         Map<String, Object> projectData = new HashMap<>();
         projectData.put("maDuAn", project.getMaDuAn());
+        projectData.put("maQuanLy", project.getMaQuanLy());
         projectData.put("tenQuanLy", project.getTenQuanLy());
         projectData.put("tenDuAn", project.getTenDuAn());
         projectData.put("moTa", project.getMoTa());
