@@ -183,15 +183,25 @@ public class DetailPeopleActivity extends AppCompatActivity {
             database.getBugsInfo(new DBQuanLyBug.BugsCallBack() {
                 @Override
                 public void onBugsLoaded(List<Bugs> bugs) {
-                    if (maNV.startsWith("TEST") || maNV.startsWith("DEV")){
-                        Project project = (Project) spnProjectPeople.getSelectedItem();
+                    Project project = (Project) spnProjectPeople.getSelectedItem();
+                    if (maNV.startsWith("TEST")){
                         List<Bugs> bugsList = new ArrayList<>();
-                        for (Bugs bug : bugs) {
-                            if (bug.getMaNhanVien().equals(maNV) || bug.getMaQuanLy().equals(maNV) && project.getMaDuAn().equals(bug.getMaBug())) {
-                                bugsList.add(bug);
+                        for (Bugs a : bugs){
+                            if (a.getMaQuanLy().equals(maNV) && project.getMaDuAn().equals(a.getMaDuAn())){
+                                bugsList.add(a);
                             }
                         }
-                        adapter = new BugAdapter(bugsList, DetailPeopleActivity.this);
+                        adapter = new BugAdapter(bugsList,DetailPeopleActivity.this);
+                        recycleviewPeople.setLayoutManager(new LinearLayoutManager(DetailPeopleActivity.this));
+                        recycleviewPeople.setAdapter(adapter);
+                    } else if (maNV.startsWith("DEV")) {
+                        List<Bugs> bugsList = new ArrayList<>();
+                        for (Bugs a : bugs){
+                            if (a.getMaNhanVien().equals(maNV) && project.getMaDuAn().equals(a.getMaDuAn())){
+                                bugsList.add(a);
+                            }
+                        }
+                        adapter = new BugAdapter(bugsList,DetailPeopleActivity.this);
                         recycleviewPeople.setLayoutManager(new LinearLayoutManager(DetailPeopleActivity.this));
                         recycleviewPeople.setAdapter(adapter);
                     }

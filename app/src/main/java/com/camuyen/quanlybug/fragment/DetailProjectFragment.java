@@ -190,7 +190,7 @@ public class DetailProjectFragment extends Fragment {
         view.startAnimation(animation);
     }
     private void showPopupMenu(View v, String maDuAn) {
-        PopupMenu popupMenu = new PopupMenu(getContext(), v);
+        PopupMenu popupMenu = new PopupMenu(v.getContext(), v);
         popupMenu.getMenuInflater().inflate(R.menu.menu_bug_filter, popupMenu.getMenu());
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
