@@ -168,7 +168,7 @@ public class AddBugActivity extends AppCompatActivity {
 
                             bug.setMaBug(id);
                             bug.setMaDuAn(maDuAn);
-                            bug.setTrangThai("Fix");
+                            bug.setTrangThai("New");
 
                             Date date = Calendar.getInstance().getTime();
                             bug.setNgayXuatHien(date);
