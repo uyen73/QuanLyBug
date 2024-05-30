@@ -62,8 +62,15 @@ public class AddProjectsActivity extends AppCompatActivity {
         database.getProjectsInfo(new DBQuanLyBug.ProjectsCallBack() {
             @Override
             public void onProjectsLoaded(List<Project> projects) {
-                int m = projects.size() - 1;
-                String str = projects.get(m).getMaDuAn();
+                int m = 0;
+                String str = "";
+                if (!projects.isEmpty()) {
+                    m = projects.size() - 1;
+                    str = projects.get(m).getMaDuAn();
+                } else {
+                    m = 0;
+                    str = "DA000";
+                }
                 // Lấy ra phần số từ chuỗi ID
                 String numberPart = str.substring(3);
                 // Chuyển đổi sang số và tăng giá trị lên 1

@@ -153,8 +153,15 @@ public class AddBugActivity extends AppCompatActivity {
                     database.getBugsInfo(new DBQuanLyBug.BugsCallBack() {
                         @Override
                         public void onBugsLoaded(List<Bugs> bugs) {
-                            int m = bugs.size() - 1;
-                            String str = bugs.get(m).getMaBug();
+                            int m = 0;
+                            String str = "";
+                            if (!bugs.isEmpty()) {
+                                m = bugs.size() - 1;
+                                str = bugs.get(m).getMaBug();
+                            } else {
+                                m = 0;
+                                str = "BUG000";
+                            }
                             // Lấy ra phần số từ chuỗi ID
                             String numberPart = str.substring(3);
                             // Chuyển đổi sang số và tăng giá trị lên 1

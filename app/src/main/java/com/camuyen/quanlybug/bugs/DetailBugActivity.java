@@ -177,8 +177,16 @@ public class DetailBugActivity extends AppCompatActivity {
                     database.getComments(new DBQuanLyBug.CommentCallBack() {
                         @Override
                         public void onBugsLoaded(List<Comments> comments) {
-                            int m = comments.size() - 1;
-                            String str = comments.get(m).getMaComment();
+                            int m = 0;
+                            String str = "";
+                            if (!comments.isEmpty()) {
+                                m = comments.size() - 1;
+                                str = comments.get(m).getMaComment();
+                            } else {
+                                m = 0;
+                                str = "CMT000";
+                            }
+
                             // Lấy ra phần số từ chuỗi ID
                             String numberPart = str.substring(3);
 
