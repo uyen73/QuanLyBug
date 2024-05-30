@@ -144,15 +144,15 @@ public class BugAdapter extends RecyclerView.Adapter<BugAdapter.ViewHolder> {
                         public void onUserLoaded(User user) {
                             String maNhanVien = user.getMaNhanVien();
                             if (!maNhanVien.startsWith("DEV") ){
-                                Intent intent = new Intent(context, RepairBugActivity.class);
+                                Intent intent = new Intent(v.getContext(), RepairBugActivity.class);
                                 intent.putExtra("maBug", maBug);
-                                context.startActivity(intent);
+                                v.getContext().startActivity(intent);
                             } else if (maNhanVien.startsWith("DEV") && !maNV.equals(maNhanVien)){
                                 Toast.makeText(context, "Bạn không có quyền truy cập", Toast.LENGTH_SHORT).show();
                             } else {
-                                Intent intent = new Intent(context, RepairBugActivity.class);
+                                Intent intent = new Intent(v.getContext(), RepairBugActivity.class);
                                 intent.putExtra("maBug", maBug);
-                                context.startActivity(intent);
+                                v.getContext().startActivity(intent);
                             }
                         }
                     });
