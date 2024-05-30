@@ -28,7 +28,7 @@ public class NotificationReceiver extends BroadcastReceiver {
                 pendingIntent = PendingIntent.getActivity(context, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
             }
 
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "push_notification")
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "NotificationChannel")
                     .setSmallIcon(R.drawable.ic_app)
                     .setContentTitle(title)
                     .setContentText(message)

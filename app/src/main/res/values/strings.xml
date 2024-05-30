@@ -16,5 +16,6 @@
     <string name="soDienThoai">Số điện thoại <font color="red">*</font></string>
     <string name="gmail">Gmail <font color="red">*</font></string>
     <string name="matKhau">Mật khẩu <font color="red">*</font></string>
+    <string name="chucVu">Chức vụ <font color="red">*</font></string>
 
 </resources>

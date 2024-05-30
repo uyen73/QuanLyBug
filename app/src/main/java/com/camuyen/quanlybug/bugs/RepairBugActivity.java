@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
@@ -23,13 +24,26 @@ import com.camuyen.quanlybug.R;
 import com.camuyen.quanlybug.firebase.DBQuanLyBug;
 import com.camuyen.quanlybug.model.BugStatus;
 import com.camuyen.quanlybug.model.Bugs;
+import com.camuyen.quanlybug.model.Devices;
+import com.camuyen.quanlybug.model.NotificationItem;
 import com.camuyen.quanlybug.model.User;
 import com.google.gson.Gson;
 
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class RepairBugActivity extends AppCompatActivity {
     ImageView imgBackProfile, imgShowCalender;
@@ -264,6 +278,9 @@ public class RepairBugActivity extends AppCompatActivity {
                             database.updateBug(maBug, bug);
                             System.out.println(database.convertToString(date));
 
+                            sendNotification(bug.getMaQuanLy());
+                            sendNotification(bug.getMaNhanVien());
+
                         }
 
                         @Override
@@ -287,7 +304,6 @@ public class RepairBugActivity extends AppCompatActivity {
 
                         }
                     });
-
 
                     Toast.makeText(RepairBugActivity.this, "Thành công", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(RepairBugActivity.this, MainActivity.class);
@@ -431,5 +447,96 @@ public class RepairBugActivity extends AppCompatActivity {
                 ketQuaMongMuon, database.convertToDate(deadline), trangThai,
                 nameDev, mucDoNghiemTrong, "maVande", "maDuAn", maNhanVien,
                 database.convertToDate(deadline));
+    }
+    private void sendNotification(String ngNhan) {
+        database.getUserInfor(new DBQuanLyBug.UserCallback() {
+            @Override
+            public void onUserLoaded(User user) {
+                try {
+                    database.getDevices(new DBQuanLyBug.DeviceCallBack() {
+                        @Override
+                        public void onDeviceLoaded(List<Devices> devices) {
+                            try {
+                                JSONObject jsonObject = new JSONObject();
+                                JSONObject notificationObj = new JSONObject();
+                                String title = "Bug đã được chỉnh sửa";
+                                String body = user.getTen() + " vừa chỉnh sửa bug.";
+
+                                notificationObj.put("title", title);
+                                notificationObj.put("body", body);
+
+                                jsonObject.put("notification", notificationObj);
+                                for (Devices a : devices){
+                                    if (a.getMaNhanVien().equals(ngNhan)){
+                                        jsonObject.put("to", a.getToken());
+                                        database.getNotifications(new DBQuanLyBug.NotificationCallback() {
+                                            @Override
+                                            public void onNotificationLoaded(List<NotificationItem> notification) {
+                                                int size = notification.size() + 1;
+                                                String maNotification = "NTF" + database.convertMa(size);
+                                                database.getBugsInfo(new DBQuanLyBug.BugsCallBack() {
+                                                    @Override
+                                                    public void onBugsLoaded(List<Bugs> bugs) {
+                                                        int size = bugs.size() + 1;
+                                                        String id = "BUG" + convertSoBug(size);
+                                                        database.addNewNotification(maNotification, new NotificationItem(maNotification, a.getToken(), title, body, false, id));
+                                                    }
+
+                                                    @Override
+                                                    public void onError(Exception e) {
+
+                                                    }
+                                                });
+
+                                            }
+                                        });
+                                        break;
+                                    }
+                                }
+                                callAPI(jsonObject);
+                            }catch (Exception e){
+
+                            }
+
+                        }
+
+                        @Override
+                        public void onError(Exception e) {
+
+                        }
+                    });
+
+                }catch (Exception e){
+
+                }
+
+
+            }
+        });
+
+    }
+    public void callAPI(JSONObject jsonObject){
+        MediaType JSON = MediaType.get("application/json");
+
+        OkHttpClient client = new OkHttpClient();
+        String url = "https://fcm.googleapis.com/fcm/send";
+        RequestBody body = RequestBody.create(jsonObject.toString(), JSON);
+        Request request = new Request.Builder()
+                .url(url)
+                .post(body)
+                .header("Authorization", "Bearer AAAAgaYXjzo:APA91bEWIBDwGNGMMOCIuP9WpT_OxQ3czOIOvbcn-54BlXVDZ-SkcHgophq_k35fTxaIRm3tTouqDezTAozynV9qa2qB_S7FtpO6uyd3S6f0mDAm8UhRKuDkK2KDLu7Y-yLM4OYDvk10")
+                .build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+
+            }
+        });
+
     }
 }

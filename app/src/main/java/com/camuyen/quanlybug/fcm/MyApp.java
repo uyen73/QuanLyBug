@@ -7,7 +7,7 @@ import android.os.Build;
 
 public class MyApp extends Application {
     public static final String CHANNEL_ID = "push_notification";
-
+    public static final String ID2 = "NotificationChannel";
     @Override
     public void onCreate() {
         super.onCreate();
@@ -21,7 +21,7 @@ public class MyApp extends Application {
             manager.createNotificationChannel(channel);
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-            NotificationChannel channel = new NotificationChannel("NotificationChannel", "Push Notification", NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationChannel channel = new NotificationChannel(ID2, "Push Notification", NotificationManager.IMPORTANCE_DEFAULT);
             NotificationManager manager = getSystemService(NotificationManager.class);
             manager.createNotificationChannel(channel);
         }

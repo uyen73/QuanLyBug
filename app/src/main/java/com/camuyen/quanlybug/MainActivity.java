@@ -37,6 +37,8 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.messaging.FirebaseMessaging;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -198,8 +200,12 @@ public class MainActivity extends AppCompatActivity {
                                     @Override
                                     public void onDeadlineLoaded(String deadline) {
                                         long notificationTime = NotificationScheduler.getNotificationTime(deadline);
-                                        System.out.println(deadline);
-                                        AlarmScheduler.scheduleNotification(MainActivity.this, notificationTime, "Upcoming " + deadline, "Your task is due today!");
+                                        long timestamp = Calendar.getInstance().getTime().getTime();
+                                        if (timestamp <= notificationTime) {
+                                            System.out.println(deadline);
+                                            AlarmScheduler.scheduleNotification(MainActivity.this, notificationTime, "Deadline", "Your task is due today!");
+                                        }
+
                                     }
                                 }, bug.getMaBug());
                             } else if (maNV.startsWith("DEV") && bug.getMaNhanVien().equals(maNV)){
@@ -207,8 +213,11 @@ public class MainActivity extends AppCompatActivity {
                                     @Override
                                     public void onDeadlineLoaded(String deadline) {
                                         long notificationTime = NotificationScheduler.getNotificationTime(deadline);
-                                        System.out.println(deadline);
-                                        AlarmScheduler.scheduleNotification(MainActivity.this, notificationTime, "Upcoming " + deadline, "Your task is due today!");
+                                        long timestamp = Calendar.getInstance().getTime().getTime();
+                                        if (timestamp <= notificationTime) {
+                                            System.out.println(deadline);
+                                            AlarmScheduler.scheduleNotification(MainActivity.this, notificationTime, "Deadline", "Your task is due today!");
+                                        }
                                     }
                                 }, bug.getMaBug());
                             }
