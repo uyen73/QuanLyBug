@@ -1,6 +1,8 @@
 package com.camuyen.quanlybug.profile;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -15,10 +17,13 @@ import androidx.core.view.WindowInsetsCompat;
 import com.camuyen.quanlybug.R;
 import com.camuyen.quanlybug.firebase.DBQuanLyBug;
 import com.camuyen.quanlybug.model.User;
+import com.google.android.material.textfield.TextInputLayout;
 
 public class EditProfileActivity extends AppCompatActivity {
     CardView btnUpdateProfile;
-    EditText edtHoTen, edtChucVu, edtSDT, edtEmail;
+    EditText edtHoTen, edtChucVu, edtEmail;
+    EditText edtSDT;
+    TextInputLayout TILSoDienThoai;
     DBQuanLyBug database;
     ImageView imgBackProfile;
     @Override
@@ -37,6 +42,7 @@ public class EditProfileActivity extends AppCompatActivity {
         edtSDT = findViewById(R.id.edtSDT);
         edtEmail = findViewById(R.id.edtEmail);
         imgBackProfile = findViewById(R.id.imgBackProfile);
+        TILSoDienThoai = findViewById(R.id.TILSoDienThoai);
 
         database.getUserInfor(new DBQuanLyBug.UserCallback() {
             @Override
@@ -62,25 +68,33 @@ public class EditProfileActivity extends AppCompatActivity {
                     database.getUserInfor(new DBQuanLyBug.UserCallback() {
                         @Override
                         public void onUserLoaded(User user) {
-                            user.setHoTen(edtHoTen.getText().toString());
-                            user.setChucVu(edtChucVu.getText().toString());
-                            user.setSoDienThoai(edtSDT.getText().toString());
-                            user.setGmail(edtEmail.getText().toString());
+                            if (edtSDT.length() < 10){
+                                edtSDT.setError("Số điện thoại phải có 10 chữ số");
+                            }
+                            if (!edtChucVu.getText().toString().equals("Tester") && !edtChucVu.getText().toString().equals("Dev") || edtChucVu.getText().toString().equals("Quản lý")) {
+                                edtChucVu.setError("Chức vụ không hợp lệ (Chỉ đựợc điền Tester, Dev, Quản lý");
+                            } else {
+                                user.setHoTen(edtHoTen.getText().toString());
+                                user.setChucVu(edtChucVu.getText().toString());
+                                user.setSoDienThoai(edtSDT.getText().toString());
+                                user.setGmail(edtEmail.getText().toString());
 
-                            String hoTen = edtHoTen.getText().toString();
-                            String[] parts = hoTen.split("\\s+");
-                            String ten = parts[parts.length - 1];
-                            user.setTen(ten);
+                                String hoTen = edtHoTen.getText().toString();
+                                String[] parts = hoTen.split("\\s+");
+                                String ten = parts[parts.length - 1];
+                                user.setTen(ten);
 
-                            database.updateUser(user);
+                                database.updateUser(user);
+                                finish();
+                            }
+
+
                         }
                     });
                 }
-                finish();
+
             }
         });
-
-
 
     }
     public boolean checkBlank() {

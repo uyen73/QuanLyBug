@@ -49,6 +49,19 @@ public class MainActivity extends AppCompatActivity {
     ImageView imgToProfile, imgDrawer;
     DBQuanLyBug database;
     NavigationView navigationView;
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        database.getUserInfor(new DBQuanLyBug.UserCallback() {
+            @Override
+            public void onUserLoaded(User user) {
+                txtName.setText(user.getTen());
+            }
+        });
+        database.setImageProfile(imgToProfile);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
