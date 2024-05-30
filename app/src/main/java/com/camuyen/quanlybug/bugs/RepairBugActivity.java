@@ -1,4 +1,4 @@
-package com.camuyen.quanlybug.projects;
+package com.camuyen.quanlybug.bugs;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -12,17 +12,11 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.camuyen.quanlybug.MainActivity;
 import com.camuyen.quanlybug.R;
@@ -57,6 +51,8 @@ public class RepairBugActivity extends AppCompatActivity {
         addColorStatus();
         Intent intent = getIntent();
         maBug = intent.getStringExtra("maBug");
+
+
         getWidget();
         addAction();
 

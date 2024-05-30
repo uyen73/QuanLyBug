@@ -488,11 +488,12 @@ public class DBQuanLyBug {
                 if (task.isSuccessful()) {
                     List<Comments> comments = new ArrayList<>();
                     for (QueryDocumentSnapshot document : task.getResult()) {
+                        String maComment = document.getString("maComment");
                         String maNhanVien = document.getString("maNhanVien");
                         String anhDaiDien = document.getString("anhDaiDien");
                         String noiDung = document.getString("noiDung");
 
-                        Comments comment = new Comments(maNhanVien, noiDung, anhDaiDien);
+                        Comments comment = new Comments(maComment, maNhanVien, noiDung, anhDaiDien);
                         comments.add(comment);
 
                     }
@@ -517,6 +518,7 @@ public class DBQuanLyBug {
 
         // Tạo một tài liệu mới với ID được chỉ định
         Map<String, Object> commentData = new HashMap<>();
+        commentData.put("maComment", comment.getMaComment());
         commentData.put("maNhanVien", comment.getMaNhanVien());
         commentData.put("anhDaiDien", comment.getAnhDaiDien());
         commentData.put("noiDung", comment.getNoiDung());

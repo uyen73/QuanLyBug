@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -21,13 +22,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.camuyen.quanlybug.MainActivity;
 import com.camuyen.quanlybug.R;
 import com.camuyen.quanlybug.firebase.DBQuanLyBug;
-import com.camuyen.quanlybug.fragment.DetailBugActivity;
-import com.camuyen.quanlybug.fragment.DetailProjectFragment;
+import com.camuyen.quanlybug.bugs.DetailBugActivity;
 import com.camuyen.quanlybug.model.BugStatus;
 import com.camuyen.quanlybug.model.Bugs;
 import com.camuyen.quanlybug.model.User;
-import com.camuyen.quanlybug.projects.RepairBugActivity;
-import com.camuyen.quanlybug.projects.RepairProjectActivity;
+import com.camuyen.quanlybug.bugs.RepairBugActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -87,6 +86,11 @@ public class BugAdapter extends RecyclerView.Adapter<BugAdapter.ViewHolder> {
                 Intent intent = new Intent(context.getApplicationContext(), DetailBugActivity.class);
                 System.out.println("Test bug" +  bug.getMaBug());
                 intent.putExtra("maBug", bug.getMaBug());
+                SharedPreferences preferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+                SharedPreferences.Editor edit = preferences.edit();
+                edit.putString("maBugComment", bug.getMaBug());
+                edit.apply();
+
                 context.startActivity(intent);
 
             }

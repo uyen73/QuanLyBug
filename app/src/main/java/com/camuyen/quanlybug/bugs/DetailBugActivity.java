@@ -1,9 +1,12 @@
-package com.camuyen.quanlybug.fragment;
+package com.camuyen.quanlybug.bugs;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
@@ -62,6 +65,12 @@ public class DetailBugActivity extends AppCompatActivity {
         maBug = intent.getStringExtra("maBug");
         setImageBug();
         database = new DBQuanLyBug();
+
+        SharedPreferences preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor edit = preferences.edit();
+        edit.putString("maBugComment", maBug);
+        edit.apply();
+
         getWidget();
         addAction();
     }
@@ -119,7 +128,7 @@ public class DetailBugActivity extends AppCompatActivity {
                 if (comments.size() == 0) {
                     text.setText("Comment: Chưa có comment nào");
                 }
-                commentAdapter = new CommentAdapter(comments);
+                commentAdapter = new CommentAdapter(comments, DetailBugActivity.this);
                 recycleViewComment.setLayoutManager(new LinearLayoutManager(DetailBugActivity.this));
                 recycleViewComment.setAdapter(commentAdapter);
             }
@@ -168,36 +177,50 @@ public class DetailBugActivity extends AppCompatActivity {
                     database.getComments(new DBQuanLyBug.CommentCallBack() {
                         @Override
                         public void onBugsLoaded(List<Comments> comments) {
-                            int size = comments.size() + 1;
-                            String maComment = "CMT" + database.convertMa(size);
-                            database.getUserInfor(new DBQuanLyBug.UserCallback() {
-                                @Override
-                                public void onUserLoaded(User user) {
-                                    String anhDaiDien = "Ảnh đại diện";
-                                    database.addNewComment(maBug, maComment, new Comments(user.getMaNhanVien(), noiDung, anhDaiDien));
-                                    resetData();
-                                    database.getBugsInfo(new DBQuanLyBug.BugsCallBack() {
-                                        @Override
-                                        public void onBugsLoaded(List<Bugs> bugs) {
-                                            for (Bugs a : bugs) {
-                                                if (a.getMaBug().equals(maBug) && user.getMaNhanVien().startsWith("QL") || user.getMaNhanVien().startsWith("TEST")) {
-                                                    sendNotification(a.getMaNhanVien());
-                                                } else if (a.getMaBug().equals(maBug) && user.getMaNhanVien().startsWith("DEV")) {
-                                                    sendNotification(a.getMaQuanLy());
+                            int m = comments.size() - 1;
+                            String str = comments.get(m).getMaComment();
+                            // Lấy ra phần số từ chuỗi ID
+                            String numberPart = str.substring(3);
+
+                            // Chuyển đổi sang số và tăng giá trị lên 1
+                            int number = Integer.parseInt(numberPart) + 1;
+
+                            // Chuyển lại về dạng chuỗi và thêm vào "CMT"
+                            String newId = String.format("CMT%03d", number);
+
+                            try {
+                                String maComment = newId;
+                                database.getUserInfor(new DBQuanLyBug.UserCallback() {
+                                    @Override
+                                    public void onUserLoaded(User user) {
+                                        String anhDaiDien = "Ảnh đại diện";
+                                        database.addNewComment(maBug, maComment, new Comments(maComment, user.getMaNhanVien(), noiDung, anhDaiDien));
+                                        resetData();
+                                        database.getBugsInfo(new DBQuanLyBug.BugsCallBack() {
+                                            @Override
+                                            public void onBugsLoaded(List<Bugs> bugs) {
+                                                for (Bugs a : bugs) {
+                                                    if (a.getMaBug().equals(maBug) && user.getMaNhanVien().startsWith("QL") || user.getMaNhanVien().startsWith("TEST")) {
+                                                        sendNotification(a.getMaNhanVien());
+                                                    } else if (a.getMaBug().equals(maBug) && user.getMaNhanVien().startsWith("DEV")) {
+                                                        sendNotification(a.getMaQuanLy());
+                                                    }
                                                 }
+
                                             }
 
-                                        }
+                                            @Override
+                                            public void onError(Exception e) {
 
-                                        @Override
-                                        public void onError(Exception e) {
+                                            }
+                                        });
 
-                                        }
-                                    });
-
-                                }
-                            });
-                            edtComment.setText("");
+                                    }
+                                });
+                                edtComment.setText("");
+                            } catch (Exception e) {
+                                throw new RuntimeException(e);
+                            }
 
                         }
 
@@ -220,7 +243,7 @@ public class DetailBugActivity extends AppCompatActivity {
                 if (comments.size() == 0) {
                     text.setText("Comment: Chưa có comment nào");
                 }
-                commentAdapter = new CommentAdapter(comments);
+                commentAdapter = new CommentAdapter(comments, DetailBugActivity.this);
                 recycleViewComment.setLayoutManager(new LinearLayoutManager(DetailBugActivity.this));
                 recycleViewComment.setAdapter(commentAdapter);
             }

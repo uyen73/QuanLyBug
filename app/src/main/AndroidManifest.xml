@@ -38,14 +38,14 @@
             android:name=".profile.EditProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".fragment.DetailBugActivity"
+            android:name=".bugs.DetailBugActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
-            android:name=".projects.RepairBugActivity"
+            android:name=".bugs.RepairBugActivity"
             android:exported="false" />
         <activity
-            android:name=".projects.AddBugActivity"
+            android:name=".bugs.AddBugActivity"
             android:exported="false" />
         <activity
             android:name=".projects.RepairProjectActivity"
@@ -71,9 +71,6 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
-        <activity
-            android:name=".projects.OpenBugActivity"
-            android:exported="false" />
         <activity
             android:name=".projects.AddProjectsActivity"
             android:exported="false"

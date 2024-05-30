@@ -1,8 +1,7 @@
-package com.camuyen.quanlybug.projects;
+package com.camuyen.quanlybug.bugs;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -19,7 +18,6 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -27,37 +25,21 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.camuyen.quanlybug.MainActivity;
 import com.camuyen.quanlybug.R;
 import com.camuyen.quanlybug.firebase.DBQuanLyBug;
 import com.camuyen.quanlybug.model.Bugs;
 import com.camuyen.quanlybug.model.Devices;
 import com.camuyen.quanlybug.model.NotificationItem;
-import com.camuyen.quanlybug.model.Project;
 import com.camuyen.quanlybug.model.User;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.List;
-import java.util.Map;
-import java.util.Random;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.messaging.FirebaseMessaging;
-
-import com.google.firebase.messaging.RemoteMessage;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -171,8 +153,15 @@ public class AddBugActivity extends AppCompatActivity {
                     database.getBugsInfo(new DBQuanLyBug.BugsCallBack() {
                         @Override
                         public void onBugsLoaded(List<Bugs> bugs) {
-                            int size = bugs.size() + 1;
-                            String id = "BUG" + convertSoBug(size);
+                            int m = bugs.size() - 1;
+                            String str = bugs.get(m).getMaBug();
+                            // Lấy ra phần số từ chuỗi ID
+                            String numberPart = str.substring(3);
+                            // Chuyển đổi sang số và tăng giá trị lên 1
+                            int number = Integer.parseInt(numberPart) + 1;
+                            // Chuyển lại về dạng chuỗi và thêm vào "CMT"
+                            String id = String.format("CMT%03d", number);
+
 
                             SharedPreferences preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
                             String maDuAn = preferences.getString("maDuAn", "");
