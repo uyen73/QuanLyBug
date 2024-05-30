@@ -83,15 +83,17 @@ public class BugAdapter extends RecyclerView.Adapter<BugAdapter.ViewHolder> {
         holder.cardViewBug.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context.getApplicationContext(), DetailBugActivity.class);
+                Intent intent = new Intent(v.getContext(), DetailBugActivity.class);
                 System.out.println("Test bug" +  bug.getMaBug());
                 intent.putExtra("maBug", bug.getMaBug());
-                SharedPreferences preferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+
+
+                SharedPreferences preferences = v.getContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
                 SharedPreferences.Editor edit = preferences.edit();
                 edit.putString("maBugComment", bug.getMaBug());
                 edit.apply();
 
-                context.startActivity(intent);
+                v.getContext().startActivity(intent);
 
             }
         });
