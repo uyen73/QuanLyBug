@@ -386,6 +386,10 @@ public class AddBugActivity extends AppCompatActivity {
         if (soBuoc.isEmpty()){
             error += "số bước | ";
         }
+        String deadline = edtDeadline.getText().toString();
+        if (deadline.isEmpty()){
+            error += "deadline | ";
+        }
         if(error.equals("Bạn đang điền thiếu: ")){
             return true;
         }else {
