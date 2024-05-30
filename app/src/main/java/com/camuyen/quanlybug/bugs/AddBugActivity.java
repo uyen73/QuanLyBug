@@ -160,7 +160,7 @@ public class AddBugActivity extends AppCompatActivity {
                             // Chuyển đổi sang số và tăng giá trị lên 1
                             int number = Integer.parseInt(numberPart) + 1;
                             // Chuyển lại về dạng chuỗi và thêm vào "CMT"
-                            String id = String.format("DA%03d", number);
+                            String id = String.format("BUG%03d", number);
 
 
                             SharedPreferences preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
@@ -382,7 +382,10 @@ public class AddBugActivity extends AppCompatActivity {
         if (moTa.isEmpty()){
             error += "mô tả lỗi| ";
         }
-
+        String soBuoc = edtSoBuoc.getText().toString();
+        if (soBuoc.isEmpty()){
+            error += "số bước | ";
+        }
         if(error.equals("Bạn đang điền thiếu: ")){
             return true;
         }else {
