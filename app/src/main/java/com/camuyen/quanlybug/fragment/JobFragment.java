@@ -59,11 +59,13 @@ public class JobFragment extends Fragment {
         txtTextProject = view.findViewById(R.id.txtTextProject);
         txtTextBug = view.findViewById(R.id.txtTextBug);
         spnProject = view.findViewById(R.id.spnProject);
+
         database.getUserInfor(new DBQuanLyBug.UserCallback() {
             @Override
             public void onUserLoaded(User user) {
                 if (user.getMaNhanVien().startsWith("TEST") || user.getMaNhanVien().startsWith("DEV")){
                     imgFilter.setVisibility(View.VISIBLE);
+                    spnProject.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -140,8 +142,9 @@ public class JobFragment extends Fragment {
                         } else if (user.getMaNhanVien().startsWith("DEV")) {
                             List<Bugs> buglist = new ArrayList<>();
                             String maNV = user.getMaNhanVien();
+                            Project project = (Project) spnProject.getSelectedItem();
                             for (Bugs a : bugs){
-                                if (a.getMaNhanVien().equals(maNV)){
+                                if (a.getMaNhanVien().equals(maNV) && project.getMaDuAn().equals(a.getMaDuAn())){
                                     buglist.add(a);
                                 }
                             }
@@ -154,8 +157,9 @@ public class JobFragment extends Fragment {
                         } else if (user.getMaNhanVien().startsWith("TEST")) {
                             List<Bugs> buglist = new ArrayList<>();
                             String maNV = user.getMaNhanVien();
+                            Project project = (Project) spnProject.getSelectedItem();
                             for (Bugs a : bugs){
-                                if (a.getMaQuanLy().equals(maNV)){
+                                if (a.getMaQuanLy().equals(maNV) && project.getMaDuAn().equals(a.getMaDuAn())){
                                     buglist.add(a);
                                 }
                             }
@@ -238,10 +242,11 @@ public class JobFragment extends Fragment {
                     database.getBugsInfo(new DBQuanLyBug.BugsCallBack() {
                         @Override
                         public void onBugsLoaded(List<Bugs> bugs) {
+                            Project project = (Project) spnProject.getSelectedItem();
                             if (maNV.startsWith("TEST")){
                                 List<Bugs> listBug = new ArrayList<>();
                                 for (Bugs a : bugs){
-                                    if (a.getMaQuanLy().equals(maNV)){
+                                    if (a.getMaQuanLy().equals(maNV) && project.getMaDuAn().equals(a.getMaDuAn())){
                                         listBug.add(a);
                                     }
                                 }
@@ -251,7 +256,7 @@ public class JobFragment extends Fragment {
                             } else if (maNV.startsWith("DEV")) {
                                 List<Bugs> listBug = new ArrayList<>();
                                 for (Bugs a : bugs){
-                                    if (a.getMaNhanVien().equals(maNV)){
+                                    if (a.getMaNhanVien().equals(maNV) && project.getMaDuAn().equals(a.getMaDuAn())){
                                         listBug.add(a);
                                     }
                                 }
@@ -271,10 +276,11 @@ public class JobFragment extends Fragment {
                     database.getBugFiler(new DBQuanLyBug.BugFilerCallBack() {
                         @Override
                         public void onBugsFilterLoaded(List<Bugs> bugs) {
+                            Project project = (Project) spnProject.getSelectedItem();
                             if (maNV.startsWith("TEST")){
                                 List<Bugs> listBug = new ArrayList<>();
                                 for (Bugs a : bugs){
-                                    if (a.getMaQuanLy().equals(maNV)){
+                                    if (a.getMaQuanLy().equals(maNV) && project.getMaDuAn().equals(a.getMaDuAn())){
                                         listBug.add(a);
                                     }
                                 }
@@ -284,7 +290,7 @@ public class JobFragment extends Fragment {
                             } else if (maNV.startsWith("DEV")) {
                                 List<Bugs> listBug = new ArrayList<>();
                                 for (Bugs a : bugs){
-                                    if (a.getMaNhanVien().equals(maNV)){
+                                    if (a.getMaNhanVien().equals(maNV) && project.getMaDuAn().equals(a.getMaDuAn())){
                                         listBug.add(a);
                                     }
                                 }
@@ -300,10 +306,11 @@ public class JobFragment extends Fragment {
                     database.getBugFiler(new DBQuanLyBug.BugFilerCallBack() {
                         @Override
                         public void onBugsFilterLoaded(List<Bugs> bugs) {
+                            Project project = (Project) spnProject.getSelectedItem();
                             if (maNV.startsWith("TEST")){
                                 List<Bugs> listBug = new ArrayList<>();
                                 for (Bugs a : bugs){
-                                    if (a.getMaQuanLy().equals(maNV)){
+                                    if (a.getMaQuanLy().equals(maNV) && project.getMaDuAn().equals(a.getMaDuAn())){
                                         listBug.add(a);
                                     }
                                 }
@@ -313,7 +320,7 @@ public class JobFragment extends Fragment {
                             } else if (maNV.startsWith("DEV")) {
                                 List<Bugs> listBug = new ArrayList<>();
                                 for (Bugs a : bugs){
-                                    if (a.getMaNhanVien().equals(maNV)){
+                                    if (a.getMaNhanVien().equals(maNV) && project.getMaDuAn().equals(a.getMaDuAn())){
                                         listBug.add(a);
                                     }
                                 }
@@ -329,10 +336,11 @@ public class JobFragment extends Fragment {
                     database.getBugFiler(new DBQuanLyBug.BugFilerCallBack() {
                         @Override
                         public void onBugsFilterLoaded(List<Bugs> bugs) {
+                            Project project = (Project) spnProject.getSelectedItem();
                             if (maNV.startsWith("TEST")){
                                 List<Bugs> listBug = new ArrayList<>();
                                 for (Bugs a : bugs){
-                                    if (a.getMaQuanLy().equals(maNV)){
+                                    if (a.getMaQuanLy().equals(maNV) && project.getMaDuAn().equals(a.getMaDuAn())){
                                         listBug.add(a);
                                     }
                                 }
@@ -342,7 +350,7 @@ public class JobFragment extends Fragment {
                             } else if (maNV.startsWith("DEV")) {
                                 List<Bugs> listBug = new ArrayList<>();
                                 for (Bugs a : bugs){
-                                    if (a.getMaNhanVien().equals(maNV)){
+                                    if (a.getMaNhanVien().equals(maNV) && project.getMaDuAn().equals(a.getMaDuAn())){
                                         listBug.add(a);
                                     }
                                 }
@@ -358,10 +366,11 @@ public class JobFragment extends Fragment {
                     database.getBugFiler(new DBQuanLyBug.BugFilerCallBack() {
                         @Override
                         public void onBugsFilterLoaded(List<Bugs> bugs) {
+                            Project project = (Project) spnProject.getSelectedItem();
                             if (maNV.startsWith("TEST")){
                                 List<Bugs> listBug = new ArrayList<>();
                                 for (Bugs a : bugs){
-                                    if (a.getMaQuanLy().equals(maNV)){
+                                    if (a.getMaQuanLy().equals(maNV) && project.getMaDuAn().equals(a.getMaDuAn())){
                                         listBug.add(a);
                                     }
                                 }
@@ -371,7 +380,7 @@ public class JobFragment extends Fragment {
                             } else if (maNV.startsWith("DEV")) {
                                 List<Bugs> listBug = new ArrayList<>();
                                 for (Bugs a : bugs){
-                                    if (a.getMaNhanVien().equals(maNV)){
+                                    if (a.getMaNhanVien().equals(maNV) && project.getMaDuAn().equals(a.getMaDuAn())){
                                         listBug.add(a);
                                     }
                                 }
@@ -387,10 +396,11 @@ public class JobFragment extends Fragment {
                     database.getBugFiler(new DBQuanLyBug.BugFilerCallBack() {
                         @Override
                         public void onBugsFilterLoaded(List<Bugs> bugs) {
+                            Project project = (Project) spnProject.getSelectedItem();
                             if (maNV.startsWith("TEST")){
                                 List<Bugs> listBug = new ArrayList<>();
                                 for (Bugs a : bugs){
-                                    if (a.getMaQuanLy().equals(maNV)){
+                                    if (a.getMaQuanLy().equals(maNV) && project.getMaDuAn().equals(a.getMaDuAn())){
                                         listBug.add(a);
                                     }
                                 }
@@ -400,7 +410,7 @@ public class JobFragment extends Fragment {
                             } else if (maNV.startsWith("DEV")) {
                                 List<Bugs> listBug = new ArrayList<>();
                                 for (Bugs a : bugs){
-                                    if (a.getMaNhanVien().equals(maNV)){
+                                    if (a.getMaNhanVien().equals(maNV) && project.getMaDuAn().equals(a.getMaDuAn())){
                                         listBug.add(a);
                                     }
                                 }
@@ -416,10 +426,11 @@ public class JobFragment extends Fragment {
                     database.getBugFiler(new DBQuanLyBug.BugFilerCallBack() {
                         @Override
                         public void onBugsFilterLoaded(List<Bugs> bugs) {
+                            Project project = (Project) spnProject.getSelectedItem();
                             if (maNV.startsWith("TEST")){
                                 List<Bugs> listBug = new ArrayList<>();
                                 for (Bugs a : bugs){
-                                    if (a.getMaQuanLy().equals(maNV)){
+                                    if (a.getMaQuanLy().equals(maNV) && project.getMaDuAn().equals(a.getMaDuAn())){
                                         listBug.add(a);
                                     }
                                 }
@@ -429,7 +440,7 @@ public class JobFragment extends Fragment {
                             } else if (maNV.startsWith("DEV")) {
                                 List<Bugs> listBug = new ArrayList<>();
                                 for (Bugs a : bugs){
-                                    if (a.getMaNhanVien().equals(maNV)){
+                                    if (a.getMaNhanVien().equals(maNV) && project.getMaDuAn().equals(a.getMaDuAn())){
                                         listBug.add(a);
                                     }
                                 }
@@ -445,10 +456,11 @@ public class JobFragment extends Fragment {
                     database.getBugFiler(new DBQuanLyBug.BugFilerCallBack() {
                         @Override
                         public void onBugsFilterLoaded(List<Bugs> bugs) {
+                            Project project = (Project) spnProject.getSelectedItem();
                             if (maNV.startsWith("TEST")){
                                 List<Bugs> listBug = new ArrayList<>();
                                 for (Bugs a : bugs){
-                                    if (a.getMaQuanLy().equals(maNV)){
+                                    if (a.getMaQuanLy().equals(maNV) && project.getMaDuAn().equals(a.getMaDuAn())){
                                         listBug.add(a);
                                     }
                                 }
@@ -458,7 +470,7 @@ public class JobFragment extends Fragment {
                             } else if (maNV.startsWith("DEV")) {
                                 List<Bugs> listBug = new ArrayList<>();
                                 for (Bugs a : bugs){
-                                    if (a.getMaNhanVien().equals(maNV)){
+                                    if (a.getMaNhanVien().equals(maNV) && project.getMaDuAn().equals(a.getMaDuAn())){
                                         listBug.add(a);
                                     }
                                 }

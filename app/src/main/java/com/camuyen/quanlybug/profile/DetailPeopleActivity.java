@@ -7,8 +7,11 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,6 +54,7 @@ public class DetailPeopleActivity extends AppCompatActivity {
     TextView txtEmailAndPhoneNumber, txtName;
     FirebaseAuth auth;
     DBQuanLyBug database;
+    Spinner spnProjectPeople;
 
     String maNV = "";
     @Override
@@ -70,10 +74,32 @@ public class DetailPeopleActivity extends AppCompatActivity {
         imgEditImageProfile = findViewById(R.id.imgEditImageProfile);
         recycleviewPeople = findViewById(R.id.recycleviewPeople);
         imgFilterBugPeople = findViewById(R.id.imgFilterBugPeople);
-
-
+        spnProjectPeople = findViewById(R.id.spnProjectPeople);
         auth = FirebaseAuth.getInstance();
         database = new DBQuanLyBug();
+        database.getUserInfor(new DBQuanLyBug.UserCallback() {
+            @Override
+            public void onUserLoaded(User user) {
+                if (maNV.startsWith("TEST") || maNV.startsWith("DEV")){
+                    imgFilterBugPeople.setVisibility(View.VISIBLE);
+                    spnProjectPeople.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+        database.getProjectsInfo(new DBQuanLyBug.ProjectsCallBack() {
+            @Override
+            public void onProjectsLoaded(List<Project> projects) {
+                ArrayAdapter<Project> spnAdapter = new ArrayAdapter<>(DetailPeopleActivity.this, android.R.layout.simple_spinner_item, projects);
+                spnAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spnProjectPeople.setAdapter(spnAdapter);
+            }
+
+            @Override
+            public void onError(Exception e) {
+
+            }
+        });
+
 
 
 
@@ -158,9 +184,10 @@ public class DetailPeopleActivity extends AppCompatActivity {
                 @Override
                 public void onBugsLoaded(List<Bugs> bugs) {
                     if (maNV.startsWith("TEST") || maNV.startsWith("DEV")){
+                        Project project = (Project) spnProjectPeople.getSelectedItem();
                         List<Bugs> bugsList = new ArrayList<>();
                         for (Bugs bug : bugs) {
-                            if (bug.getMaNhanVien().equals(maNV) || bug.getMaQuanLy().equals(maNV)) {
+                            if (bug.getMaNhanVien().equals(maNV) || bug.getMaQuanLy().equals(maNV) && project.getMaDuAn().equals(bug.getMaBug())) {
                                 bugsList.add(bug);
                             }
                         }
@@ -181,6 +208,49 @@ public class DetailPeopleActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 showPopupMenu(v, maNV);
+            }
+        });
+        spnProjectPeople.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Project project = (Project) parent.getItemAtPosition(position);
+                String maDuAn = project.getMaDuAn();
+                database.getBugsInfo(new DBQuanLyBug.BugsCallBack() {
+                    @Override
+                    public void onBugsLoaded(List<Bugs> bugs) {
+                        if (maNV.startsWith("DEV")){
+                            List<Bugs> listSPN = new ArrayList<>();
+                            for (Bugs a : bugs){
+                                if (a.getMaDuAn().equals(maDuAn) && a.getMaNhanVien().equals(maNV)){
+                                    listSPN.add(a);
+                                }
+                            }
+                            adapter = new BugAdapter(listSPN, DetailPeopleActivity.this);
+                            recycleviewPeople.setLayoutManager(new LinearLayoutManager(DetailPeopleActivity.this));
+                            recycleviewPeople.setAdapter(adapter);
+                        } else if (maNV.startsWith("TEST")){
+                            List<Bugs> listSPN = new ArrayList<>();
+                            for (Bugs a : bugs){
+                                if (a.getMaDuAn().equals(maDuAn) && a.getMaQuanLy().equals(maNV)){
+                                    listSPN.add(a);
+                                }
+                            }
+                            adapter = new BugAdapter(listSPN, DetailPeopleActivity.this);
+                            recycleviewPeople.setLayoutManager(new LinearLayoutManager(DetailPeopleActivity.this));
+                            recycleviewPeople.setAdapter(adapter);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
             }
         });
     }
@@ -249,10 +319,11 @@ public class DetailPeopleActivity extends AppCompatActivity {
                     database.getBugFiler(new DBQuanLyBug.BugFilerCallBack() {
                         @Override
                         public void onBugsFilterLoaded(List<Bugs> bugs) {
+                            Project project = (Project) spnProjectPeople.getSelectedItem();
                             if (maNV.startsWith("TEST")){
                                 List<Bugs> bugsList = new ArrayList<>();
                                 for (Bugs a : bugs){
-                                    if (a.getMaQuanLy().equals(maNV)){
+                                    if (a.getMaQuanLy().equals(maNV) && project.getMaDuAn().equals(a.getMaDuAn())){
                                         bugsList.add(a);
                                     }
                                 }
@@ -262,7 +333,7 @@ public class DetailPeopleActivity extends AppCompatActivity {
                             } else if (maNV.startsWith("DEV")) {
                                 List<Bugs> bugsList = new ArrayList<>();
                                 for (Bugs a : bugs){
-                                    if (a.getMaNhanVien().equals(maNV)){
+                                    if (a.getMaNhanVien().equals(maNV) && project.getMaDuAn().equals(a.getMaDuAn())){
                                         bugsList.add(a);
                                     }
                                 }
@@ -278,10 +349,11 @@ public class DetailPeopleActivity extends AppCompatActivity {
                     database.getBugFiler(new DBQuanLyBug.BugFilerCallBack() {
                         @Override
                         public void onBugsFilterLoaded(List<Bugs> bugs) {
+                            Project project = (Project) spnProjectPeople.getSelectedItem();
                             if (maNV.startsWith("TEST")){
                                 List<Bugs> bugsList = new ArrayList<>();
                                 for (Bugs a : bugs){
-                                    if (a.getMaQuanLy().equals(maNV)){
+                                    if (a.getMaQuanLy().equals(maNV) && project.getMaDuAn().equals(a.getMaDuAn())){
                                         bugsList.add(a);
                                     }
                                 }
@@ -291,7 +363,7 @@ public class DetailPeopleActivity extends AppCompatActivity {
                             } else if (maNV.startsWith("DEV")) {
                                 List<Bugs> bugsList = new ArrayList<>();
                                 for (Bugs a : bugs){
-                                    if (a.getMaNhanVien().equals(maNV)){
+                                    if (a.getMaNhanVien().equals(maNV) && project.getMaDuAn().equals(a.getMaDuAn())){
                                         bugsList.add(a);
                                     }
                                 }
@@ -307,10 +379,11 @@ public class DetailPeopleActivity extends AppCompatActivity {
                     database.getBugFiler(new DBQuanLyBug.BugFilerCallBack() {
                         @Override
                         public void onBugsFilterLoaded(List<Bugs> bugs) {
+                            Project project = (Project) spnProjectPeople.getSelectedItem();
                             if (maNV.startsWith("TEST")){
                                 List<Bugs> bugsList = new ArrayList<>();
                                 for (Bugs a : bugs){
-                                    if (a.getMaQuanLy().equals(maNV)){
+                                    if (a.getMaQuanLy().equals(maNV) && project.getMaDuAn().equals(a.getMaDuAn())){
                                         bugsList.add(a);
                                     }
                                 }
@@ -320,7 +393,7 @@ public class DetailPeopleActivity extends AppCompatActivity {
                             } else if (maNV.startsWith("DEV")) {
                                 List<Bugs> bugsList = new ArrayList<>();
                                 for (Bugs a : bugs){
-                                    if (a.getMaNhanVien().equals(maNV)){
+                                    if (a.getMaNhanVien().equals(maNV) && project.getMaDuAn().equals(a.getMaDuAn())){
                                         bugsList.add(a);
                                     }
                                 }
@@ -336,10 +409,11 @@ public class DetailPeopleActivity extends AppCompatActivity {
                     database.getBugFiler(new DBQuanLyBug.BugFilerCallBack() {
                         @Override
                         public void onBugsFilterLoaded(List<Bugs> bugs) {
+                            Project project = (Project) spnProjectPeople.getSelectedItem();
                             if (maNV.startsWith("TEST")){
                                 List<Bugs> bugsList = new ArrayList<>();
                                 for (Bugs a : bugs){
-                                    if (a.getMaQuanLy().equals(maNV)){
+                                    if (a.getMaQuanLy().equals(maNV) && project.getMaDuAn().equals(a.getMaDuAn())){
                                         bugsList.add(a);
                                     }
                                 }
@@ -349,7 +423,7 @@ public class DetailPeopleActivity extends AppCompatActivity {
                             } else if (maNV.startsWith("DEV")) {
                                 List<Bugs> bugsList = new ArrayList<>();
                                 for (Bugs a : bugs){
-                                    if (a.getMaNhanVien().equals(maNV)){
+                                    if (a.getMaNhanVien().equals(maNV) && project.getMaDuAn().equals(a.getMaDuAn())){
                                         bugsList.add(a);
                                     }
                                 }
@@ -365,10 +439,11 @@ public class DetailPeopleActivity extends AppCompatActivity {
                     database.getBugFiler(new DBQuanLyBug.BugFilerCallBack() {
                         @Override
                         public void onBugsFilterLoaded(List<Bugs> bugs) {
+                            Project project = (Project) spnProjectPeople.getSelectedItem();
                             if (maNV.startsWith("TEST")){
                                 List<Bugs> bugsList = new ArrayList<>();
                                 for (Bugs a : bugs){
-                                    if (a.getMaQuanLy().equals(maNV)){
+                                    if (a.getMaQuanLy().equals(maNV) && project.getMaDuAn().equals(a.getMaDuAn())){
                                         bugsList.add(a);
                                     }
                                 }
@@ -378,7 +453,7 @@ public class DetailPeopleActivity extends AppCompatActivity {
                             } else if (maNV.startsWith("DEV")) {
                                 List<Bugs> bugsList = new ArrayList<>();
                                 for (Bugs a : bugs){
-                                    if (a.getMaNhanVien().equals(maNV)){
+                                    if (a.getMaNhanVien().equals(maNV) && project.getMaDuAn().equals(a.getMaDuAn())){
                                         bugsList.add(a);
                                     }
                                 }
@@ -394,10 +469,11 @@ public class DetailPeopleActivity extends AppCompatActivity {
                     database.getBugFiler(new DBQuanLyBug.BugFilerCallBack() {
                         @Override
                         public void onBugsFilterLoaded(List<Bugs> bugs) {
+                            Project project = (Project) spnProjectPeople.getSelectedItem();
                             if (maNV.startsWith("TEST")){
                                 List<Bugs> bugsList = new ArrayList<>();
                                 for (Bugs a : bugs){
-                                    if (a.getMaQuanLy().equals(maNV)){
+                                    if (a.getMaQuanLy().equals(maNV) && project.getMaDuAn().equals(a.getMaDuAn())){
                                         bugsList.add(a);
                                     }
                                 }
@@ -407,7 +483,7 @@ public class DetailPeopleActivity extends AppCompatActivity {
                             } else if (maNV.startsWith("DEV")) {
                                 List<Bugs> bugsList = new ArrayList<>();
                                 for (Bugs a : bugs){
-                                    if (a.getMaNhanVien().equals(maNV)){
+                                    if (a.getMaNhanVien().equals(maNV) && project.getMaDuAn().equals(a.getMaDuAn())){
                                         bugsList.add(a);
                                     }
                                 }
@@ -423,10 +499,11 @@ public class DetailPeopleActivity extends AppCompatActivity {
                     database.getBugFiler(new DBQuanLyBug.BugFilerCallBack() {
                         @Override
                         public void onBugsFilterLoaded(List<Bugs> bugs) {
+                            Project project = (Project) spnProjectPeople.getSelectedItem();
                             if (maNV.startsWith("TEST")){
                                 List<Bugs> bugsList = new ArrayList<>();
                                 for (Bugs a : bugs){
-                                    if (a.getMaQuanLy().equals(maNV)){
+                                    if (a.getMaQuanLy().equals(maNV) && project.getMaDuAn().equals(a.getMaDuAn())){
                                         bugsList.add(a);
                                     }
                                 }
@@ -436,7 +513,7 @@ public class DetailPeopleActivity extends AppCompatActivity {
                             } else if (maNV.startsWith("DEV")) {
                                 List<Bugs> bugsList = new ArrayList<>();
                                 for (Bugs a : bugs){
-                                    if (a.getMaNhanVien().equals(maNV)){
+                                    if (a.getMaNhanVien().equals(maNV) && project.getMaDuAn().equals(a.getMaDuAn())){
                                         bugsList.add(a);
                                     }
                                 }

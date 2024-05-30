@@ -58,6 +58,15 @@
         android:textSize="16sp"
         android:textColor="@color/black"
         />
+    <Spinner
+        android:visibility="gone"
+        android:id="@+id/spnProjectPeople"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtEmailAndPhoneNumber"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        />
     <ImageView
         android:id="@+id/imgFilterBugPeople"
         android:layout_width="wrap_content"
