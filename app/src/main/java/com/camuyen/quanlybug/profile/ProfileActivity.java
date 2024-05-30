@@ -24,6 +24,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.camuyen.quanlybug.R;
 import com.camuyen.quanlybug.firebase.DBQuanLyBug;
+import com.camuyen.quanlybug.login.LoginActivity;
 import com.camuyen.quanlybug.model.User;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -38,7 +39,7 @@ public class ProfileActivity extends AppCompatActivity {
     TextView txtEmailAndPhoneNumber, txtName;
     FirebaseAuth auth;
     DBQuanLyBug database;
-    TextView txtEditProfileInformation, txtTaoTaiKhoanMoi, txtThongBao;
+    TextView txtEditProfileInformation, txtTaoTaiKhoanMoi, txtThongBao, txtLogout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +56,8 @@ public class ProfileActivity extends AppCompatActivity {
         txtName = findViewById(R.id.txtName);
         txtThongBao = findViewById(R.id.txtThongBao);
         imgEditImageProfile = findViewById(R.id.imgEditImageProfile);
+        txtLogout = findViewById(R.id.txtLogout);
+
 
         txtEditProfileInformation = findViewById(R.id.txtEditProfileInformation);
         txtTaoTaiKhoanMoi = findViewById(R.id.txtTaoTaiKhoanMoi);
@@ -116,6 +119,19 @@ public class ProfileActivity extends AppCompatActivity {
                     }
                 });
                 
+            }
+        });
+        txtLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth mAuth = FirebaseAuth.getInstance();
+                // Đăng xuất người dùng
+                mAuth.signOut();
+
+                // Chuyển người dùng đến màn hình đăng nhập
+                Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
+                startActivity(intent);
+                finish(); // Kết thúc hoạt động hiện tại
             }
         });
 

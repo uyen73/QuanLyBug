@@ -138,6 +138,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
                     <TextView
+                        android:id="@+id/txtLogout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Đăng xuất"

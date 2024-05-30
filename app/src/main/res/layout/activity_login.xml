@@ -32,6 +32,7 @@
             android:layout_margin="12dp"
             app:endIconMode="clear_text"
             app:errorEnabled="true"
+            android:hint="@string/gmail"
             android:id="@+id/TILEmail"
             >
             <com.google.android.material.textfield.TextInputEditText
@@ -46,6 +47,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="12dp"
             app:endIconMode="password_toggle"
+            android:hint="@string/matKhau"
             app:errorEnabled="true"
             android:id="@+id/TILPassword"
             >
