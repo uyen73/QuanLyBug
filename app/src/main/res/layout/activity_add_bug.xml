@@ -144,6 +144,7 @@
                     app:endIconMode="clear_text"
                     app:errorEnabled="true"
                     android:hint="@string/Deadline"
+                    android:enabled="false"
                     >
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edtDeadline"

@@ -97,6 +97,7 @@
                         app:errorEnabled="true"
                         android:hint="@string/ngayBatDau"
                         android:layout_marginBottom="12dp"
+                        android:enabled="false"
                         >
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edtNgayBatDau"
