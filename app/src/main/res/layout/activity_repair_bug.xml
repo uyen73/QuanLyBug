@@ -38,34 +38,35 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
-            <LinearLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:hint="Nhập tên lỗi"
+                app:endIconMode="clear_text"
                 android:layout_marginBottom="20dp"
-                android:orientation="horizontal">
-                <EditText
-                    android:background="@drawable/custom_edit_text_rounded"
+                >
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edtTenLoi"
                     android:layout_width="match_parent"
-                    android:hint="Nhập tên lỗi"
-                    android:padding="12dp"
-                    android:layout_height="50dp"/>
-            </LinearLayout>
-            <LinearLayout
+                    android:layout_height="wrap_content"
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp">
-                <EditText
-                    android:layout_weight="3"
+                android:hint="@string/mucDoNghiemTrong"
+                app:endIconMode="clear_text"
+                android:layout_marginBottom="20dp"
+                >
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edtMucDoNghiemTrong"
                     android:layout_width="match_parent"
-                    android:hint="Mức độ nghiêm trọng"
-                    android:layout_height="50dp"
-                    android:padding="12dp"
-                    android:background="@drawable/custom_edit_text_rounded"
+                    android:layout_height="wrap_content"
                     />
-            </LinearLayout>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -113,16 +114,22 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:weightSum="3">
-                    <EditText
+                    <com.google.android.material.textfield.TextInputLayout
                         android:layout_weight="2"
-                        android:id="@+id/edtDeadline"
                         android:layout_width="0dp"
-                        android:inputType="datetime"
-                        android:hint="Deadline"
-                        android:layout_height="50dp"
-                        android:padding="12dp"
-                        android:background="@drawable/custom_edit_text_rounded"
-                        />
+                        android:layout_height="wrap_content"
+                        android:hint="@string/Deadline"
+                        app:endIconMode="clear_text"
+                        android:layout_marginBottom="20dp"
+                        >
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edtDeadline"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
                     <ImageView
                         android:id="@+id/imgShowCalender"
                         android:layout_gravity="center"
@@ -138,29 +145,40 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp">
-                <EditText
-                    android:id="@+id/edtKetQuaMongMuon"
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
-                    android:hint="Kết quả mong muốn"
-                    android:layout_height="50dp"
-                    android:padding="12dp"
-                    android:background="@drawable/custom_edit_text_rounded"
-                    />
+                    android:layout_height="wrap_content"
+                    android:hint="@string/ketQuaMongMuon"
+                    app:endIconMode="clear_text"
+                    android:layout_marginBottom="20dp"
+                    >
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/edtKetQuaMongMuon"
+                        />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_marginBottom="20dp">
-                <EditText
-                    android:id="@+id/edtMoTaLoi"
-                    android:hint="Mô tả lỗi"
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:padding="12dp"
-                    android:background="@drawable/custom_edit_text_rounded"
-
-                    />
+                    android:layout_height="wrap_content"
+                    android:hint="@string/moTa"
+                    app:endIconMode="clear_text"
+                    android:layout_marginBottom="20dp"
+                    >
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edtMoTaLoi"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        />
+                </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/radioGroup"
@@ -186,37 +204,40 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <EditText
-                        android:id="@+id/edtSoBuoc"
-                        android:layout_width="wrap_content"
-                        android:hint="Nhập số bước "
-
-                        android:layout_height="50dp"
-                        android:padding="12dp"
-                        android:background="@drawable/custom_edit_text_rounded"
-                        />
-                    <Button
-                        android:id="@+id/btnOK"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="OK"
-                        android:padding="12dp"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="12dp"
-                        />
-                </LinearLayout>
-                <LinearLayout
-                    android:id="@+id/linearCacBuoc"
-                    android:layout_width="match_parent"
+                android:weightSum="3">
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginTop="16dp"/>
-            </LinearLayout>
+                    android:hint="Số bước"
+                    app:endIconMode="clear_text"
+                    android:layout_marginBottom="20dp"
+                    android:gravity="center_vertical"
+                    >
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edtSoBuoc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        />
 
+                </com.google.android.material.textfield.TextInputLayout>
+                <Button
+                    android:layout_weight="1"
+                    android:id="@+id/btnOK"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="OK"
+                    android:padding="12dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginBottom="10dp"
+                    />
+                </LinearLayout>
+            <LinearLayout
+                android:id="@+id/linearCacBuoc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="16dp"/>
             <androidx.cardview.widget.CardView
                 android:id="@+id/btnSuaBug"
                 android:layout_width="match_parent"
@@ -236,8 +257,5 @@
                     android:textColor="@color/black"/>
             </androidx.cardview.widget.CardView>
         </LinearLayout>
-
     </ScrollView>
-
-
 </RelativeLayout>

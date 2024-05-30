@@ -29,6 +29,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
@@ -162,7 +163,7 @@ public class DBQuanLyBug {
     public void getProjectsInfo(ProjectsCallBack callback) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference projectsRef = db.collection("projects");
-        projectsRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        projectsRef.orderBy("trangThai", Query.Direction.DESCENDING).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
